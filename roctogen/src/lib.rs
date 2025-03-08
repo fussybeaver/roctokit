@@ -27,7 +27,7 @@
 //!
 //! ## Documentation
 //!
-//! - [API docs](https://docs.rs/roctokit/latest).
+//! - [API docs](https://docs.rs/roctogen/latest).
 //! - [Endpoints](https://docs.rs/roctogen/latest/roctogen/endpoints/index.html).
 //!
 //! ### Supported endpoints:

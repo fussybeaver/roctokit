@@ -56,7 +56,7 @@ impl From<DependencyGraphCreateRepositorySnapshotError> for AdapterError {
 pub enum DependencyGraphDiffRangeError {
     #[error("Resource not found")]
     Status404(BasicError),
-    #[error("Response if GitHub Advanced Security is not enabled for this repository")]
+    #[error("Response for a private repository when GitHub Advanced Security is not enabled, or if used against a fork")]
     Status403(BasicError),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
@@ -66,7 +66,7 @@ impl From<DependencyGraphDiffRangeError> for AdapterError {
     fn from(err: DependencyGraphDiffRangeError) -> Self {
         let (description, status_code) = match err {
             DependencyGraphDiffRangeError::Status404(_) => (String::from("Resource not found"), 404),
-            DependencyGraphDiffRangeError::Status403(_) => (String::from("Response if GitHub Advanced Security is not enabled for this repository"), 403),
+            DependencyGraphDiffRangeError::Status403(_) => (String::from("Response for a private repository when GitHub Advanced Security is not enabled, or if used against a fork"), 403),
             DependencyGraphDiffRangeError::Generic { code } => (String::from("Generic"), code)
         };
 

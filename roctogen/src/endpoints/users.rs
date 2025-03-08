@@ -1430,7 +1430,9 @@ pub struct UsersListAttestationsParams<'req> {
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     before: Option<&'req str>, 
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
-    after: Option<&'req str>
+    after: Option<&'req str>, 
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    predicate_type: Option<&'req str>
 }
 
 impl<'req> UsersListAttestationsParams<'req> {
@@ -1444,6 +1446,7 @@ impl<'req> UsersListAttestationsParams<'req> {
             per_page: Some(per_page),
             before: self.before, 
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -1453,6 +1456,7 @@ impl<'req> UsersListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: Some(before),
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -1462,6 +1466,17 @@ impl<'req> UsersListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: self.before, 
             after: Some(after),
+            predicate_type: self.predicate_type, 
+        }
+    }
+
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    pub fn predicate_type(self, predicate_type: &'req str) -> Self {
+        Self {
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            predicate_type: Some(predicate_type),
         }
     }
 }
