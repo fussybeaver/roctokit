@@ -633,6 +633,60 @@ impl From<OrgsGetOrgRoleError> for AdapterError {
     }
 }
 
+/// Errors for the [Get organization ruleset history](Orgs::get_org_ruleset_history_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsGetOrgRulesetHistoryError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Internal Error")]
+    Status500(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsGetOrgRulesetHistoryError> for AdapterError {
+    fn from(err: OrgsGetOrgRulesetHistoryError) -> Self {
+        let (description, status_code) = match err {
+            OrgsGetOrgRulesetHistoryError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsGetOrgRulesetHistoryError::Status500(_) => (String::from("Internal Error"), 500),
+            OrgsGetOrgRulesetHistoryError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Get organization ruleset version](Orgs::get_org_ruleset_version_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsGetOrgRulesetVersionError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Internal Error")]
+    Status500(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsGetOrgRulesetVersionError> for AdapterError {
+    fn from(err: OrgsGetOrgRulesetVersionError) -> Self {
+        let (description, status_code) = match err {
+            OrgsGetOrgRulesetVersionError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsGetOrgRulesetVersionError::Status500(_) => (String::from("Internal Error"), 500),
+            OrgsGetOrgRulesetVersionError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [Get route stats by actor](Orgs::get_route_stats_by_actor_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum OrgsGetRouteStatsByActorError {
@@ -2098,6 +2152,46 @@ impl From<OrgsUpdateWebhookConfigForOrgError> for AdapterError {
 }
 
 
+/// Query parameters for the [Get organization ruleset history](Orgs::get_org_ruleset_history_async()) endpoint.
+#[derive(Default, Serialize)]
+pub struct OrgsGetOrgRulesetHistoryParams {
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    per_page: Option<u16>, 
+    /// The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    page: Option<u16>
+}
+
+impl OrgsGetOrgRulesetHistoryParams {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn per_page(self, per_page: u16) -> Self {
+        Self {
+            per_page: Some(per_page),
+            page: self.page, 
+        }
+    }
+
+    /// The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn page(self, page: u16) -> Self {
+        Self {
+            per_page: self.per_page, 
+            page: Some(page),
+        }
+    }
+}
+
+impl<'enc> From<&'enc PerPage> for OrgsGetOrgRulesetHistoryParams {
+    fn from(per_page: &'enc PerPage) -> Self {
+        Self {
+            per_page: Some(per_page.per_page),
+            page: Some(per_page.page),
+            ..Default::default()
+        }
+    }
+}
 /// Query parameters for the [Get route stats by actor](Orgs::get_route_stats_by_actor_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct OrgsGetRouteStatsByActorParams<'req> {
@@ -2777,7 +2871,9 @@ pub struct OrgsListAttestationsParams<'req> {
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     before: Option<&'req str>, 
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
-    after: Option<&'req str>
+    after: Option<&'req str>, 
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    predicate_type: Option<&'req str>
 }
 
 impl<'req> OrgsListAttestationsParams<'req> {
@@ -2791,6 +2887,7 @@ impl<'req> OrgsListAttestationsParams<'req> {
             per_page: Some(per_page),
             before: self.before, 
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -2800,6 +2897,7 @@ impl<'req> OrgsListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: Some(before),
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -2809,6 +2907,17 @@ impl<'req> OrgsListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: self.before, 
             after: Some(after),
+            predicate_type: self.predicate_type, 
+        }
+    }
+
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    pub fn predicate_type(self, predicate_type: &'req str) -> Self {
+        Self {
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            predicate_type: Some(predicate_type),
         }
     }
 }
@@ -5408,7 +5517,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     ///
     /// Gets information about an organization.
     /// 
-    /// When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
+    /// When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, outside collaborators, guest collaborators, repository collaborators, or everyone with access to any repository within the organization to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
     /// 
     /// To see the full details about an organization, the authenticated user must be an organization owner.
     /// 
@@ -5455,7 +5564,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     ///
     /// Gets information about an organization.
     /// 
-    /// When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, and outside collaborators to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
+    /// When the value of `two_factor_requirement_enabled` is `true`, the organization requires all members, billing managers, outside collaborators, guest collaborators, repository collaborators, or everyone with access to any repository within the organization to enable [two-factor authentication](https://docs.github.com/articles/securing-your-account-with-two-factor-authentication-2fa/).
     /// 
     /// To see the full details about an organization, the authenticated user must be an organization owner.
     /// 
@@ -5916,6 +6025,177 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
                 404 => Err(OrgsGetOrgRoleError::Status404(github_response.to_json()?).into()),
                 422 => Err(OrgsGetOrgRoleError::Status422(github_response.to_json()?).into()),
                 code => Err(OrgsGetOrgRoleError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get organization ruleset history
+    ///
+    /// Get the history of an organization ruleset.
+    ///
+    /// [GitHub API docs for get_org_ruleset_history](https://docs.github.com/rest/orgs/rules#get-organization-ruleset-history)
+    ///
+    /// ---
+    pub async fn get_org_ruleset_history_async(&self, org: &str, ruleset_id: i32, query_params: Option<impl Into<OrgsGetOrgRulesetHistoryParams>>) -> Result<Vec<RulesetVersion>, AdapterError> {
+
+        let mut request_uri = format!("{}/orgs/{}/rulesets/{}/history", super::GITHUB_BASE_API_URL, org, ruleset_id);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            request_uri.push_str(&serde_urlencoded::to_string(params.into())?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsGetOrgRulesetHistoryError::Status404(github_response.to_json_async().await?).into()),
+                500 => Err(OrgsGetOrgRulesetHistoryError::Status500(github_response.to_json_async().await?).into()),
+                code => Err(OrgsGetOrgRulesetHistoryError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get organization ruleset history
+    ///
+    /// Get the history of an organization ruleset.
+    ///
+    /// [GitHub API docs for get_org_ruleset_history](https://docs.github.com/rest/orgs/rules#get-organization-ruleset-history)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn get_org_ruleset_history(&self, org: &str, ruleset_id: i32, query_params: Option<impl Into<OrgsGetOrgRulesetHistoryParams>>) -> Result<Vec<RulesetVersion>, AdapterError> {
+
+        let mut request_uri = format!("{}/orgs/{}/rulesets/{}/history", super::GITHUB_BASE_API_URL, org, ruleset_id);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            let qp: OrgsGetOrgRulesetHistoryParams = params.into();
+            request_uri.push_str(&serde_urlencoded::to_string(qp)?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsGetOrgRulesetHistoryError::Status404(github_response.to_json()?).into()),
+                500 => Err(OrgsGetOrgRulesetHistoryError::Status500(github_response.to_json()?).into()),
+                code => Err(OrgsGetOrgRulesetHistoryError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get organization ruleset version
+    ///
+    /// Get a version of an organization ruleset.
+    ///
+    /// [GitHub API docs for get_org_ruleset_version](https://docs.github.com/rest/orgs/rules#get-organization-ruleset-version)
+    ///
+    /// ---
+    pub async fn get_org_ruleset_version_async(&self, org: &str, ruleset_id: i32, version_id: i32) -> Result<RulesetVersionWithState, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/rulesets/{}/history/{}", super::GITHUB_BASE_API_URL, org, ruleset_id, version_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsGetOrgRulesetVersionError::Status404(github_response.to_json_async().await?).into()),
+                500 => Err(OrgsGetOrgRulesetVersionError::Status500(github_response.to_json_async().await?).into()),
+                code => Err(OrgsGetOrgRulesetVersionError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get organization ruleset version
+    ///
+    /// Get a version of an organization ruleset.
+    ///
+    /// [GitHub API docs for get_org_ruleset_version](https://docs.github.com/rest/orgs/rules#get-organization-ruleset-version)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn get_org_ruleset_version(&self, org: &str, ruleset_id: i32, version_id: i32) -> Result<RulesetVersionWithState, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/rulesets/{}/history/{}", super::GITHUB_BASE_API_URL, org, ruleset_id, version_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsGetOrgRulesetVersionError::Status404(github_response.to_json()?).into()),
+                500 => Err(OrgsGetOrgRulesetVersionError::Status500(github_response.to_json()?).into()),
+                code => Err(OrgsGetOrgRulesetVersionError::Generic { code }.into()),
             }
         }
     }
@@ -7130,7 +7410,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     /// [GitHub API docs for list_attestations](https://docs.github.com/rest/orgs/orgs#list-attestations)
     ///
     /// ---
-    pub async fn list_attestations_async(&self, org: &str, subject_digest: &str, query_params: Option<impl Into<OrgsListAttestationsParams<'api>>>) -> Result<GetReposListAttestationsResponse200, AdapterError> {
+    pub async fn list_attestations_async(&self, org: &str, subject_digest: &str, query_params: Option<impl Into<OrgsListAttestationsParams<'api>>>) -> Result<GetUsersListAttestationsResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/orgs/{}/attestations/{}", super::GITHUB_BASE_API_URL, org, subject_digest);
 
@@ -7177,7 +7457,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn list_attestations(&self, org: &str, subject_digest: &str, query_params: Option<impl Into<OrgsListAttestationsParams<'api>>>) -> Result<GetReposListAttestationsResponse200, AdapterError> {
+    pub fn list_attestations(&self, org: &str, subject_digest: &str, query_params: Option<impl Into<OrgsListAttestationsParams<'api>>>) -> Result<GetUsersListAttestationsResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/orgs/{}/attestations/{}", super::GITHUB_BASE_API_URL, org, subject_digest);
 

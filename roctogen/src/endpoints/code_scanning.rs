@@ -594,6 +594,8 @@ impl From<CodeScanningListRecentAnalysesError> for AdapterError {
 /// Errors for the [Update a code scanning alert](CodeScanning::update_alert_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum CodeScanningUpdateAlertError {
+    #[error("Bad Request")]
+    Status400(BasicError),
     #[error("Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository")]
     Status403(BasicError),
     #[error("Resource not found")]
@@ -607,6 +609,7 @@ pub enum CodeScanningUpdateAlertError {
 impl From<CodeScanningUpdateAlertError> for AdapterError {
     fn from(err: CodeScanningUpdateAlertError) -> Self {
         let (description, status_code) = match err {
+            CodeScanningUpdateAlertError::Status400(_) => (String::from("Bad Request"), 400),
             CodeScanningUpdateAlertError::Status403(_) => (String::from("Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository"), 403),
             CodeScanningUpdateAlertError::Status404(_) => (String::from("Resource not found"), 404),
             CodeScanningUpdateAlertError::Status503(_) => (String::from("Service unavailable"), 503),
@@ -1423,7 +1426,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
     ///
     /// Commits an autofix for a code scanning alert.
     /// 
-    /// If an autofix is commited as a result of this request, then this endpoint will return a 201 Created response.
+    /// If an autofix is committed as a result of this request, then this endpoint will return a 201 Created response.
     /// 
     /// OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
     ///
@@ -1470,7 +1473,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
     ///
     /// Commits an autofix for a code scanning alert.
     /// 
-    /// If an autofix is commited as a result of this request, then this endpoint will return a 201 Created response.
+    /// If an autofix is committed as a result of this request, then this endpoint will return a 201 Created response.
     /// 
     /// OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.
     ///
@@ -3294,6 +3297,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
             Ok(github_response.to_json_async().await?)
         } else {
             match github_response.status_code() {
+                400 => Err(CodeScanningUpdateAlertError::Status400(github_response.to_json_async().await?).into()),
                 403 => Err(CodeScanningUpdateAlertError::Status403(github_response.to_json_async().await?).into()),
                 404 => Err(CodeScanningUpdateAlertError::Status404(github_response.to_json_async().await?).into()),
                 503 => Err(CodeScanningUpdateAlertError::Status503(github_response.to_json_async().await?).into()),
@@ -3337,6 +3341,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
             Ok(github_response.to_json()?)
         } else {
             match github_response.status_code() {
+                400 => Err(CodeScanningUpdateAlertError::Status400(github_response.to_json()?).into()),
                 403 => Err(CodeScanningUpdateAlertError::Status403(github_response.to_json()?).into()),
                 404 => Err(CodeScanningUpdateAlertError::Status404(github_response.to_json()?).into()),
                 503 => Err(CodeScanningUpdateAlertError::Status503(github_response.to_json()?).into()),

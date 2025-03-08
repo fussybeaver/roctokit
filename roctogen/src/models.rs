@@ -2466,6 +2466,9 @@ pub struct Artifact {
     pub expires_at: Option<chrono::DateTime<chrono::Utc>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+    /// The SHA256 digest of the artifact. This field will only be populated on artifacts uploaded with upload-artifact v4 or newer. For older versions, this field will be null.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub digest: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub workflow_run: Option<ArtifactWorkflowRun>,
 }
@@ -3219,6 +3222,8 @@ pub struct PatchCodeScanningUpdateAlert {
     pub dismissed_reason: Option<CodeScanningAlertDismissedReason>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub dismissed_comment: Option<CodeScanningAlertDismissedComment>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub create_request: Option<CodeScanningAlertCreateRequest>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -3938,7 +3943,7 @@ pub struct DeleteIssuesRemoveSubIssue {
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostIssuesAddSubIssue {
-    /// The id of the sub-issue to add. The sub-issue must belong to the same repository as the parent issue
+    /// The id of the sub-issue to add. The sub-issue must belong to the same repository owner as the parent issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub sub_issue_id: Option<i64>,
     /// Option that, when true, instructs the operation to replace the sub-issues current parent issue
@@ -4442,9 +4447,6 @@ pub struct PatchActionsUpdateHostedRunnerForOrg {
     /// Whether this runner should be updated with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits`
     #[serde(skip_serializing_if="Option::is_none")]
     pub enable_static_ip: Option<bool>,
-    /// The version of the runner image to deploy. This is relevant only for runners using custom images.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub image_version: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5338,6 +5340,9 @@ pub struct PostCodeSecurityCreateConfiguration {
     pub code_scanning_default_setup: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup_options: Option<CodeScanningDefaultSetupOptions>,
+    /// The enablement status of code scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -5355,6 +5360,12 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// The enablement status of secret scanning non provider patterns
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_non_provider_patterns: Option<String>,
+    /// The enablement status of Copilot secret scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_generic_secrets: Option<String>,
+    /// The enablement status of secret scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of private vulnerability reporting
     #[serde(skip_serializing_if="Option::is_none")]
     pub private_vulnerability_reporting: Option<String>,
@@ -5400,6 +5411,9 @@ pub struct PatchCodeSecurityUpdateConfiguration {
     pub code_scanning_default_setup: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup_options: Option<CodeScanningDefaultSetupOptions>,
+    /// The enablement status of code scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -5417,6 +5431,12 @@ pub struct PatchCodeSecurityUpdateConfiguration {
     /// The enablement status of secret scanning non-provider patterns
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_non_provider_patterns: Option<String>,
+    /// The enablement status of Copilot secret scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_generic_secrets: Option<String>,
+    /// The enablement status of secret scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of private vulnerability reporting
     #[serde(skip_serializing_if="Option::is_none")]
     pub private_vulnerability_reporting: Option<String>,
@@ -5938,6 +5958,9 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     pub code_scanning_default_setup: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup_options: Option<CodeScanningDefaultSetupOptions>,
+    /// The enablement status of code scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -5950,6 +5973,12 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// The enablement status of secret scanning non provider patterns
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_non_provider_patterns: Option<String>,
+    /// The enablement status of Copilot secret scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_generic_secrets: Option<String>,
+    /// The enablement status of secret scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of private vulnerability reporting
     #[serde(skip_serializing_if="Option::is_none")]
     pub private_vulnerability_reporting: Option<String>,
@@ -6115,6 +6144,9 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     pub code_scanning_default_setup: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup_options: Option<CodeScanningDefaultSetupOptions>,
+    /// The enablement status of code scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -6127,6 +6159,12 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// The enablement status of secret scanning non-provider patterns
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_non_provider_patterns: Option<String>,
+    /// The enablement status of Copilot secret scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_generic_secrets: Option<String>,
+    /// The enablement status of secret scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of private vulnerability reporting
     #[serde(skip_serializing_if="Option::is_none")]
     pub private_vulnerability_reporting: Option<String>,
@@ -7162,6 +7200,8 @@ pub struct CodeScanningAlert {
     pub tool: Option<CodeScanningAnalysisTool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub most_recent_instance: Option<CodeScanningAlertInstance>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dismissal_approved_by: Option<NullableSimpleUser>,
 }
 
 /// A classification of the file. For example to identify it as generated.
@@ -7205,6 +7245,9 @@ impl std::str::FromStr for CodeScanningAlertClassification {
         }
     }
 }
+
+/// If `true`, attempt to create an alert dismissal request.
+pub type CodeScanningAlertCreateRequest = bool;
 
 /// The dismissal comment associated with the dismissal of the alert.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -7312,6 +7355,8 @@ pub struct CodeScanningAlertItems {
     pub tool: Option<CodeScanningAnalysisTool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub most_recent_instance: Option<CodeScanningAlertInstance>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dismissal_approved_by: Option<NullableSimpleUser>,
 }
 
 /// Describe a region within a file for the alert.
@@ -7889,6 +7934,8 @@ pub struct CodeScanningOrganizationAlertItems {
     pub most_recent_instance: Option<CodeScanningAlertInstance>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository: Option<SimpleRepository>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dismissal_approved_by: Option<NullableSimpleUser>,
 }
 
 /// The Git reference, formatted as `refs/pull/<number>/merge`, `refs/pull/<number>/head`, `refs/heads/<branch name>` or simply `<branch name>`.
@@ -8194,6 +8241,9 @@ pub struct CodeSecurityConfiguration {
     pub code_scanning_default_setup: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup_options: Option<CodesecurityconfigurationCodeScanningDefaultSetupOptions>,
+    /// The enablement status of code scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -8211,6 +8261,12 @@ pub struct CodeSecurityConfiguration {
     /// The enablement status of secret scanning non-provider patterns
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_non_provider_patterns: Option<String>,
+    /// The enablement status of Copilot secret scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_generic_secrets: Option<String>,
+    /// The enablement status of secret scanning delegated alert dismissal
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_delegated_alert_dismissal: Option<String>,
     /// The enablement status of private vulnerability reporting
     #[serde(skip_serializing_if="Option::is_none")]
     pub private_vulnerability_reporting: Option<String>,
@@ -9454,20 +9510,20 @@ pub struct CopilotIdeCodeCompletions {
 pub struct CopilotOrganizationDetails {
     #[serde(rename = "seat_breakdown")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub seat_breakdown: Option<CopilotSeatBreakdown>,
-    /// The organization policy for allowing or disallowing Copilot to make suggestions that match public code.
+    pub seat_breakdown: Option<CopilotOrganizationSeatBreakdown>,
+    /// The organization policy for allowing or blocking suggestions matching public code (duplication detection filter).
     #[serde(rename = "public_code_suggestions")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub public_code_suggestions: Option<String>,
-    /// The organization policy for allowing or disallowing organization members to use Copilot Chat within their editor.
+    /// The organization policy for allowing or disallowing Copilot Chat in the IDE.
     #[serde(rename = "ide_chat")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub ide_chat: Option<String>,
-    /// The organization policy for allowing or disallowing organization members to use Copilot features within github.com.
+    /// The organization policy for allowing or disallowing Copilot features on GitHub.com.
     #[serde(rename = "platform_chat")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub platform_chat: Option<String>,
-    /// The organization policy for allowing or disallowing organization members to use Copilot within their CLI.
+    /// The organization policy for allowing or disallowing Copilot in the CLI.
     #[serde(rename = "cli")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub cli: Option<String>,
@@ -9483,7 +9539,7 @@ pub struct CopilotOrganizationDetails {
 
 /// The breakdown of Copilot Business seats for the organization.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct CopilotSeatBreakdown {
+pub struct CopilotOrganizationSeatBreakdown {
     /// The total number of seats being billed for the organization as of the current billing cycle.
     #[serde(skip_serializing_if="Option::is_none")]
     pub total: Option<i64>,
@@ -9493,7 +9549,7 @@ pub struct CopilotSeatBreakdown {
     /// The number of seats that are pending cancellation at the end of the current billing cycle.
     #[serde(skip_serializing_if="Option::is_none")]
     pub pending_cancellation: Option<i64>,
-    /// The number of seats that have been assigned to users that have not yet accepted an invitation to this organization.
+    /// The number of users who have been invited to receive a Copilot seat through this organization.
     #[serde(skip_serializing_if="Option::is_none")]
     pub pending_invitation: Option<i64>,
     /// The number of seats that have used Copilot during the current billing cycle.
@@ -10168,6 +10224,9 @@ pub struct DependabotalertwithrepositoryDependency {
     /// The execution scope of the vulnerable dependency.
     #[serde(skip_serializing_if="Option::is_none")]
     pub scope: Option<String>,
+    /// The vulnerable dependency's relationship to your project.  > [!NOTE] > We are rolling out support for dependency relationship across ecosystems. This value will be \"unknown\" for all dependencies in unsupported ecosystems. 
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub relationship: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -12935,7 +12994,7 @@ pub struct GetActionsListOrgVariablesResponse200 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct GetReposListAttestationsResponse200 {
+pub struct GetUsersListAttestationsResponse200 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub attestations: Option<Vec<InlineResponse20017Attestations>>,
 }
@@ -13422,22 +13481,6 @@ pub struct GetActionsGetHostedRunnersPlatformsForOrgResponse200 {
     pub total_count: Option<i64>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub platforms: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct GetUsersListAttestationsResponse200 {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub attestations: Option<Vec<InlineResponse20060Attestations>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct InlineResponse20060Attestations {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub bundle: Option<SigstoreBundle0>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub repository_id: Option<i64>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub bundle_url: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -15997,9 +16040,6 @@ pub struct NullableActionsHostedRunnerPoolImage {
     /// The image provider.
     #[serde(skip_serializing_if="Option::is_none")]
     pub source: Option<String>,
-    /// The image version of the hosted runner pool.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub version: Option<String>,
 }
 
 /// The time that the alert was last updated in ISO 8601 format: `YYYY-MM-DDTHH:MM:SSZ`.
@@ -19134,6 +19174,9 @@ pub struct OrganizationSecretScanningAlert {
     /// Whether the detected secret was found in multiple repositories in the same organization or enterprise.
     #[serde(skip_serializing_if="Option::is_none")]
     pub multi_repo: Option<bool>,
+    /// A boolean value representing whether or not alert is base64 encoded
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_base64_encoded: Option<bool>,
 }
 
 /// A GitHub organization.
@@ -19246,9 +19289,6 @@ pub struct OrgsorgactionshostedrunnersImage {
     /// The source of the runner image.
     #[serde(skip_serializing_if="Option::is_none")]
     pub source: Option<String>,
-    /// The version of the runner image to deploy. This is relevant only for runners using custom images.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub version: Option<String>,
 }
 
 /// Feature options for secret scanning delegated bypass
@@ -26565,9 +26605,8 @@ pub struct RepositoryRuleParamsRequiredReviewerConfiguration {
     /// Minimum number of approvals required from the specified team. If set to zero, the team will be added to the pull request but approval is optional.
     #[serde(skip_serializing_if="Option::is_none")]
     pub minimum_approvals: Option<i64>,
-    /// Node ID of the team which must review changes to matching files.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub reviewer_id: Option<String>,
+    pub reviewer: Option<RepositoryRuleParamsReviewer>,
 }
 
 /// Restricted commit
@@ -26579,6 +26618,18 @@ pub struct RepositoryRuleParamsRestrictedCommits {
     /// Reason for restriction
     #[serde(skip_serializing_if="Option::is_none")]
     pub reason: Option<String>,
+}
+
+/// A required reviewing team
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RepositoryRuleParamsReviewer {
+    /// ID of the reviewer which must review changes to matching files.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub id: Option<i64>,
+    /// The type of the reviewer
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<String>,
 }
 
 /// Required status check
@@ -27272,7 +27323,7 @@ pub struct RepositoryrulemergequeueParameters {
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RepositoryrulepullrequestParameters {
-    /// When merging pull requests, you can allow any combination of merge commits, squashing, or rebasing. At least one option must be enabled.
+    /// Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled.
     #[serde(skip_serializing_if="Option::is_none")]
     pub allowed_merge_methods: Option<Vec<String>>,
     /// New, reviewable commits pushed will dismiss previous pull request review approvals.
@@ -28379,6 +28430,42 @@ pub struct RuleSuite {
 /// Response
 pub type RuleSuites = Vec<RulesuitesInner>;
 
+/// The historical version of a ruleset
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RulesetVersion {
+    /// The ID of the previous version of the ruleset
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub version_id: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub actor: Option<RulesetversionActor>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RulesetVersionWithState {
+    /// The ID of the previous version of the ruleset
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub version_id: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub actor: Option<RulesetversionActor>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+    /// The state of the ruleset version
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub state: Option<HashMap<String, Value>>,
+}
+
+/// The actor who updated the ruleset
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RulesetversionActor {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub id: Option<i64>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<String>,
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct RulesuiteRuleEvaluations {
     #[serde(skip_serializing_if="Option::is_none")]
@@ -28642,6 +28729,9 @@ pub struct SecretScanningAlert {
     /// Whether the detected secret was found in multiple repositories under the same organization or enterprise.
     #[serde(skip_serializing_if="Option::is_none")]
     pub multi_repo: Option<bool>,
+    /// A boolean value representing whether or not alert is base64 encoded
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_base64_encoded: Option<bool>,
 }
 
 /// **Required when the `state` is `resolved`.** The reason for resolving the alert.
@@ -29314,112 +29404,6 @@ pub struct ShortbranchCommit {
     pub sha: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub url: Option<String>,
-}
-
-/// Sigstore Bundle v0.1
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct SigstoreBundle0 {
-    #[serde(rename = "mediaType")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub media_type: Option<String>,
-    #[serde(rename = "verificationMaterial")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub verification_material: Option<Sigstorebundle0VerificationMaterial>,
-    #[serde(rename = "dsseEnvelope")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub dsse_envelope: Option<Sigstorebundle0DsseEnvelope>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0DsseEnvelope {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub payload: Option<String>,
-    #[serde(rename = "payloadType")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub payload_type: Option<String>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub signatures: Option<Vec<Sigstorebundle0DsseEnvelopeSignatures>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0DsseEnvelopeSignatures {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub sig: Option<String>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub keyid: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterial {
-    #[serde(rename = "x509CertificateChain")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub x509_certificate_chain: Option<Sigstorebundle0VerificationMaterialX509CertificateChain>,
-    #[serde(rename = "tlogEntries")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub tlog_entries: Option<Vec<Sigstorebundle0VerificationMaterialTlogEntries>>,
-    #[serde(rename = "timestampVerificationData")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub timestamp_verification_data: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialInclusionPromise {
-    #[serde(rename = "signedEntryTimestamp")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub signed_entry_timestamp: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialKindVersion {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub kind: Option<String>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub version: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialLogId {
-    #[serde(rename = "keyId")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub key_id: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialTlogEntries {
-    #[serde(rename = "logIndex")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub log_index: Option<String>,
-    #[serde(rename = "logId")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub log_id: Option<Sigstorebundle0VerificationMaterialLogId>,
-    #[serde(rename = "kindVersion")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub kind_version: Option<Sigstorebundle0VerificationMaterialKindVersion>,
-    #[serde(rename = "integratedTime")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub integrated_time: Option<String>,
-    #[serde(rename = "inclusionPromise")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub inclusion_promise: Option<Sigstorebundle0VerificationMaterialInclusionPromise>,
-    #[serde(rename = "inclusionProof")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub inclusion_proof: Option<String>,
-    #[serde(rename = "canonicalizedBody")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub canonicalized_body: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialX509CertificateChain {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub certificates: Option<Vec<Sigstorebundle0VerificationMaterialX509CertificateChainCertificates>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Sigstorebundle0VerificationMaterialX509CertificateChainCertificates {
-    #[serde(rename = "rawBytes")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub raw_bytes: Option<String>,
 }
 
 /// A suite of checks performed on the code of a given code change
@@ -37773,6 +37757,8 @@ pub struct WebhookcodescanningalertclosedbyuserAlert {
     pub tool: Option<WebhookcodescanningalertclosedbyuserAlertTool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dismissal_approved_by: Option<User1>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -37851,6 +37837,8 @@ pub struct WebhookcodescanningalertcreatedAlert {
     pub updated_at: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dismissal_approved_by: Option<Value>,
 }
 
 /// The code scanning alert involved in the event.
@@ -39833,6 +39821,8 @@ pub struct WebhookreleaseeditedChanges {
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<WebhooklabeleditedChangesName>,
     #[serde(skip_serializing_if="Option::is_none")]
+    pub tag_name: Option<WebhookreleaseeditedChangesTagName>,
+    #[serde(skip_serializing_if="Option::is_none")]
     pub make_latest: Option<WebhookreleaseeditedChangesMakeLatest>,
 }
 
@@ -39841,6 +39831,13 @@ pub struct WebhookreleaseeditedChangesMakeLatest {
     /// Whether this release was explicitly `edited` to be the latest.
     #[serde(skip_serializing_if="Option::is_none")]
     pub to: Option<bool>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookreleaseeditedChangesTagName {
+    /// The previous version of the tag_name if the action was `edited`.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub from: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]

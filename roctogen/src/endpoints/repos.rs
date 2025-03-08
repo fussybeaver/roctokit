@@ -3096,6 +3096,60 @@ impl From<ReposGetRepoRulesetError> for AdapterError {
     }
 }
 
+/// Errors for the [Get repository ruleset history](Repos::get_repo_ruleset_history_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum ReposGetRepoRulesetHistoryError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Internal Error")]
+    Status500(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<ReposGetRepoRulesetHistoryError> for AdapterError {
+    fn from(err: ReposGetRepoRulesetHistoryError) -> Self {
+        let (description, status_code) = match err {
+            ReposGetRepoRulesetHistoryError::Status404(_) => (String::from("Resource not found"), 404),
+            ReposGetRepoRulesetHistoryError::Status500(_) => (String::from("Internal Error"), 500),
+            ReposGetRepoRulesetHistoryError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Get repository ruleset version](Repos::get_repo_ruleset_version_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum ReposGetRepoRulesetVersionError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Internal Error")]
+    Status500(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<ReposGetRepoRulesetVersionError> for AdapterError {
+    fn from(err: ReposGetRepoRulesetVersionError) -> Self {
+        let (description, status_code) = match err {
+            ReposGetRepoRulesetVersionError::Status404(_) => (String::from("Resource not found"), 404),
+            ReposGetRepoRulesetVersionError::Status500(_) => (String::from("Internal Error"), 500),
+            ReposGetRepoRulesetVersionError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [Get all repository rulesets](Repos::get_repo_rulesets_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum ReposGetRepoRulesetsError {
@@ -5659,6 +5713,46 @@ impl ReposGetRepoRulesetParams {
     }
 }
 
+/// Query parameters for the [Get repository ruleset history](Repos::get_repo_ruleset_history_async()) endpoint.
+#[derive(Default, Serialize)]
+pub struct ReposGetRepoRulesetHistoryParams {
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    per_page: Option<u16>, 
+    /// The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    page: Option<u16>
+}
+
+impl ReposGetRepoRulesetHistoryParams {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn per_page(self, per_page: u16) -> Self {
+        Self {
+            per_page: Some(per_page),
+            page: self.page, 
+        }
+    }
+
+    /// The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn page(self, page: u16) -> Self {
+        Self {
+            per_page: self.per_page, 
+            page: Some(page),
+        }
+    }
+}
+
+impl<'enc> From<&'enc PerPage> for ReposGetRepoRulesetHistoryParams {
+    fn from(per_page: &'enc PerPage) -> Self {
+        Self {
+            per_page: Some(per_page.per_page),
+            page: Some(per_page.page),
+            ..Default::default()
+        }
+    }
+}
 /// Query parameters for the [Get all repository rulesets](Repos::get_repo_rulesets_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct ReposGetRepoRulesetsParams<'req> {
@@ -5894,7 +5988,9 @@ pub struct ReposListAttestationsParams<'req> {
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     before: Option<&'req str>, 
     /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
-    after: Option<&'req str>
+    after: Option<&'req str>, 
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    predicate_type: Option<&'req str>
 }
 
 impl<'req> ReposListAttestationsParams<'req> {
@@ -5908,6 +6004,7 @@ impl<'req> ReposListAttestationsParams<'req> {
             per_page: Some(per_page),
             before: self.before, 
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -5917,6 +6014,7 @@ impl<'req> ReposListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: Some(before),
             after: self.after, 
+            predicate_type: self.predicate_type, 
         }
     }
 
@@ -5926,6 +6024,17 @@ impl<'req> ReposListAttestationsParams<'req> {
             per_page: self.per_page, 
             before: self.before, 
             after: Some(after),
+            predicate_type: self.predicate_type, 
+        }
+    }
+
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    pub fn predicate_type(self, predicate_type: &'req str) -> Self {
+        Self {
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            predicate_type: Some(predicate_type),
         }
     }
 }
@@ -18192,6 +18301,177 @@ impl<'api, C: Client> Repos<'api, C> where AdapterError: From<<C as Client>::Err
 
     /// ---
     ///
+    /// # Get repository ruleset history
+    ///
+    /// Get the history of a repository ruleset.
+    ///
+    /// [GitHub API docs for get_repo_ruleset_history](https://docs.github.com/rest/repos/rules#get-repository-ruleset-history)
+    ///
+    /// ---
+    pub async fn get_repo_ruleset_history_async(&self, owner: &str, repo: &str, ruleset_id: i32, query_params: Option<impl Into<ReposGetRepoRulesetHistoryParams>>) -> Result<Vec<RulesetVersion>, AdapterError> {
+
+        let mut request_uri = format!("{}/repos/{}/{}/rulesets/{}/history", super::GITHUB_BASE_API_URL, owner, repo, ruleset_id);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            request_uri.push_str(&serde_urlencoded::to_string(params.into())?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(ReposGetRepoRulesetHistoryError::Status404(github_response.to_json_async().await?).into()),
+                500 => Err(ReposGetRepoRulesetHistoryError::Status500(github_response.to_json_async().await?).into()),
+                code => Err(ReposGetRepoRulesetHistoryError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get repository ruleset history
+    ///
+    /// Get the history of a repository ruleset.
+    ///
+    /// [GitHub API docs for get_repo_ruleset_history](https://docs.github.com/rest/repos/rules#get-repository-ruleset-history)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn get_repo_ruleset_history(&self, owner: &str, repo: &str, ruleset_id: i32, query_params: Option<impl Into<ReposGetRepoRulesetHistoryParams>>) -> Result<Vec<RulesetVersion>, AdapterError> {
+
+        let mut request_uri = format!("{}/repos/{}/{}/rulesets/{}/history", super::GITHUB_BASE_API_URL, owner, repo, ruleset_id);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            let qp: ReposGetRepoRulesetHistoryParams = params.into();
+            request_uri.push_str(&serde_urlencoded::to_string(qp)?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(ReposGetRepoRulesetHistoryError::Status404(github_response.to_json()?).into()),
+                500 => Err(ReposGetRepoRulesetHistoryError::Status500(github_response.to_json()?).into()),
+                code => Err(ReposGetRepoRulesetHistoryError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get repository ruleset version
+    ///
+    /// Get a version of a repository ruleset.
+    ///
+    /// [GitHub API docs for get_repo_ruleset_version](https://docs.github.com/rest/repos/rules#get-repository-ruleset-version)
+    ///
+    /// ---
+    pub async fn get_repo_ruleset_version_async(&self, owner: &str, repo: &str, ruleset_id: i32, version_id: i32) -> Result<RulesetVersionWithState, AdapterError> {
+
+        let request_uri = format!("{}/repos/{}/{}/rulesets/{}/history/{}", super::GITHUB_BASE_API_URL, owner, repo, ruleset_id, version_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(ReposGetRepoRulesetVersionError::Status404(github_response.to_json_async().await?).into()),
+                500 => Err(ReposGetRepoRulesetVersionError::Status500(github_response.to_json_async().await?).into()),
+                code => Err(ReposGetRepoRulesetVersionError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Get repository ruleset version
+    ///
+    /// Get a version of a repository ruleset.
+    ///
+    /// [GitHub API docs for get_repo_ruleset_version](https://docs.github.com/rest/repos/rules#get-repository-ruleset-version)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn get_repo_ruleset_version(&self, owner: &str, repo: &str, ruleset_id: i32, version_id: i32) -> Result<RulesetVersionWithState, AdapterError> {
+
+        let request_uri = format!("{}/repos/{}/{}/rulesets/{}/history/{}", super::GITHUB_BASE_API_URL, owner, repo, ruleset_id, version_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(ReposGetRepoRulesetVersionError::Status404(github_response.to_json()?).into()),
+                500 => Err(ReposGetRepoRulesetVersionError::Status500(github_response.to_json()?).into()),
+                code => Err(ReposGetRepoRulesetVersionError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
     /// # Get all repository rulesets
     ///
     /// Get all the rulesets for a repository.
@@ -19119,7 +19399,7 @@ impl<'api, C: Client> Repos<'api, C> where AdapterError: From<<C as Client>::Err
     /// [GitHub API docs for list_attestations](https://docs.github.com/rest/repos/repos#list-attestations)
     ///
     /// ---
-    pub async fn list_attestations_async(&self, owner: &str, repo: &str, subject_digest: &str, query_params: Option<impl Into<ReposListAttestationsParams<'api>>>) -> Result<GetReposListAttestationsResponse200, AdapterError> {
+    pub async fn list_attestations_async(&self, owner: &str, repo: &str, subject_digest: &str, query_params: Option<impl Into<ReposListAttestationsParams<'api>>>) -> Result<GetUsersListAttestationsResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/repos/{}/{}/attestations/{}", super::GITHUB_BASE_API_URL, owner, repo, subject_digest);
 
@@ -19166,7 +19446,7 @@ impl<'api, C: Client> Repos<'api, C> where AdapterError: From<<C as Client>::Err
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn list_attestations(&self, owner: &str, repo: &str, subject_digest: &str, query_params: Option<impl Into<ReposListAttestationsParams<'api>>>) -> Result<GetReposListAttestationsResponse200, AdapterError> {
+    pub fn list_attestations(&self, owner: &str, repo: &str, subject_digest: &str, query_params: Option<impl Into<ReposListAttestationsParams<'api>>>) -> Result<GetUsersListAttestationsResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/repos/{}/{}/attestations/{}", super::GITHUB_BASE_API_URL, owner, repo, subject_digest);
 
