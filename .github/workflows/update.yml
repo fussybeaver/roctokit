@@ -1,58 +1,52 @@
 name: Update OpenAPI
+
 on:
-  repository_dispatch:
-    types:
-      - github-openapi-release
   workflow_dispatch:
-    inputs:
-      version:
-        description: "Version of https://crates.io/crates/roctogen"
-        required: true
 
 jobs:
-  update:
+  update-models:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' || github.event.client_payload.action == 'published'
+    permissions:
+      pull-requests: write
+      contents: write
+    concurrency:
+      group: automation-${{ github.ref }}
+      cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
+      - run: echo "DATE=$(date +"%Y-%m-%d")" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - run: git checkout -b "automation/update-models-${{ env.DATE }}"
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '11'
-
-      # set gOCTOKIT_OPENAPI_VERSION environment variable for all next steps
-      # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#setting-an-environment-variable
-      - run: echo "OCTOKIT_OPENAPI_VERSION=${{ github.event.client_payload.release.tag_name }}" >> $GITHUB_ENV
-        if: github.event.client_payload.release.tag_name
-      - run: echo "OCTOKIT_OPENAPI_VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
-        if: github.event.inputs.version
-      # Checking if setting the version actually works
-      - run: echo "OCTOKIT_OPENAPI_VERSION => $OCTOKIT_OPENAPI_VERSION"
-
-      # do not update cache for renovate update
-      - name: Update & generate types
+      - name: Generate models and endpoints
+        run: mvn -D org.slf4j.simpleLogger.defaultLogLevel=warn clean compiler:compile generate-resources
+      - name: Determine new version number
         run: |
-          mvn -D org.slf4j.simpleLogger.defaultLogLevel=info clean compiler:compile generate-resources
-        if: github.event_name != 'push'
-
-      # create/update pull request for dispatch event update
-      - name: Create Pull Request
-        if: github.event_name != 'push'
-        uses: gr2m/create-or-update-pull-request-action@v1.x
+          CURRENT_VERSION=$(head roctogen/Cargo.toml | grep ^version | awk '{ print $3 }' | tr -d '"')
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          ((minor++))
+          patch=0
+          sed -i "s/^version = \"$CURRENT_VERSION\"$/version = \"$major.$minor.$patch\"/" roctogen/Cargo.toml
+          echo "VERSION=$major.$minor.$patch" >> $GITHUB_ENV
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git status
+          git diff
+          # Ensure we do not create PR's without code changes
+          git diff --exit-code && exit 1 || true
+          git add .
+          git commit -m "feat: Update models and endpoints for ${{ env.DATE }}"
+          git push -u origin "automation/update-models-${{ env.DATE }}"
+          git remote -v
+          git branch -r
+      - name: Create a PR
         env:
-          GITHUB_TOKEN: ${{ secrets.OCTOKITBOT_PAT }}
-        with:
-          title: "🚧 OpenAPI types changed"
-          body: |
-            Make sure to update the commits so that the merge results in helpful release notes, see [Merging the Pull Request & releasing a new version](https://github.com/octokit/rest.js/blob/master/CONTRIBUTING.md#merging-the-pull-request--releasing-a-new-version).
-            In general
-            - Avoid breaking changes at all costs
-            - If there are no rust changes, use `build: cache` as commit message
-            - If there are there are only updates, use `fix: ...`
-            - If there are any new additions, use `feat: ...`
-            - If there are breaking changes, keep the previous ones and deprecate them. Only if there is no other way, add `BREAKING CHANGE: ...` to the commit body (not subject!) to trigger a breaking change.
-          branch: "openapi-update"
-          commit-message: "WIP"
-          author: "Octokit Bot <33075676+octokitbot@users.noreply.github.com>"
-          labels: "maintenance,rust"
-
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr new -l automation -H "origin/automation/update-models-${{ env.DATE }}" -B master -t "feat: Update models and endpoints for ${{ env.DATE }}" -b "" 
