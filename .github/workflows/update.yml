@@ -52,4 +52,4 @@ jobs:
           git fetch origin
           git branch -a | grep "automation/update-models-${{ env.DATE }}"
           git checkout "automation/update-models-${{ env.DATE }}"
-          gh pr new -l automation -H "origin/automation/update-models-${{ env.DATE }}" -B master -t "feat: Update models and endpoints for ${{ env.DATE }}" -b ""
+          gh pr new -l automation -B master -t "feat: Update models and endpoints for ${{ env.DATE }}" -b ""
