@@ -5,9 +5,7 @@ on:
     paths:
       - roctogen/**
     types:
-      - labeled
-    # types:
-    #   - closed:
+      - closed
 
 jobs:
   publish:
@@ -17,8 +15,8 @@ jobs:
     if: >
       github.event.pull_request.head.repo.full_name == github.repository &&
       contains(github.event.pull_request.labels.*.name, 'automation') &&
+      github.event.pull_request.merged == true &&
       github.event.pull_request.user.login == 'github-actions[bot]'
-    # github.event.pull_request.merged == true &&
 
     steps:
       - uses: actions/checkout@v4
@@ -37,4 +35,4 @@ jobs:
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         working-directory: roctogen
-        run: cargo publish --dry-run
+        run: cargo publish
