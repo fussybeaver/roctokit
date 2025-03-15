@@ -15,9 +15,9 @@ jobs:
 
     if: >
       github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.merged == true &&
       contains(github.event.pull_request.labels.*.name, 'automation') &&
       github.actor == 'github-actions[bot]'
+    # github.event.pull_request.merged == true &&
 
     steps:
       - uses: actions/checkout@v4
