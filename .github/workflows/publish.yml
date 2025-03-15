@@ -1,0 +1,37 @@
+name: Publish Roctogen
+
+on:
+  pull_request:
+    paths:
+      - roctogen/**
+    types:
+      - labeled:
+    # types:
+    #   - closed:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'automation') &&
+      github.actor == 'github-actions[bot]'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Cargo package
+        working-directory: roctogen
+        run: cargo package
+      # - name: Cargo publish
+      #   working-directory: roctogen
+      #   run: cargo publish
