@@ -1073,6 +1073,7 @@ impl<'api, C: Client> Search<'api, C> where AdapterError: From<<C as Client>::Er
     ///
     /// > [!WARNING]
     /// > **Notice:** Search for issues and pull requests will be overridden by advanced search on September 4, 2025.
+    /// > You can read more about this change on [the GitHub blog](https://github.blog/changelog/2025-03-06-github-issues-projects-api-support-for-issues-advanced-search-and-more/).
     ///
     /// [GitHub API docs for issues_and_pull_requests](https://docs.github.com/rest/search/search#search-issues-and-pull-requests)
     ///
@@ -1118,6 +1119,7 @@ impl<'api, C: Client> Search<'api, C> where AdapterError: From<<C as Client>::Er
     ///
     /// > [!WARNING]
     /// > **Notice:** Search for issues and pull requests will be overridden by advanced search on September 4, 2025.
+    /// > You can read more about this change on [the GitHub blog](https://github.blog/changelog/2025-03-06-github-issues-projects-api-support-for-issues-advanced-search-and-more/).
     ///
     /// [GitHub API docs for issues_and_pull_requests](https://docs.github.com/rest/search/search#search-issues-and-pull-requests)
     ///
