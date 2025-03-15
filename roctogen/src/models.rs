@@ -28538,10 +28538,10 @@ pub struct RulesuitesInner {
 /// A self hosted runner
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Runner {
-    /// The id of the runner.
+    /// The ID of the runner.
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
-    /// The id of the runner group.
+    /// The ID of the runner group.
     #[serde(skip_serializing_if="Option::is_none")]
     pub runner_group_id: Option<i64>,
     /// The name of the runner.
