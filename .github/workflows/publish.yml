@@ -16,7 +16,7 @@ jobs:
     if: >
       github.event.pull_request.head.repo.full_name == github.repository &&
       contains(github.event.pull_request.labels.*.name, 'automation') &&
-      github.actor == 'github-actions[bot]'
+      github.event.pull_request.user.login == 'github-actions[bot]'
     # github.event.pull_request.merged == true &&
 
     steps:
