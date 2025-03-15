@@ -3529,7 +3529,9 @@ pub struct OrgsListPatGrantRequestsParams<'req> {
     /// Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     last_used_before: Option<chrono::DateTime<chrono::Utc>>, 
     /// Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    last_used_after: Option<chrono::DateTime<chrono::Utc>>
+    last_used_after: Option<chrono::DateTime<chrono::Utc>>, 
+    /// The ID of the token
+    token_id: Option<Vec<String>>
 }
 
 impl<'req> OrgsListPatGrantRequestsParams<'req> {
@@ -3549,6 +3551,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3564,6 +3567,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3579,6 +3583,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3594,6 +3599,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3609,6 +3615,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3624,6 +3631,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3639,6 +3647,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: Some(permission),
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3654,6 +3663,7 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: Some(last_used_before),
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3669,6 +3679,23 @@ impl<'req> OrgsListPatGrantRequestsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: Some(last_used_after),
+            token_id: self.token_id, 
+        }
+    }
+
+    /// The ID of the token
+    pub fn token_id(self, token_id: Vec<String>) -> Self {
+        Self {
+            per_page: self.per_page, 
+            page: self.page, 
+            sort: self.sort, 
+            direction: self.direction, 
+            owner: self.owner, 
+            repository: self.repository, 
+            permission: self.permission, 
+            last_used_before: self.last_used_before, 
+            last_used_after: self.last_used_after, 
+            token_id: Some(token_id),
         }
     }
 }
@@ -3702,7 +3729,9 @@ pub struct OrgsListPatGrantsParams<'req> {
     /// Only show fine-grained personal access tokens used before the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
     last_used_before: Option<chrono::DateTime<chrono::Utc>>, 
     /// Only show fine-grained personal access tokens used after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`.
-    last_used_after: Option<chrono::DateTime<chrono::Utc>>
+    last_used_after: Option<chrono::DateTime<chrono::Utc>>, 
+    /// The ID of the token
+    token_id: Option<Vec<String>>
 }
 
 impl<'req> OrgsListPatGrantsParams<'req> {
@@ -3722,6 +3751,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3737,6 +3767,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3752,6 +3783,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3767,6 +3799,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3782,6 +3815,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3797,6 +3831,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3812,6 +3847,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: Some(permission),
             last_used_before: self.last_used_before, 
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3827,6 +3863,7 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: Some(last_used_before),
             last_used_after: self.last_used_after, 
+            token_id: self.token_id, 
         }
     }
 
@@ -3842,6 +3879,23 @@ impl<'req> OrgsListPatGrantsParams<'req> {
             permission: self.permission, 
             last_used_before: self.last_used_before, 
             last_used_after: Some(last_used_after),
+            token_id: self.token_id, 
+        }
+    }
+
+    /// The ID of the token
+    pub fn token_id(self, token_id: Vec<String>) -> Self {
+        Self {
+            per_page: self.per_page, 
+            page: self.page, 
+            sort: self.sort, 
+            direction: self.direction, 
+            owner: self.owner, 
+            repository: self.repository, 
+            permission: self.permission, 
+            last_used_before: self.last_used_before, 
+            last_used_after: self.last_used_after, 
+            token_id: Some(token_id),
         }
     }
 }
