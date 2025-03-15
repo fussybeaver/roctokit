@@ -5,7 +5,7 @@ on:
     paths:
       - roctogen/**
     types:
-      - labeled:
+      - labeled
     # types:
     #   - closed:
 
