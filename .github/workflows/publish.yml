@@ -12,6 +12,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: Default
 
     if: >
       github.event.pull_request.head.repo.full_name == github.repository &&
@@ -32,6 +33,8 @@ jobs:
       - name: Cargo package
         working-directory: roctogen
         run: cargo package
-      # - name: Cargo publish
-      #   working-directory: roctogen
-      #   run: cargo publish
+      - name: Cargo publish
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        working-directory: roctogen
+        run: cargo publish --dry-run
