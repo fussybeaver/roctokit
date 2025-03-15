@@ -52,4 +52,6 @@ jobs:
           git fetch origin
           git branch -a | grep "automation/update-models-${{ env.DATE }}"
           git checkout "automation/update-models-${{ env.DATE }}"
+          # Ensure we don't create a PR if an existing PR already exists
+          gh pr list --label automation -L 1 -s open --json id --jq 'if (. | length) > 0 then halt_error(1) else empty end'
           gh pr new -l automation -B master -t "feat: Update models and endpoints for ${{ env.DATE }}" -b ""
