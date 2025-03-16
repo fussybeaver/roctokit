@@ -24,6 +24,10 @@ jobs:
           java-version: '11'
       - name: Generate models and endpoints
         run: mvn -D org.slf4j.simpleLogger.defaultLogLevel=warn clean compiler:compile generate-resources
+      - name: Check changes
+        run: |
+          # Ensure we do not create PR's without code changes
+          git diff --exit-code && exit 1 || true
       - name: Determine new version number
         run: |
           CURRENT_VERSION=$(head roctogen/Cargo.toml | grep ^version | awk '{ print $3 }' | tr -d '"')
@@ -38,8 +42,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git status
           git diff
-          # Ensure we do not create PR's without code changes
-          git diff --exit-code && exit 1 || true
           git add .
           git commit -m "feat: Update models and endpoints for ${{ env.DATE }}"
           git push -u origin "automation/update-models-${{ env.DATE }}"
