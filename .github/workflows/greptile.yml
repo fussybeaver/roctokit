@@ -1,0 +1,32 @@
+name: Amend PR description Roctogen
+
+on:
+  issue_comment:
+    paths:
+      - roctogen/**
+    types:
+      - created
+    branches:
+      - master
+
+permissions:
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: Default
+
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      contains(github.event.pull_request.labels.*.name, 'automation') &&
+      github.actor == 'greptile[bot]' &&
+      github.event.pull_request.user.login == 'github-actions[bot]'
+
+    steps:
+      - name: Amend PR descriptin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} --body "${{ github.event.comment.body }}"
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "greptile"
