@@ -6,6 +6,7 @@ on:
 jobs:
   update-models:
     runs-on: ubuntu-latest
+    environment: Update
     permissions:
       pull-requests: write
       contents: write
@@ -49,7 +50,7 @@ jobs:
           git branch -r
       - name: Create a PR
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git fetch origin
           git branch -a | grep "automation/update-models-${{ env.DATE }}"
