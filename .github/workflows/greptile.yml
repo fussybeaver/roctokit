@@ -2,8 +2,6 @@ name: Amend PR description Roctogen
 
 on:
   issue_comment:
-    types:
-      - created
 
 jobs:
   comment:
