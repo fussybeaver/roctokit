@@ -3783,6 +3783,10 @@ pub struct PostIssuesCreate {
     /// Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignees: Option<Vec<String>>,
+    /// The name of the issue type to associate with this issue.
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3824,6 +3828,10 @@ pub struct PatchIssuesUpdate {
     /// Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped.
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignees: Option<Vec<String>>,
+    /// The name of the issue type to associate with this issue or use `null` to remove the current issue type.
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -9904,6 +9912,9 @@ pub struct PutOrgsCreateOrUpdateCustomProperty {
     /// An ordered list of the allowed values of the property. The property can have up to 200 allowed values.
     #[serde(skip_serializing_if="Option::is_none")]
     pub allowed_values: Option<Vec<String>>,
+    /// Who can edit the values of the property
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub values_editable_by: Option<String>,
 }
 
 /// Custom property name and associated value
@@ -14087,6 +14098,9 @@ pub struct Issue {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -14159,6 +14173,9 @@ pub struct Issue1 {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -14166,6 +14183,81 @@ pub struct Issue1 {
     pub url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub user: Option<User2>,
+}
+
+/// The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Issue10 {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub active_lock_reason: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub assignee: Option<User1>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub assignees: Option<Vec<User1>>,
+    /// How the author is associated with the repository.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub author_association: Option<String>,
+    /// Contents of the issue
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub body: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub closed_at: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub comments: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub comments_url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub created_at: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub draft: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub events_url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub html_url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub id: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub labels: Option<Vec<Label>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub labels_url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub locked: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub milestone: Option<Milestone1>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub node_id: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub number: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub performed_via_github_app: Option<App1>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub pull_request: Option<WebhooksIssuePullRequest>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub reactions: Option<Reactions>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository_url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sub_issues_summary: Option<SubissuesSummary>,
+    /// State of the issue; either 'open' or 'closed'
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub state: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub state_reason: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub timeline_url: Option<String>,
+    /// Title of the issue
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+    /// URL for the issue
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub url: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub user: Option<User>,
 }
 
 /// The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
@@ -14228,6 +14320,9 @@ pub struct Issue2 {
     pub state_reason: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub timeline_url: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
@@ -14300,6 +14395,9 @@ pub struct Issue3 {
     pub state_reason: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub timeline_url: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
@@ -14372,6 +14470,9 @@ pub struct Issue4 {
     pub state_reason: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub timeline_url: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
@@ -14447,6 +14548,9 @@ pub struct Issue5 {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -14591,6 +14695,9 @@ pub struct Issue7 {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -14670,6 +14777,9 @@ pub struct Issue8 {
     pub url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub user: Option<User2>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
 }
 
 /// The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
@@ -14735,6 +14845,9 @@ pub struct Issue9 {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -15076,10 +15189,42 @@ pub struct IssueSearchResultItem {
     pub body_text: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub timeline_url: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub performed_via_github_app: Option<NullableIntegration>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub reactions: Option<ReactionRollup>,
+}
+
+/// The type of issue.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct IssueType {
+    /// The unique identifier of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub id: Option<i64>,
+    /// The node identifier of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub node_id: Option<String>,
+    /// The name of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// The description of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub description: Option<String>,
+    /// The color of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+    /// The time the issue type created.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub created_at: Option<chrono::DateTime<chrono::Utc>>,
+    /// The time the issue type last updated.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+    /// The enabled state of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_enabled: Option<bool>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -16269,6 +16414,9 @@ pub struct NullableIssue {
     pub body_text: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub timeline_url: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository: Option<Repository>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -18824,6 +18972,25 @@ pub struct OrganizationActionsVariable {
     pub selected_repositories_url: Option<String>,
 }
 
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostOrgsCreateIssueType {
+    /// Name of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// Whether or not the issue type is enabled at the organization level.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_enabled: Option<bool>,
+    /// Whether or not the issue type is restricted to issues in private repositories.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_private: Option<bool>,
+    /// Description of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub description: Option<String>,
+    /// Color for the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+}
+
 /// Secrets for GitHub Dependabot for an organization.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OrganizationDependabotSecret {
@@ -19235,6 +19402,25 @@ pub struct OrganizationSimpleWebhooks {
     pub avatar_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutOrgsUpdateIssueType {
+    /// Name of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// Whether or not the issue type is enabled at the organization level.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_enabled: Option<bool>,
+    /// Whether or not the issue type is restricted to issues in private repositories.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub is_private: Option<bool>,
+    /// Description of the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub description: Option<String>,
+    /// Color for the issue type.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -34249,7 +34435,7 @@ pub struct WebhookIssuesUnlocked {
     #[serde(skip_serializing_if="Option::is_none")]
     pub installation: Option<SimpleInstallation>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub issue: Option<Issue9>,
+    pub issue: Option<Issue10>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization: Option<OrganizationSimpleWebhooks>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -38337,7 +38523,7 @@ pub struct WebhookissuesopenedChanges {
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WebhookissuestransferredChanges {
     #[serde(skip_serializing_if="Option::is_none")]
-    pub new_issue: Option<Issue6>,
+    pub new_issue: Option<Issue9>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub new_repository: Option<Repository2>,
 }
@@ -40250,6 +40436,9 @@ pub struct WebhooksIssue {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
@@ -40322,6 +40511,9 @@ pub struct WebhooksIssue2 {
     /// Title of the issue
     #[serde(skip_serializing_if="Option::is_none")]
     pub title: Option<String>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
     /// URL for the issue
