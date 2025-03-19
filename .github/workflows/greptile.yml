@@ -13,13 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     environment: Default
 
-    if: >
-      github.event.issue.pull_request.head.repo.full_name == github.repository &&
-      contains(github.event.issue.pull_request.labels.*.name, 'automation') &&
-      github.actor == 'greptile[bot]' &&
-      github.event.issue.pull_request.user.login == 'github-actions[bot]'
+    # if: >
+    #   github.event.issue.pull_request.head.repo.full_name == github.repository &&
+    #   contains(github.event.issue.pull_request.labels.*.name, 'automation') &&
+    #   github.actor == 'greptile[bot]' &&
+    #   github.event.issue.pull_request.user.login == 'github-actions[bot]'
 
     steps:
+      - name: Debug
+        run: |
+          echo "${{ github.event.issue.pull_request.head.repo.full_name }}"
+          echo "${{ github.event.issue.pull_request.labels.*.name }}"
+          echo "${{ github.actor }}"
+          echo "${{ github.event.issue.pull_request.user.login }}"
       - name: Amend PR descriptin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
