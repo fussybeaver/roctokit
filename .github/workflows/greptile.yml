@@ -9,9 +9,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  publish:
+  comment:
     runs-on: ubuntu-latest
-    environment: Default
 
     # if: >
     #   github.event.issue.pull_request.head.repo.full_name == github.repository &&
@@ -26,9 +25,9 @@ jobs:
           echo "${{ github.event.issue.pull_request.labels.*.name }}"
           echo "${{ github.actor }}"
           echo "${{ github.event.issue.pull_request.user.login }}"
-      - name: Amend PR descriptin
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr edit ${{ github.event.issue.pull_request.number }} --body "${{ github.event.comment.body }}"
-          gh pr edit ${{ github.event.issue.pull_request.number }} --add-label "greptile"
+      # - name: Amend PR description
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     gh pr edit ${{ github.event.issue.pull_request.number }} --body "${{ github.event.comment.body }}"
+      #     gh pr edit ${{ github.event.issue.pull_request.number }} --add-label "greptile"
