@@ -8,26 +8,19 @@ on:
 jobs:
   comment:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
-    # if: >
-    #   github.event.issue.pull_request.head.repo.full_name == github.repository &&
-    #   contains(github.event.issue.pull_request.labels.*.name, 'automation') &&
-    #   github.actor == 'greptile[bot]' &&
-    #   github.event.issue.pull_request.user.login == 'github-actions[bot]'
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      contains(github.event.pull_request.labels.*.name, 'automation') &&
+      github.event.review.user.login == 'greptile[bot]' &&
+      github.event.pull_request.user.login == 'github-actions[bot]'
 
     steps:
-      - name: Debug
+      - name: Amend PR description
         env:
-          EVENT: ${{ toJson(github.event) }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          # echo "${{ github.event.review.user.login }}"
-          # echo "${{ github.event.review.pull_request.head.repo.full_name }}"
-          # echo "${{ github.event.review.pull_request.labels.*.name }}"
-          # echo "${{ github.event.review.pull_request.user.login }}"
-          echo "$EVENT" | jq '.'
-      # - name: Amend PR description
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     gh pr edit ${{ github.event.issue.pull_request.number }} --body "${{ github.event.comment.body }}"
-      #     gh pr edit ${{ github.event.issue.pull_request.number }} --add-label "greptile"
+          gh pr edit ${{ github.event.pull_request.number }} --body "${{ github.event.review.body }}"
+          gh pr edit ${{ github.event.pull_request.number }} --add-label "greptile"
