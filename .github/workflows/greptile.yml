@@ -22,5 +22,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --body "${{ github.event.review.body }}"
-          gh pr edit ${{ github.event.pull_request.number }} --add-label "greptile"
+          BODY=$(jq -r 'github.event.review.body' "$GITHUB_EVENT_PATH")
+          ESCAPED_BODY=$(echo $BODY | jq -sRr @sh)
+          echo gh pr edit ${{ github.event.pull_request.number }} --body "$ESCAPED_BODY"
+          # gh pr edit ${{ github.event.pull_request.number }} --add-label "greptile"
