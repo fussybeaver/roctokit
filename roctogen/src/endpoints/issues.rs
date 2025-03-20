@@ -1937,6 +1937,8 @@ pub struct IssuesListForOrgParams<'req> {
     state: Option<&'req str>, 
     /// A list of comma separated label names. Example: `bug,ui,@high`
     labels: Option<&'req str>, 
+    /// Can be the name of an issue type.
+    _type: Option<&'req str>, 
     /// What to sort results by.
     sort: Option<&'req str>, 
     /// The direction to sort the results by.
@@ -1960,6 +1962,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: Some(filter),
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: self.direction, 
             since: self.since, 
@@ -1974,6 +1977,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: Some(state),
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: self.direction, 
             since: self.since, 
@@ -1988,6 +1992,22 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: Some(labels),
+            _type: self._type, 
+            sort: self.sort, 
+            direction: self.direction, 
+            since: self.since, 
+            per_page: self.per_page, 
+            page: self.page, 
+        }
+    }
+
+    /// Can be the name of an issue type.
+    pub fn _type(self, _type: &'req str) -> Self {
+        Self {
+            filter: self.filter, 
+            state: self.state, 
+            labels: self.labels, 
+            _type: Some(_type),
             sort: self.sort, 
             direction: self.direction, 
             since: self.since, 
@@ -2002,6 +2022,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: Some(sort),
             direction: self.direction, 
             since: self.since, 
@@ -2016,6 +2037,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: Some(direction),
             since: self.since, 
@@ -2030,6 +2052,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: self.direction, 
             since: Some(since),
@@ -2044,6 +2067,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: self.direction, 
             since: self.since, 
@@ -2058,6 +2082,7 @@ impl<'req> IssuesListForOrgParams<'req> {
             filter: self.filter, 
             state: self.state, 
             labels: self.labels, 
+            _type: self._type, 
             sort: self.sort, 
             direction: self.direction, 
             since: self.since, 
@@ -2085,6 +2110,8 @@ pub struct IssuesListForRepoParams<'req> {
     state: Option<&'req str>, 
     /// Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user.
     assignee: Option<&'req str>, 
+    /// Can be the name of an issue type. If the string `*` is passed, issues with any type are accepted. If the string `none` is passed, issues without type are returned.
+    _type: Option<&'req str>, 
     /// The user that created the issue.
     creator: Option<&'req str>, 
     /// A user that's mentioned in the issue.
@@ -2114,6 +2141,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: Some(milestone),
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2131,6 +2159,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: Some(state),
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2148,6 +2177,25 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: Some(assignee),
+            _type: self._type, 
+            creator: self.creator, 
+            mentioned: self.mentioned, 
+            labels: self.labels, 
+            sort: self.sort, 
+            direction: self.direction, 
+            since: self.since, 
+            per_page: self.per_page, 
+            page: self.page, 
+        }
+    }
+
+    /// Can be the name of an issue type. If the string `*` is passed, issues with any type are accepted. If the string `none` is passed, issues without type are returned.
+    pub fn _type(self, _type: &'req str) -> Self {
+        Self {
+            milestone: self.milestone, 
+            state: self.state, 
+            assignee: self.assignee, 
+            _type: Some(_type),
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2165,6 +2213,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: Some(creator),
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2182,6 +2231,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: Some(mentioned),
             labels: self.labels, 
@@ -2199,6 +2249,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: Some(labels),
@@ -2216,6 +2267,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2233,6 +2285,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2250,6 +2303,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2267,6 +2321,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
@@ -2284,6 +2339,7 @@ impl<'req> IssuesListForRepoParams<'req> {
             milestone: self.milestone, 
             state: self.state, 
             assignee: self.assignee, 
+            _type: self._type, 
             creator: self.creator, 
             mentioned: self.mentioned, 
             labels: self.labels, 
