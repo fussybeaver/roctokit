@@ -17,12 +17,14 @@ jobs:
 
     steps:
       - name: Debug
+        env:
+          EVENT: ${{ toJson(github.event) }}
         run: |
-          echo "${{ github.event.review.author }}"
-          echo "${{ github.event.review.user.login }}"
-          echo "${{ github.event.review.pull_request.head.repo.full_name }}"
-          echo "${{ github.event.review.pull_request.labels.*.name }}"
-          echo "${{ github.event.review.pull_request.user.login }}"
+          # echo "${{ github.event.review.user.login }}"
+          # echo "${{ github.event.review.pull_request.head.repo.full_name }}"
+          # echo "${{ github.event.review.pull_request.labels.*.name }}"
+          # echo "${{ github.event.review.pull_request.user.login }}"
+          echo "$EVENT" | jq '.'
       # - name: Amend PR description
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
