@@ -18,6 +18,10 @@ jobs:
       github.event.pull_request.user.login == 'github-actions[bot]'
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       - name: Amend PR description
         env:
           GH_TOKEN: ${{ github.token }}
