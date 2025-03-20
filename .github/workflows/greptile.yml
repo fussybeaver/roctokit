@@ -22,6 +22,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BODY=$(echo "${{ github.event.review.body }}" > issue_description.txt )
+          jq -r '.review.body' "$GITHUB_EVENT_PATH" > issue_description.txt
           gh pr edit ${{ github.event.pull_request.number }} --body @issue_description.txt
           gh pr edit ${{ github.event.pull_request.number }} --add-label "greptile"
