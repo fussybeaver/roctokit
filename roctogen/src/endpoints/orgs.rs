@@ -288,6 +288,33 @@ impl From<OrgsCreateInvitationError> for AdapterError {
     }
 }
 
+/// Errors for the [Create issue type for an organization](Orgs::create_issue_type_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsCreateIssueTypeError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Validation failed, or the endpoint has been spammed.")]
+    Status422(ValidationErrorSimple),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsCreateIssueTypeError> for AdapterError {
+    fn from(err: OrgsCreateIssueTypeError) -> Self {
+        let (description, status_code) = match err {
+            OrgsCreateIssueTypeError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsCreateIssueTypeError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
+            OrgsCreateIssueTypeError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [Create or update custom properties for an organization](Orgs::create_or_update_custom_properties_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum OrgsCreateOrUpdateCustomPropertiesError {
@@ -416,6 +443,33 @@ impl From<OrgsDeleteError> for AdapterError {
             OrgsDeleteError::Status404(_) => (String::from("Resource not found"), 404),
             OrgsDeleteError::Status403(_) => (String::from("Forbidden"), 403),
             OrgsDeleteError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Delete issue type for an organization](Orgs::delete_issue_type_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsDeleteIssueTypeError {
+    #[error("Validation failed, or the endpoint has been spammed.")]
+    Status422(ValidationErrorSimple),
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsDeleteIssueTypeError> for AdapterError {
+    fn from(err: OrgsDeleteIssueTypeError) -> Self {
+        let (description, status_code) = match err {
+            OrgsDeleteIssueTypeError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
+            OrgsDeleteIssueTypeError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsDeleteIssueTypeError::Generic { code } => (String::from("Generic"), code)
         };
 
         Self::Endpoint {
@@ -1151,6 +1205,30 @@ impl From<OrgsListInvitationTeamsError> for AdapterError {
         let (description, status_code) = match err {
             OrgsListInvitationTeamsError::Status404(_) => (String::from("Resource not found"), 404),
             OrgsListInvitationTeamsError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [List issue types for an organization](Orgs::list_issue_types_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsListIssueTypesError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsListIssueTypesError> for AdapterError {
+    fn from(err: OrgsListIssueTypesError) -> Self {
+        let (description, status_code) = match err {
+            OrgsListIssueTypesError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsListIssueTypesError::Generic { code } => (String::from("Generic"), code)
         };
 
         Self::Endpoint {
@@ -1997,6 +2075,33 @@ impl From<OrgsUpdateError> for AdapterError {
             OrgsUpdateError::Status422(_) => (String::from("Validation failed"), 422),
             OrgsUpdateError::Status409(_) => (String::from("Conflict"), 409),
             OrgsUpdateError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Update issue type for an organization](Orgs::update_issue_type_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsUpdateIssueTypeError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Validation failed, or the endpoint has been spammed.")]
+    Status422(ValidationErrorSimple),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsUpdateIssueTypeError> for AdapterError {
+    fn from(err: OrgsUpdateIssueTypeError) -> Self {
+        let (description, status_code) = match err {
+            OrgsUpdateIssueTypeError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsUpdateIssueTypeError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
+            OrgsUpdateIssueTypeError::Generic { code } => (String::from("Generic"), code)
         };
 
         Self::Endpoint {
@@ -4922,9 +5027,104 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
 
     /// ---
     ///
+    /// # Create issue type for an organization
+    ///
+    /// Create a new issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for create_issue_type](https://docs.github.com/rest/orgs/issue-types#create-issue-type-for-an-organization)
+    ///
+    /// ---
+    pub async fn create_issue_type_async(&self, org: &str, body: PostOrgsCreateIssueType) -> Result<IssueType, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsCreateIssueType>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsCreateIssueTypeError::Status404(github_response.to_json_async().await?).into()),
+                422 => Err(OrgsCreateIssueTypeError::Status422(github_response.to_json_async().await?).into()),
+                code => Err(OrgsCreateIssueTypeError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Create issue type for an organization
+    ///
+    /// Create a new issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for create_issue_type](https://docs.github.com/rest/orgs/issue-types#create-issue-type-for-an-organization)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn create_issue_type(&self, org: &str, body: PostOrgsCreateIssueType) -> Result<IssueType, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsCreateIssueType>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsCreateIssueTypeError::Status404(github_response.to_json()?).into()),
+                422 => Err(OrgsCreateIssueTypeError::Status422(github_response.to_json()?).into()),
+                code => Err(OrgsCreateIssueTypeError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
     /// # Create or update custom properties for an organization
     ///
     /// Creates new or updates existing custom properties defined for an organization in a batch.
+    /// 
+    /// If the property already exists, the existing property will be replaced with the new values.
+    /// Missing optional values will fall back to default values, previous values will be overwritten.
+    /// E.g. if a property exists with `values_editable_by: org_and_repo_actors` and it's updated without specifying `values_editable_by`, it will be updated to default value `org_actors`.
     /// 
     /// To use this endpoint, the authenticated user must be one of:
     ///   - An administrator for the organization.
@@ -4969,6 +5169,10 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     /// # Create or update custom properties for an organization
     ///
     /// Creates new or updates existing custom properties defined for an organization in a batch.
+    /// 
+    /// If the property already exists, the existing property will be replaced with the new values.
+    /// Missing optional values will fall back to default values, previous values will be overwritten.
+    /// E.g. if a property exists with `values_editable_by: org_and_repo_actors` and it's updated without specifying `values_editable_by`, it will be updated to default value `org_actors`.
     /// 
     /// To use this endpoint, the authenticated user must be one of:
     ///   - An administrator for the organization.
@@ -5379,6 +5583,97 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
                 404 => Err(OrgsDeleteError::Status404(github_response.to_json()?).into()),
                 403 => Err(OrgsDeleteError::Status403(github_response.to_json()?).into()),
                 code => Err(OrgsDeleteError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete issue type for an organization
+    ///
+    /// Deletes an issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for delete_issue_type](https://docs.github.com/rest/orgs/issue-types#delete-issue-type-for-an-organization)
+    ///
+    /// ---
+    pub async fn delete_issue_type_async(&self, org: &str, issue_type_id: i32) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types/{}", super::GITHUB_BASE_API_URL, org, issue_type_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                422 => Err(OrgsDeleteIssueTypeError::Status422(github_response.to_json_async().await?).into()),
+                404 => Err(OrgsDeleteIssueTypeError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(OrgsDeleteIssueTypeError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete issue type for an organization
+    ///
+    /// Deletes an issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for delete_issue_type](https://docs.github.com/rest/orgs/issue-types#delete-issue-type-for-an-organization)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn delete_issue_type(&self, org: &str, issue_type_id: i32) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types/{}", super::GITHUB_BASE_API_URL, org, issue_type_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                422 => Err(OrgsDeleteIssueTypeError::Status422(github_response.to_json()?).into()),
+                404 => Err(OrgsDeleteIssueTypeError::Status404(github_response.to_json()?).into()),
+                code => Err(OrgsDeleteIssueTypeError::Generic { code }.into()),
             }
         }
     }
@@ -8087,6 +8382,85 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
             match github_response.status_code() {
                 404 => Err(OrgsListInvitationTeamsError::Status404(github_response.to_json()?).into()),
                 code => Err(OrgsListInvitationTeamsError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # List issue types for an organization
+    ///
+    /// Lists all issue types for an organization. OAuth app tokens and personal access tokens (classic) need the read:org scope to use this endpoint.
+    ///
+    /// [GitHub API docs for list_issue_types](https://docs.github.com/rest/orgs/issue-types#list-issue-types-for-an-organization)
+    ///
+    /// ---
+    pub async fn list_issue_types_async(&self, org: &str) -> Result<Vec<IssueType>, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsListIssueTypesError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(OrgsListIssueTypesError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # List issue types for an organization
+    ///
+    /// Lists all issue types for an organization. OAuth app tokens and personal access tokens (classic) need the read:org scope to use this endpoint.
+    ///
+    /// [GitHub API docs for list_issue_types](https://docs.github.com/rest/orgs/issue-types#list-issue-types-for-an-organization)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn list_issue_types(&self, org: &str) -> Result<Vec<IssueType>, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsListIssueTypesError::Status404(github_response.to_json()?).into()),
+                code => Err(OrgsListIssueTypesError::Generic { code }.into()),
             }
         }
     }
@@ -11037,6 +11411,97 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
                 422 => Err(OrgsUpdateError::Status422(github_response.to_json()?).into()),
                 409 => Err(OrgsUpdateError::Status409(github_response.to_json()?).into()),
                 code => Err(OrgsUpdateError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Update issue type for an organization
+    ///
+    /// Updates an issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for update_issue_type](https://docs.github.com/rest/orgs/issue-types#update-issue-type-for-an-organization)
+    ///
+    /// ---
+    pub async fn update_issue_type_async(&self, org: &str, issue_type_id: i32, body: PutOrgsUpdateIssueType) -> Result<IssueType, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types/{}", super::GITHUB_BASE_API_URL, org, issue_type_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PutOrgsUpdateIssueType>(body)?),
+            method: "PUT",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsUpdateIssueTypeError::Status404(github_response.to_json_async().await?).into()),
+                422 => Err(OrgsUpdateIssueTypeError::Status422(github_response.to_json_async().await?).into()),
+                code => Err(OrgsUpdateIssueTypeError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Update issue type for an organization
+    ///
+    /// Updates an issue type for an organization.
+    /// 
+    /// You can find out more about issue types in [Managing issue types in an organization](https://docs.github.com/issues/tracking-your-work-with-issues/configuring-issues/managing-issue-types-in-an-organization).
+    /// 
+    /// To use this endpoint, the authenticated user must be an administrator for the organization. OAuth app tokens and
+    /// personal access tokens (classic) need the `admin:org` scope to use this endpoint.
+    ///
+    /// [GitHub API docs for update_issue_type](https://docs.github.com/rest/orgs/issue-types#update-issue-type-for-an-organization)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn update_issue_type(&self, org: &str, issue_type_id: i32, body: PutOrgsUpdateIssueType) -> Result<IssueType, AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/issue-types/{}", super::GITHUB_BASE_API_URL, org, issue_type_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PutOrgsUpdateIssueType>(body)?),
+            method: "PUT",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsUpdateIssueTypeError::Status404(github_response.to_json()?).into()),
+                422 => Err(OrgsUpdateIssueTypeError::Status422(github_response.to_json()?).into()),
+                code => Err(OrgsUpdateIssueTypeError::Generic { code }.into()),
             }
         }
     }
