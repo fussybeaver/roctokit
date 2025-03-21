@@ -1,0 +1,13 @@
+pull_request_rules:
+  - name: Automatic merge for openAPI generated models
+    conditions:
+      - label=automation
+      - label=greptile
+      - author=github-actions[bot]
+      - head-repo-full-name=fussybeaver/roctokit
+      - commented-reviews-by=greptile-apps[bot]
+      - "#commits = 1"
+      - "files ~= ^roctogen/"
+    actions:
+      merge:
+        method: squash
