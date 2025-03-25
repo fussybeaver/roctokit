@@ -1,7 +1,8 @@
 name: Update OpenAPI
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 8 * * 2-6'
 
 jobs:
   update-models:
