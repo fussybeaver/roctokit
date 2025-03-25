@@ -27573,6 +27573,9 @@ pub struct RepositoryrulepullrequestParameters {
     /// Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled.
     #[serde(skip_serializing_if="Option::is_none")]
     pub allowed_merge_methods: Option<Vec<String>>,
+    /// > [!NOTE] > `automatic_copilot_code_review_enabled` is in beta and subject to change.  Automatically request review from Copilot for new pull requests, if the author has access to Copilot code review.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub automatic_copilot_code_review_enabled: Option<bool>,
     /// New, reviewable commits pushed will dismiss previous pull request review approvals.
     #[serde(skip_serializing_if="Option::is_none")]
     pub dismiss_stale_reviews_on_push: Option<bool>,
@@ -33194,6 +33197,22 @@ pub struct WebhookCustomPropertyDeleted {
     pub action: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub definition: Option<WebhookcustompropertydeletedDefinition>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enterprise: Option<EnterpriseWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookCustomPropertyPromotedToEnterprise {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub definition: Option<CustomProperty>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub enterprise: Option<EnterpriseWebhooks>,
     #[serde(skip_serializing_if="Option::is_none")]
