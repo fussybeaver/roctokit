@@ -9598,41 +9598,6 @@ pub struct CopilotSeatDetails {
     pub plan_type: Option<String>,
 }
 
-/// Summary of Copilot usage.
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct CopilotUsageMetrics {
-    /// The date for which the usage metrics are reported, in `YYYY-MM-DD` format.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub day: Option<chrono::DateTime<chrono::Utc>>,
-    /// The total number of Copilot code completion suggestions shown to users.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_suggestions_count: Option<i64>,
-    /// The total number of Copilot code completion suggestions accepted by users.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_acceptances_count: Option<i64>,
-    /// The total number of lines of code completions suggested by Copilot.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_lines_suggested: Option<i64>,
-    /// The total number of lines of code completions accepted by users.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_lines_accepted: Option<i64>,
-    /// The total number of users who were shown Copilot code completion suggestions during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_active_users: Option<i64>,
-    /// The total instances of users who accepted code suggested by Copilot Chat in the IDE (panel and inline).
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_chat_acceptances: Option<i64>,
-    /// The total number of chat turns (prompt and response pairs) sent between users and Copilot Chat in the IDE.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_chat_turns: Option<i64>,
-    /// The total number of users who interacted with Copilot Chat in the IDE during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total_active_chat_users: Option<i64>,
-    /// Breakdown of Copilot code completions usage by language and editor
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breakdown: Option<Vec<CopilotusagemetricsBreakdown>>,
-}
-
 /// Copilot usage metrics for a given day.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CopilotUsageMetricsDay {
@@ -9817,32 +9782,6 @@ pub struct CopilotidecodecompletionsModels {
     /// Code completion metrics for active languages, for the given editor.
     #[serde(skip_serializing_if="Option::is_none")]
     pub languages: Option<Vec<CopilotidecodecompletionsLanguages1>>,
-}
-
-/// Breakdown of Copilot usage by editor for this language
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct CopilotusagemetricsBreakdown {
-    /// The language in which Copilot suggestions were shown to users in the specified editor.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub language: Option<String>,
-    /// The editor in which Copilot suggestions were shown to users for the specified language.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub editor: Option<String>,
-    /// The number of Copilot suggestions shown to users in the editor specified during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub suggestions_count: Option<i64>,
-    /// The number of Copilot suggestions accepted by users in the editor specified during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub acceptances_count: Option<i64>,
-    /// The number of lines of code suggested by Copilot in the editor specified during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub lines_suggested: Option<i64>,
-    /// The number of lines of code accepted by users in the editor specified during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub lines_accepted: Option<i64>,
-    /// The number of users who were shown Copilot completion suggestions in the editor specified during the day specified.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub active_users: Option<i64>,
 }
 
 /// A GitHub App that is providing a custom deployment protection rule.
@@ -34466,6 +34405,27 @@ pub struct WebhookIssuesTransferred {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssuesTyped {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enterprise: Option<EnterpriseWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub issue: Option<WebhooksIssue>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WebhookIssuesUnassigned {
     /// The action that was performed.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -34534,6 +34494,27 @@ pub struct WebhookIssuesUnpinned {
     pub installation: Option<SimpleInstallation>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub issue: Option<WebhooksIssue2>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssuesUntyped {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enterprise: Option<EnterpriseWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub issue: Option<WebhooksIssue>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization: Option<OrganizationSimpleWebhooks>,
     #[serde(skip_serializing_if="Option::is_none")]
