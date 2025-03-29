@@ -1,0 +1,11 @@
+{
+  "labels": [
+    "automation"
+  ],
+  "comment": "",
+  "commentTypes": [],
+  "instructions": "Only add a description summary of the PR contents, don't add PR review comments on specific code.",
+  "ignorePatterns": "",
+  "triggerOnUpdates": false,
+  "shouldUpdateDescription": false
+}
