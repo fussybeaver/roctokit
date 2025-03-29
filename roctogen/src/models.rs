@@ -8038,6 +8038,8 @@ pub enum CodeScanningVariantAnalysisLanguage {
     PYTHON,
     #[serde(rename = "ruby")]
     RUBY,
+    #[serde(rename = "rust")]
+    RUST,
     #[serde(rename = "swift")]
     SWIFT,
 }
@@ -8052,6 +8054,7 @@ impl Display for CodeScanningVariantAnalysisLanguage {
             CodeScanningVariantAnalysisLanguage::JAVASCRIPT => write!(f, "{}", "javascript"),
             CodeScanningVariantAnalysisLanguage::PYTHON => write!(f, "{}", "python"),
             CodeScanningVariantAnalysisLanguage::RUBY => write!(f, "{}", "ruby"),
+            CodeScanningVariantAnalysisLanguage::RUST => write!(f, "{}", "rust"),
             CodeScanningVariantAnalysisLanguage::SWIFT => write!(f, "{}", "swift"),
         }
     }
@@ -8068,6 +8071,7 @@ impl std::str::FromStr for CodeScanningVariantAnalysisLanguage {
             "javascript" => Ok(CodeScanningVariantAnalysisLanguage::JAVASCRIPT),
             "python" => Ok(CodeScanningVariantAnalysisLanguage::PYTHON),
             "ruby" => Ok(CodeScanningVariantAnalysisLanguage::RUBY),
+            "rust" => Ok(CodeScanningVariantAnalysisLanguage::RUST),
             "swift" => Ok(CodeScanningVariantAnalysisLanguage::SWIFT),
             _ => Err(()),
         }
