@@ -27885,6 +27885,8 @@ pub struct ReposownerrepoSecurityAndAnalysis {
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<ReposownerrepoSecurityAndAnalysisAdvancedSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<ReposownerrepoSecurityAndAnalysisCodeSecurity>,
+    #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<ReposownerrepoSecurityAndAnalysisSecretScanning>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning_push_protection: Option<ReposownerrepoSecurityAndAnalysisSecretScanningPushProtection>,
@@ -27897,6 +27899,14 @@ pub struct ReposownerrepoSecurityAndAnalysis {
 /// Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ReposownerrepoSecurityAndAnalysisAdvancedSecurity {
+    /// Can be `enabled` or `disabled`.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub status: Option<String>,
+}
+
+/// Use the `status` property to enable or disable GitHub Code Security for this repository.
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ReposownerrepoSecurityAndAnalysisCodeSecurity {
     /// Can be `enabled` or `disabled`.
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
@@ -29523,6 +29533,8 @@ pub struct SecurityAdvisoryEpss {
 pub struct SecurityAndAnalysis {
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<SecurityandanalysisAdvancedSecurity>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<SecurityandanalysisAdvancedSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<SecurityandanalysisDependabotSecurityUpdates>,
     #[serde(skip_serializing_if="Option::is_none")]
