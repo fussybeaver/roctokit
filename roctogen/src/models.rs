@@ -18923,9 +18923,6 @@ pub struct PostOrgsCreateIssueType {
     /// Whether or not the issue type is enabled at the organization level.
     #[serde(skip_serializing_if="Option::is_none")]
     pub is_enabled: Option<bool>,
-    /// Whether or not the issue type is restricted to issues in private repositories.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub is_private: Option<bool>,
     /// Description of the issue type.
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
@@ -19355,9 +19352,6 @@ pub struct PutOrgsUpdateIssueType {
     /// Whether or not the issue type is enabled at the organization level.
     #[serde(skip_serializing_if="Option::is_none")]
     pub is_enabled: Option<bool>,
-    /// Whether or not the issue type is restricted to issues in private repositories.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub is_private: Option<bool>,
     /// Description of the issue type.
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
