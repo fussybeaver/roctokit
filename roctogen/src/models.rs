@@ -9299,6 +9299,8 @@ pub struct ContentTree {
     #[serde(skip_serializing_if="Option::is_none")]
     pub entries: Option<Vec<ContenttreeEntries>>,
     #[serde(skip_serializing_if="Option::is_none")]
+    pub encoding: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
     pub _links: Option<ContenttreeLinks>,
 }
 
