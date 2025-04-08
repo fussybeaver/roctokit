@@ -59,6 +59,7 @@
 //!   - [CodeSecurity](https://docs.rs/roctogen/latest/roctogen/endpoints/code_security/struct.CodeSecurity.html)
 //!   - [Gists](https://docs.rs/roctogen/latest/roctogen/endpoints/gists/struct.Gists.html)
 //!   - [HostedCompute](https://docs.rs/roctogen/latest/roctogen/endpoints/hosted_compute/struct.HostedCompute.html)
+//!   - [Campaigns](https://docs.rs/roctogen/latest/roctogen/endpoints/campaigns/struct.Campaigns.html)
 //!   - [DependencyGraph](https://docs.rs/roctogen/latest/roctogen/endpoints/dependency_graph/struct.DependencyGraph.html)
 //!   - [Copilot](https://docs.rs/roctogen/latest/roctogen/endpoints/copilot/struct.Copilot.html)
 //!   - [Dependabot](https://docs.rs/roctogen/latest/roctogen/endpoints/dependabot/struct.Dependabot.html)
