@@ -183,8 +183,8 @@ impl From<GitCreateTreeError> for AdapterError {
 /// Errors for the [Delete a reference](Git::delete_ref_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum GitDeleteRefError {
-    #[error("Validation failed, or the endpoint has been spammed.")]
-    Status422(ValidationError),
+    #[error("Validation failed, an attempt was made to delete the default branch, or the endpoint has been spammed.")]
+    Status422,
     #[error("Conflict")]
     Status409(BasicError),
     #[error("Status code: {}", code)]
@@ -194,7 +194,7 @@ pub enum GitDeleteRefError {
 impl From<GitDeleteRefError> for AdapterError {
     fn from(err: GitDeleteRefError) -> Self {
         let (description, status_code) = match err {
-            GitDeleteRefError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
+            GitDeleteRefError::Status422 => (String::from("Validation failed, an attempt was made to delete the default branch, or the endpoint has been spammed."), 422),
             GitDeleteRefError::Status409(_) => (String::from("Conflict"), 409),
             GitDeleteRefError::Generic { code } => (String::from("Generic"), code)
         };
@@ -997,7 +997,7 @@ impl<'api, C: Client> Git<'api, C> where AdapterError: From<<C as Client>::Err> 
             Ok(())
         } else {
             match github_response.status_code() {
-                422 => Err(GitDeleteRefError::Status422(github_response.to_json_async().await?).into()),
+                422 => Err(GitDeleteRefError::Status422.into()),
                 409 => Err(GitDeleteRefError::Status409(github_response.to_json_async().await?).into()),
                 code => Err(GitDeleteRefError::Generic { code }.into()),
             }
@@ -1038,7 +1038,7 @@ impl<'api, C: Client> Git<'api, C> where AdapterError: From<<C as Client>::Err> 
             Ok(())
         } else {
             match github_response.status_code() {
-                422 => Err(GitDeleteRefError::Status422(github_response.to_json()?).into()),
+                422 => Err(GitDeleteRefError::Status422.into()),
                 409 => Err(GitDeleteRefError::Status409(github_response.to_json()?).into()),
                 code => Err(GitDeleteRefError::Generic { code }.into()),
             }

@@ -5410,7 +5410,7 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
     /// The enablement status of Dependency Graph
@@ -5481,7 +5481,7 @@ pub struct PatchCodeSecurityUpdateConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
     /// The enablement status of Dependency Graph
@@ -5988,7 +5988,7 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
     /// The enablement status of Dependency Graph
@@ -6200,7 +6200,7 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security. Must be set to enabled if you want to enable any GHAS settings.
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
     /// The enablement status of Dependency Graph
@@ -9719,7 +9719,7 @@ pub struct CopilotOrganizationSeatBreakdown {
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CopilotSeatDetails {
     #[serde(skip_serializing_if="Option::is_none")]
-    pub assignee: Option<SimpleUser>,
+    pub assignee: Option<NullableSimpleUser>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization: Option<NullableOrganizationSimple>,
     /// The team through which the assignee is granted access to GitHub Copilot, if applicable.
