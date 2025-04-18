@@ -233,8 +233,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Create a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
     /// 
@@ -278,8 +276,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Create a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Creates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
     /// 
@@ -324,8 +320,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Delete a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Delete a private registry configuration at the organization-level.
     /// 
@@ -369,8 +363,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Delete a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Delete a private registry configuration at the organization-level.
     /// 
@@ -415,8 +407,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Get a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Get the configuration of a single private registry defined for an organization, omitting its encrypted value.
     /// 
@@ -459,8 +449,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Get a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Get the configuration of a single private registry defined for an organization, omitting its encrypted value.
     /// 
@@ -504,8 +492,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Get private registries public key for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Gets the org public key, which is needed to encrypt private registry secrets. You need to encrypt a secret before you can create or update secrets.
     /// 
@@ -548,8 +534,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Get private registries public key for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Gets the org public key, which is needed to encrypt private registry secrets. You need to encrypt a secret before you can create or update secrets.
     /// 
@@ -593,8 +577,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # List private registries for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Lists all private registry configurations available at the organization-level without revealing their encrypted
     /// values.
@@ -643,8 +625,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # List private registries for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Lists all private registry configurations available at the organization-level without revealing their encrypted
     /// values.
@@ -695,8 +675,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Update a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
     /// 
@@ -740,8 +718,6 @@ impl<'api, C: Client> PrivateRegistries<'api, C> where AdapterError: From<<C as 
     ///
     /// # Update a private registry for an organization
     ///
-    /// > [!NOTE]
-    /// > This endpoint is in public preview and is subject to change.
     /// 
     /// Updates a private registry configuration with an encrypted value for an organization. Encrypt your secret using [LibSodium](https://libsodium.gitbook.io/doc/bindings_for_other_languages). For more information, see "[Encrypting secrets for the REST API](https://docs.github.com/rest/guides/encrypting-secrets-for-the-rest-api)."
     /// 
