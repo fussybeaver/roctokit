@@ -12783,6 +12783,25 @@ pub struct GpgkeySubkeys {
     pub revoked: Option<bool>,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Has { 
+    HasVariant0(String),
+    HasVariant1(Vec<String>),
+}
+
+impl From<String> for Has {
+    fn from(value: String) -> Self {
+        Has::HasVariant0(value)
+    }
+}
+
+impl From<Vec<String>> for Has {
+    fn from(value: Vec<String>) -> Self {
+        Has::HasVariant1(value)
+    }
+}
+
 /// Webhooks for repositories.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Hook {

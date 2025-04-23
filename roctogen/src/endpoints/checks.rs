@@ -1337,8 +1337,6 @@ impl<'api, C: Client> Checks<'api, C> where AdapterError: From<<C as Client>::Er
     /// Triggers GitHub to rerequest an existing check run, without pushing new code to a repository. This endpoint will trigger the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) event with the action `rerequested`. When a check run is `rerequested`, the `status` of the check suite it belongs to is reset to `queued` and the `conclusion` is cleared. The check run itself is not updated. GitHub apps recieving the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) with the `rerequested` action should then decide if the check run should be reset or updated and call the [update `check_run` endpoint](https://docs.github.com/rest/checks/runs#update-a-check-run) to update the check_run if desired.
     /// 
     /// For more information about how to re-run GitHub Actions jobs, see "[Re-run a job from a workflow run](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)".
-    /// 
-    /// OAuth apps and personal access tokens (classic) cannot use this endpoint.
     ///
     /// [GitHub API docs for rerequest_run](https://docs.github.com/rest/checks/runs#rerequest-a-check-run)
     ///
@@ -1382,8 +1380,6 @@ impl<'api, C: Client> Checks<'api, C> where AdapterError: From<<C as Client>::Er
     /// Triggers GitHub to rerequest an existing check run, without pushing new code to a repository. This endpoint will trigger the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) event with the action `rerequested`. When a check run is `rerequested`, the `status` of the check suite it belongs to is reset to `queued` and the `conclusion` is cleared. The check run itself is not updated. GitHub apps recieving the [`check_run` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) with the `rerequested` action should then decide if the check run should be reset or updated and call the [update `check_run` endpoint](https://docs.github.com/rest/checks/runs#update-a-check-run) to update the check_run if desired.
     /// 
     /// For more information about how to re-run GitHub Actions jobs, see "[Re-run a job from a workflow run](https://docs.github.com/rest/actions/workflow-runs#re-run-a-job-from-a-workflow-run)".
-    /// 
-    /// OAuth apps and personal access tokens (classic) cannot use this endpoint.
     ///
     /// [GitHub API docs for rerequest_run](https://docs.github.com/rest/checks/runs#rerequest-a-check-run)
     ///
@@ -1426,8 +1422,6 @@ impl<'api, C: Client> Checks<'api, C> where AdapterError: From<<C as Client>::Er
     /// # Rerequest a check suite
     ///
     /// Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
-    /// 
-    /// OAuth apps and personal access tokens (classic) cannot use this endpoint.
     ///
     /// [GitHub API docs for rerequest_suite](https://docs.github.com/rest/checks/suites#rerequest-a-check-suite)
     ///
@@ -1466,8 +1460,6 @@ impl<'api, C: Client> Checks<'api, C> where AdapterError: From<<C as Client>::Er
     /// # Rerequest a check suite
     ///
     /// Triggers GitHub to rerequest an existing check suite, without pushing new code to a repository. This endpoint will trigger the [`check_suite` webhook](https://docs.github.com/webhooks/event-payloads/#check_suite) event with the action `rerequested`. When a check suite is `rerequested`, its `status` is reset to `queued` and the `conclusion` is cleared.
-    /// 
-    /// OAuth apps and personal access tokens (classic) cannot use this endpoint.
     ///
     /// [GitHub API docs for rerequest_suite](https://docs.github.com/rest/checks/suites#rerequest-a-check-suite)
     ///
