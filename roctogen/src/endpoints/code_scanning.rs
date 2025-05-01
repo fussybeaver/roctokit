@@ -238,6 +238,8 @@ pub enum CodeScanningGetAnalysisError {
     Status403(BasicError),
     #[error("Resource not found")]
     Status404(BasicError),
+    #[error("Response if analysis could not be processed")]
+    Status422(BasicError),
     #[error("Service unavailable")]
     Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
     #[error("Status code: {}", code)]
@@ -249,6 +251,7 @@ impl From<CodeScanningGetAnalysisError> for AdapterError {
         let (description, status_code) = match err {
             CodeScanningGetAnalysisError::Status403(_) => (String::from("Response if GitHub Advanced Security is not enabled for this repository"), 403),
             CodeScanningGetAnalysisError::Status404(_) => (String::from("Resource not found"), 404),
+            CodeScanningGetAnalysisError::Status422(_) => (String::from("Response if analysis could not be processed"), 422),
             CodeScanningGetAnalysisError::Status503(_) => (String::from("Service unavailable"), 503),
             CodeScanningGetAnalysisError::Generic { code } => (String::from("Generic"), code)
         };
@@ -2160,6 +2163,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
             match github_response.status_code() {
                 403 => Err(CodeScanningGetAnalysisError::Status403(github_response.to_json_async().await?).into()),
                 404 => Err(CodeScanningGetAnalysisError::Status404(github_response.to_json_async().await?).into()),
+                422 => Err(CodeScanningGetAnalysisError::Status422(github_response.to_json_async().await?).into()),
                 503 => Err(CodeScanningGetAnalysisError::Status503(github_response.to_json_async().await?).into()),
                 code => Err(CodeScanningGetAnalysisError::Generic { code }.into()),
             }
@@ -2218,6 +2222,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
             match github_response.status_code() {
                 403 => Err(CodeScanningGetAnalysisError::Status403(github_response.to_json()?).into()),
                 404 => Err(CodeScanningGetAnalysisError::Status404(github_response.to_json()?).into()),
+                422 => Err(CodeScanningGetAnalysisError::Status422(github_response.to_json()?).into()),
                 503 => Err(CodeScanningGetAnalysisError::Status503(github_response.to_json()?).into()),
                 code => Err(CodeScanningGetAnalysisError::Generic { code }.into()),
             }
