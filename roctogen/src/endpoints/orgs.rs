@@ -3283,7 +3283,7 @@ impl<'enc> From<&'enc PerPage> for OrgsListInvitationTeamsParams {
 /// Query parameters for the [List organization members](Orgs::list_members_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct OrgsListMembersParams<'req> {
-    /// Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. This options is only available for organization owners.
+    /// Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only members with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned. These options are only available for organization owners.
     filter: Option<&'req str>, 
     /// Filter members returned by their role.
     role: Option<&'req str>, 
@@ -3298,7 +3298,7 @@ impl<'req> OrgsListMembersParams<'req> {
         Self::default()
     }
 
-    /// Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. This options is only available for organization owners.
+    /// Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only members with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned. These options are only available for organization owners.
     pub fn filter(self, filter: &'req str) -> Self {
         Self {
             filter: Some(filter),
@@ -3484,7 +3484,7 @@ impl<'enc> From<&'enc PerPage> for OrgsListOrgRoleUsersParams {
 /// Query parameters for the [List outside collaborators for an organization](Orgs::list_outside_collaborators_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct OrgsListOutsideCollaboratorsParams<'req> {
-    /// Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned.
+    /// Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only outside collaborators with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned.
     filter: Option<&'req str>, 
     /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     per_page: Option<u16>, 
@@ -3497,7 +3497,7 @@ impl<'req> OrgsListOutsideCollaboratorsParams<'req> {
         Self::default()
     }
 
-    /// Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned.
+    /// Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only outside collaborators with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned.
     pub fn filter(self, filter: &'req str) -> Self {
         Self {
             filter: Some(filter),
