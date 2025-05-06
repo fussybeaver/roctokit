@@ -105,7 +105,7 @@ pub enum CodespacesCheckPermissionsForDevcontainerError {
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -177,7 +177,7 @@ pub enum CodespacesCreateForAuthenticatedUserError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -297,7 +297,7 @@ pub enum CodespacesCreateWithPrForAuthenticatedUserError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -335,7 +335,7 @@ pub enum CodespacesCreateWithRepoForAuthenticatedUserError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }

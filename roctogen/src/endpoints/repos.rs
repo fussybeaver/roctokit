@@ -347,7 +347,7 @@ pub enum ReposCompareCommitsError {
     #[error("Internal Error")]
     Status500(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -1351,7 +1351,7 @@ pub enum ReposDeleteFileError {
     #[error("Conflict")]
     Status409(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -2218,7 +2218,7 @@ pub enum ReposGetCommitError {
     #[error("Internal Error")]
     Status500(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Conflict")]
     Status409(BasicError),
     #[error("Status code: {}", code)]
