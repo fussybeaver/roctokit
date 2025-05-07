@@ -40,7 +40,7 @@ pub enum SecretScanningCreatePushProtectionBypassError {
     #[error("Bad request, input data missing or incorrect.")]
     Status422,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -71,7 +71,7 @@ pub enum SecretScanningGetAlertError {
     #[error("Repository is public, or secret scanning is disabled for the repository, or the resource is not found")]
     Status404,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -99,7 +99,7 @@ pub enum SecretScanningGetScanHistoryError {
     #[error("Repository does not have GitHub Advanced Security or secret scanning enabled")]
     Status404,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -126,7 +126,7 @@ pub enum SecretScanningListAlertsForEnterpriseError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -153,7 +153,7 @@ pub enum SecretScanningListAlertsForOrgError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -180,7 +180,7 @@ pub enum SecretScanningListAlertsForRepoError {
     #[error("Repository is public or secret scanning is disabled for the repository")]
     Status404,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -207,7 +207,7 @@ pub enum SecretScanningListLocationsForAlertError {
     #[error("Repository is public, or secret scanning is disabled for the repository, or the resource is not found")]
     Status404,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -238,7 +238,7 @@ pub enum SecretScanningUpdateAlertError {
     #[error("State does not match the resolution or resolution comment")]
     Status422,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }

@@ -175,7 +175,7 @@ pub enum IssuesCreateError {
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Gone")]
@@ -1033,7 +1033,7 @@ pub enum IssuesReprioritizeSubIssueError {
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationErrorSimple),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -1122,7 +1122,7 @@ pub enum IssuesUpdateError {
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Forbidden")]
     Status403(BasicError),
     #[error("Moved permanently")]
