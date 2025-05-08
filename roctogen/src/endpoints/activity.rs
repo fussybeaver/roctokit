@@ -305,7 +305,7 @@ pub enum ActivityListPublicEventsError {
     #[error("Forbidden")]
     Status403(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
