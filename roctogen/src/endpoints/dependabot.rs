@@ -521,7 +521,7 @@ pub struct DependabotListAlertsForEnterpriseParams<'req> {
     package: Option<&'req str>, 
     /// CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as: - An exact number (`n`) - Comparators such as `>n`, `<n`, `>=n`, `<=n` - A range like `n..n`, where `n` is a number from 0.0 to 1.0  Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned.
     epss_percentage: Option<&'req str>, 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     has: Option<Has>, 
     /// The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
     scope: Option<&'req str>, 
@@ -646,7 +646,7 @@ impl<'req> DependabotListAlertsForEnterpriseParams<'req> {
         }
     }
 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     pub fn has(self, has: Has) -> Self {
         Self {
             state: self.state, 
@@ -840,7 +840,7 @@ pub struct DependabotListAlertsForOrgParams<'req> {
     package: Option<&'req str>, 
     /// CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as: - An exact number (`n`) - Comparators such as `>n`, `<n`, `>=n`, `<=n` - A range like `n..n`, where `n` is a number from 0.0 to 1.0  Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned.
     epss_percentage: Option<&'req str>, 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     has: Option<Has>, 
     /// The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
     scope: Option<&'req str>, 
@@ -965,7 +965,7 @@ impl<'req> DependabotListAlertsForOrgParams<'req> {
         }
     }
 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     pub fn has(self, has: Has) -> Self {
         Self {
             state: self.state, 
@@ -1161,7 +1161,7 @@ pub struct DependabotListAlertsForRepoParams<'req> {
     manifest: Option<&'req str>, 
     /// CVE Exploit Prediction Scoring System (EPSS) percentage. Can be specified as: - An exact number (`n`) - Comparators such as `>n`, `<n`, `>=n`, `<=n` - A range like `n..n`, where `n` is a number from 0.0 to 1.0  Filters the list of alerts based on EPSS percentages. If specified, only alerts with the provided EPSS percentages will be returned.
     epss_percentage: Option<&'req str>, 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     has: Option<Has>, 
     /// The scope of the vulnerable dependency. If specified, only alerts with this scope will be returned.
     scope: Option<&'req str>, 
@@ -1320,7 +1320,7 @@ impl<'req> DependabotListAlertsForRepoParams<'req> {
         }
     }
 
-    /// Filters the list of alerts based on whether the alert has a patch. If specified, only alerts with a patch will be returned. Multiple `has` filters can be chained to check if multiple properties are present.
+    /// Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.
     pub fn has(self, has: Has) -> Self {
         Self {
             state: self.state, 

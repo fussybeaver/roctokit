@@ -36,7 +36,7 @@ pub enum SearchCodeError {
     #[error("Not modified")]
     Status304,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Forbidden")]
@@ -91,7 +91,7 @@ impl From<SearchCommitsError> for AdapterError {
 #[derive(Debug, thiserror::Error)]
 pub enum SearchIssuesAndPullRequestsError {
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Not modified")]
@@ -157,7 +157,7 @@ impl From<SearchLabelsError> for AdapterError {
 #[derive(Debug, thiserror::Error)]
 pub enum SearchReposError {
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Not modified")]
@@ -213,7 +213,7 @@ pub enum SearchUsersError {
     #[error("Not modified")]
     Status304,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Validation failed, or the endpoint has been spammed.")]
     Status422(ValidationError),
     #[error("Status code: {}", code)]
