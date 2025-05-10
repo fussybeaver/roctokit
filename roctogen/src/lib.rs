@@ -71,6 +71,7 @@
 //!   - [Checks](https://docs.rs/roctogen/latest/roctogen/endpoints/checks/struct.Checks.html)
 //!   - [Billing](https://docs.rs/roctogen/latest/roctogen/endpoints/billing/struct.Billing.html)
 //!   - [Interactions](https://docs.rs/roctogen/latest/roctogen/endpoints/interactions/struct.Interactions.html)
+//!   - [Credentials](https://docs.rs/roctogen/latest/roctogen/endpoints/credentials/struct.Credentials.html)
 //!   - [Codespaces](https://docs.rs/roctogen/latest/roctogen/endpoints/codespaces/struct.Codespaces.html)
 //!   - [Emojis](https://docs.rs/roctogen/latest/roctogen/endpoints/emojis/struct.Emojis.html)
 //!
