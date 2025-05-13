@@ -42,7 +42,7 @@ pub enum CampaignsCreateCampaignError {
     #[error("Too Many Requests")]
     Status429,
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -72,7 +72,7 @@ pub enum CampaignsDeleteCampaignError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -101,7 +101,7 @@ pub enum CampaignsGetCampaignSummaryError {
     #[error("Unprocessable Entity")]
     Status422(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -129,7 +129,7 @@ pub enum CampaignsListOrgCampaignsError {
     #[error("Resource not found")]
     Status404(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -160,7 +160,7 @@ pub enum CampaignsUpdateCampaignError {
     #[error("Unprocessable Entity")]
     Status422(BasicError),
     #[error("Service unavailable")]
-    Status503(PostCodespacesCreateForAuthenticatedUserResponse503),
+    Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }

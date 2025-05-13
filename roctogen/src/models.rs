@@ -2757,6 +2757,13 @@ pub struct BillingUsageReport {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BillingUsageReportUser {
+    #[serde(rename = "usageItems")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub usage_items: Option<Vec<BillingusagereportuserUsageItems>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct BillingusagereportUsageItems {
     /// Date of the usage line item.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -2794,6 +2801,46 @@ pub struct BillingusagereportUsageItems {
     #[serde(rename = "organizationName")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization_name: Option<String>,
+    /// Name of the repository.
+    #[serde(rename = "repositoryName")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository_name: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BillingusagereportuserUsageItems {
+    /// Date of the usage line item.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub date: Option<String>,
+    /// Product name.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub product: Option<String>,
+    /// SKU name.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sku: Option<String>,
+    /// Quantity of the usage line item.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub quantity: Option<i64>,
+    /// Unit type of the usage line item.
+    #[serde(rename = "unitType")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub unit_type: Option<String>,
+    /// Price per unit of the usage line item.
+    #[serde(rename = "pricePerUnit")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub price_per_unit: Option<f64>,
+    /// Gross amount of the usage line item.
+    #[serde(rename = "grossAmount")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub gross_amount: Option<f64>,
+    /// Discount amount of the usage line item.
+    #[serde(rename = "discountAmount")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub discount_amount: Option<f64>,
+    /// Net amount of the usage line item.
+    #[serde(rename = "netAmount")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub net_amount: Option<f64>,
     /// Name of the repository.
     #[serde(rename = "repositoryName")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -6075,7 +6122,7 @@ pub struct PostTeamsCreate {
     /// The description of the team.
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// List GitHub IDs for organization members who will become team maintainers.
+    /// List GitHub usernames for organization members who will become team maintainers.
     #[serde(skip_serializing_if="Option::is_none")]
     pub maintainers: Option<Vec<String>>,
     /// The full name (e.g., \"organization-name/repository-name\") of repositories to add the team to.
@@ -13870,7 +13917,7 @@ impl From<RepositoryRuleViolationError> for PostGitCreateBlobResponse422 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostCodespacesCreateForAuthenticatedUserResponse503 {
+pub struct GetBillingGetGithubBillingUsageReportUserResponse503 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -14155,7 +14202,7 @@ pub struct Issue {
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignee: Option<User1>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub assignees: Option<Vec<User5>>,
+    pub assignees: Option<Vec<User1>>,
     /// How the author is associated with the repository.
     #[serde(skip_serializing_if="Option::is_none")]
     pub author_association: Option<String>,
@@ -14742,6 +14789,9 @@ pub struct Issue6 {
     pub url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub user: Option<User>,
+    #[serde(rename = "type")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub _type: Option<IssueType>,
 }
 
 /// The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) itself.
@@ -29152,7 +29202,7 @@ impl std::str::FromStr for SecretScanningAlertResolution {
     }
 }
 
-/// An optional comment when closing an alert. Cannot be updated or deleted. Must be `null` when changing `state` to `open`.
+/// An optional comment when closing or reopening an alert. Cannot be updated or deleted.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SecretScanningAlertResolutionComment {
 }
