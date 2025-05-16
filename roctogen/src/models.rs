@@ -17078,6 +17078,8 @@ pub struct NullableRepository {
     /// Whether anonymous git access is enabled for this repository
     #[serde(skip_serializing_if="Option::is_none")]
     pub anonymous_access_enabled: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_search_index_status: Option<RepositoryCodeSearchIndexStatus>,
 }
 
 /// The repository on GitHub where the event occurred. Webhook payloads contain the `repository` property when the event occurs from activity in a repository.
@@ -26306,6 +26308,15 @@ pub struct RepositoryAdvisoryVulnerability {
     /// The functions in the package that are affected.
     #[serde(skip_serializing_if="Option::is_none")]
     pub vulnerable_functions: Option<Vec<String>>,
+}
+
+/// The status of the code search index for this repository
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RepositoryCodeSearchIndexStatus {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub lexical_search_ok: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub lexical_commit_sha: Option<String>,
 }
 
 /// Repository Collaborator Permission
