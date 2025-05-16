@@ -1089,6 +1089,8 @@ pub enum ReposDeleteError {
     Status307(BasicError),
     #[error("Resource not found")]
     Status404(BasicError),
+    #[error("Conflict")]
+    Status409(BasicError),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -1099,6 +1101,7 @@ impl From<ReposDeleteError> for AdapterError {
             ReposDeleteError::Status403(_) => (String::from("If an organization owner has configured the organization to prevent members from deleting organization-owned repositories, a member will get this response:"), 403),
             ReposDeleteError::Status307(_) => (String::from("Temporary Redirect"), 307),
             ReposDeleteError::Status404(_) => (String::from("Resource not found"), 404),
+            ReposDeleteError::Status409(_) => (String::from("Conflict"), 409),
             ReposDeleteError::Generic { code } => (String::from("Generic"), code)
         };
 
@@ -11227,6 +11230,7 @@ impl<'api, C: Client> Repos<'api, C> where AdapterError: From<<C as Client>::Err
                 403 => Err(ReposDeleteError::Status403(github_response.to_json_async().await?).into()),
                 307 => Err(ReposDeleteError::Status307(github_response.to_json_async().await?).into()),
                 404 => Err(ReposDeleteError::Status404(github_response.to_json_async().await?).into()),
+                409 => Err(ReposDeleteError::Status409(github_response.to_json_async().await?).into()),
                 code => Err(ReposDeleteError::Generic { code }.into()),
             }
         }
@@ -11274,6 +11278,7 @@ impl<'api, C: Client> Repos<'api, C> where AdapterError: From<<C as Client>::Err
                 403 => Err(ReposDeleteError::Status403(github_response.to_json()?).into()),
                 307 => Err(ReposDeleteError::Status307(github_response.to_json()?).into()),
                 404 => Err(ReposDeleteError::Status404(github_response.to_json()?).into()),
+                409 => Err(ReposDeleteError::Status409(github_response.to_json()?).into()),
                 code => Err(ReposDeleteError::Generic { code }.into()),
             }
         }
