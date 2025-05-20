@@ -720,6 +720,8 @@ impl From<ActionsDeleteRepoVariableError> for AdapterError {
 /// Errors for the [Delete a self-hosted runner from an organization](Actions::delete_self_hosted_runner_from_org_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum ActionsDeleteSelfHostedRunnerFromOrgError {
+    #[error("Validation failed, or the endpoint has been spammed.")]
+    Status422(ValidationErrorSimple),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -727,6 +729,7 @@ pub enum ActionsDeleteSelfHostedRunnerFromOrgError {
 impl From<ActionsDeleteSelfHostedRunnerFromOrgError> for AdapterError {
     fn from(err: ActionsDeleteSelfHostedRunnerFromOrgError) -> Self {
         let (description, status_code) = match err {
+            ActionsDeleteSelfHostedRunnerFromOrgError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
             ActionsDeleteSelfHostedRunnerFromOrgError::Generic { code } => (String::from("Generic"), code)
         };
 
@@ -741,6 +744,8 @@ impl From<ActionsDeleteSelfHostedRunnerFromOrgError> for AdapterError {
 /// Errors for the [Delete a self-hosted runner from a repository](Actions::delete_self_hosted_runner_from_repo_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum ActionsDeleteSelfHostedRunnerFromRepoError {
+    #[error("Validation failed, or the endpoint has been spammed.")]
+    Status422(ValidationErrorSimple),
     #[error("Status code: {}", code)]
     Generic { code: u16 },
 }
@@ -748,6 +753,7 @@ pub enum ActionsDeleteSelfHostedRunnerFromRepoError {
 impl From<ActionsDeleteSelfHostedRunnerFromRepoError> for AdapterError {
     fn from(err: ActionsDeleteSelfHostedRunnerFromRepoError) -> Self {
         let (description, status_code) = match err {
+            ActionsDeleteSelfHostedRunnerFromRepoError::Status422(_) => (String::from("Validation failed, or the endpoint has been spammed."), 422),
             ActionsDeleteSelfHostedRunnerFromRepoError::Generic { code } => (String::from("Generic"), code)
         };
 
@@ -7617,6 +7623,7 @@ impl<'api, C: Client> Actions<'api, C> where AdapterError: From<<C as Client>::E
             Ok(())
         } else {
             match github_response.status_code() {
+                422 => Err(ActionsDeleteSelfHostedRunnerFromOrgError::Status422(github_response.to_json_async().await?).into()),
                 code => Err(ActionsDeleteSelfHostedRunnerFromOrgError::Generic { code }.into()),
             }
         }
@@ -7660,6 +7667,7 @@ impl<'api, C: Client> Actions<'api, C> where AdapterError: From<<C as Client>::E
             Ok(())
         } else {
             match github_response.status_code() {
+                422 => Err(ActionsDeleteSelfHostedRunnerFromOrgError::Status422(github_response.to_json()?).into()),
                 code => Err(ActionsDeleteSelfHostedRunnerFromOrgError::Generic { code }.into()),
             }
         }
@@ -7702,6 +7710,7 @@ impl<'api, C: Client> Actions<'api, C> where AdapterError: From<<C as Client>::E
             Ok(())
         } else {
             match github_response.status_code() {
+                422 => Err(ActionsDeleteSelfHostedRunnerFromRepoError::Status422(github_response.to_json_async().await?).into()),
                 code => Err(ActionsDeleteSelfHostedRunnerFromRepoError::Generic { code }.into()),
             }
         }
@@ -7745,6 +7754,7 @@ impl<'api, C: Client> Actions<'api, C> where AdapterError: From<<C as Client>::E
             Ok(())
         } else {
             match github_response.status_code() {
+                422 => Err(ActionsDeleteSelfHostedRunnerFromRepoError::Status422(github_response.to_json()?).into()),
                 code => Err(ActionsDeleteSelfHostedRunnerFromRepoError::Generic { code }.into()),
             }
         }
