@@ -262,6 +262,26 @@ impl From<SecretScanningUpdateAlertError> for AdapterError {
 }
 
 
+/// Query parameters for the [Get a secret scanning alert](SecretScanning::get_alert_async()) endpoint.
+#[derive(Default, Serialize)]
+pub struct SecretScanningGetAlertParams {
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    hide_secret: Option<bool>
+}
+
+impl SecretScanningGetAlertParams {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    pub fn hide_secret(self, hide_secret: bool) -> Self {
+        Self {
+            hide_secret: Some(hide_secret),
+        }
+    }
+}
+
 /// Query parameters for the [List secret scanning alerts for an enterprise](SecretScanning::list_alerts_for_enterprise_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct SecretScanningListAlertsForEnterpriseParams<'req> {
@@ -286,7 +306,9 @@ pub struct SecretScanningListAlertsForEnterpriseParams<'req> {
     /// A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present.
     is_publicly_leaked: Option<bool>, 
     /// A boolean value representing whether or not to filter alerts by the multi-repo tag being present.
-    is_multi_repo: Option<bool>
+    is_multi_repo: Option<bool>, 
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    hide_secret: Option<bool>
 }
 
 impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
@@ -308,6 +330,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -325,6 +348,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -342,6 +366,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -359,6 +384,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -376,6 +402,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -393,6 +420,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -410,6 +438,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -427,6 +456,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -444,6 +474,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: Some(validity),
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -461,6 +492,7 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: Some(is_publicly_leaked),
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -478,6 +510,25 @@ impl<'req> SecretScanningListAlertsForEnterpriseParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: Some(is_multi_repo),
+            hide_secret: self.hide_secret, 
+        }
+    }
+
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    pub fn hide_secret(self, hide_secret: bool) -> Self {
+        Self {
+            state: self.state, 
+            secret_type: self.secret_type, 
+            resolution: self.resolution, 
+            sort: self.sort, 
+            direction: self.direction, 
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            validity: self.validity, 
+            is_publicly_leaked: self.is_publicly_leaked, 
+            is_multi_repo: self.is_multi_repo, 
+            hide_secret: Some(hide_secret),
         }
     }
 }
@@ -508,7 +559,9 @@ pub struct SecretScanningListAlertsForOrgParams<'req> {
     /// A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present.
     is_publicly_leaked: Option<bool>, 
     /// A boolean value representing whether or not to filter alerts by the multi-repo tag being present.
-    is_multi_repo: Option<bool>
+    is_multi_repo: Option<bool>, 
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    hide_secret: Option<bool>
 }
 
 impl<'req> SecretScanningListAlertsForOrgParams<'req> {
@@ -531,6 +584,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -549,6 +603,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -567,6 +622,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -585,6 +641,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -603,6 +660,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -621,6 +679,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -639,6 +698,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -657,6 +717,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -675,6 +736,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -693,6 +755,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: Some(validity),
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -711,6 +774,7 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: Some(is_publicly_leaked),
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -729,6 +793,26 @@ impl<'req> SecretScanningListAlertsForOrgParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: Some(is_multi_repo),
+            hide_secret: self.hide_secret, 
+        }
+    }
+
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    pub fn hide_secret(self, hide_secret: bool) -> Self {
+        Self {
+            state: self.state, 
+            secret_type: self.secret_type, 
+            resolution: self.resolution, 
+            sort: self.sort, 
+            direction: self.direction, 
+            page: self.page, 
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            validity: self.validity, 
+            is_publicly_leaked: self.is_publicly_leaked, 
+            is_multi_repo: self.is_multi_repo, 
+            hide_secret: Some(hide_secret),
         }
     }
 }
@@ -768,7 +852,9 @@ pub struct SecretScanningListAlertsForRepoParams<'req> {
     /// A boolean value representing whether or not to filter alerts by the publicly-leaked tag being present.
     is_publicly_leaked: Option<bool>, 
     /// A boolean value representing whether or not to filter alerts by the multi-repo tag being present.
-    is_multi_repo: Option<bool>
+    is_multi_repo: Option<bool>, 
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    hide_secret: Option<bool>
 }
 
 impl<'req> SecretScanningListAlertsForRepoParams<'req> {
@@ -791,6 +877,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -809,6 +896,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -827,6 +915,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -845,6 +934,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -863,6 +953,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -881,6 +972,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -899,6 +991,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -917,6 +1010,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -935,6 +1029,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -953,6 +1048,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: Some(validity),
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -971,6 +1067,7 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: Some(is_publicly_leaked),
             is_multi_repo: self.is_multi_repo, 
+            hide_secret: self.hide_secret, 
         }
     }
 
@@ -989,6 +1086,26 @@ impl<'req> SecretScanningListAlertsForRepoParams<'req> {
             validity: self.validity, 
             is_publicly_leaked: self.is_publicly_leaked, 
             is_multi_repo: Some(is_multi_repo),
+            hide_secret: self.hide_secret, 
+        }
+    }
+
+    /// A boolean value representing whether or not to hide literal secrets in the results.
+    pub fn hide_secret(self, hide_secret: bool) -> Self {
+        Self {
+            state: self.state, 
+            secret_type: self.secret_type, 
+            resolution: self.resolution, 
+            sort: self.sort, 
+            direction: self.direction, 
+            page: self.page, 
+            per_page: self.per_page, 
+            before: self.before, 
+            after: self.after, 
+            validity: self.validity, 
+            is_publicly_leaked: self.is_publicly_leaked, 
+            is_multi_repo: self.is_multi_repo, 
+            hide_secret: Some(hide_secret),
         }
     }
 }
@@ -1150,10 +1267,14 @@ impl<'api, C: Client> SecretScanning<'api, C> where AdapterError: From<<C as Cli
     /// [GitHub API docs for get_alert](https://docs.github.com/rest/secret-scanning/secret-scanning#get-a-secret-scanning-alert)
     ///
     /// ---
-    pub async fn get_alert_async(&self, owner: &str, repo: &str, alert_number: AlertNumber) -> Result<SecretScanningAlert, AdapterError> {
+    pub async fn get_alert_async(&self, owner: &str, repo: &str, alert_number: AlertNumber, query_params: Option<impl Into<SecretScanningGetAlertParams>>) -> Result<SecretScanningAlert, AdapterError> {
 
-        let request_uri = format!("{}/repos/{}/{}/secret-scanning/alerts/{}", super::GITHUB_BASE_API_URL, owner, repo, alert_number);
+        let mut request_uri = format!("{}/repos/{}/{}/secret-scanning/alerts/{}", super::GITHUB_BASE_API_URL, owner, repo, alert_number);
 
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            request_uri.push_str(&serde_urlencoded::to_string(params.into())?);
+        }
 
         let req = GitHubRequest {
             uri: request_uri,
@@ -1196,10 +1317,15 @@ impl<'api, C: Client> SecretScanning<'api, C> where AdapterError: From<<C as Cli
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn get_alert(&self, owner: &str, repo: &str, alert_number: AlertNumber) -> Result<SecretScanningAlert, AdapterError> {
+    pub fn get_alert(&self, owner: &str, repo: &str, alert_number: AlertNumber, query_params: Option<impl Into<SecretScanningGetAlertParams>>) -> Result<SecretScanningAlert, AdapterError> {
 
-        let request_uri = format!("{}/repos/{}/{}/secret-scanning/alerts/{}", super::GITHUB_BASE_API_URL, owner, repo, alert_number);
+        let mut request_uri = format!("{}/repos/{}/{}/secret-scanning/alerts/{}", super::GITHUB_BASE_API_URL, owner, repo, alert_number);
 
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            let qp: SecretScanningGetAlertParams = params.into();
+            request_uri.push_str(&serde_urlencoded::to_string(qp)?);
+        }
 
         let req = GitHubRequest {
             uri: request_uri,
