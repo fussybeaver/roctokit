@@ -23296,6 +23296,8 @@ pub struct ReleaseAsset {
     pub node_id: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub size: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub digest: Option<String>,
     /// State of the release asset.
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
