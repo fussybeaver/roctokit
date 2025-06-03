@@ -450,6 +450,60 @@ impl From<DependabotRemoveSelectedRepoFromOrgSecretError> for AdapterError {
     }
 }
 
+/// Errors for the [Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::repository_access_for_org_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum DependabotRepositoryAccessForOrgError {
+    #[error("Forbidden")]
+    Status403(BasicError),
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<DependabotRepositoryAccessForOrgError> for AdapterError {
+    fn from(err: DependabotRepositoryAccessForOrgError) -> Self {
+        let (description, status_code) = match err {
+            DependabotRepositoryAccessForOrgError::Status403(_) => (String::from("Forbidden"), 403),
+            DependabotRepositoryAccessForOrgError::Status404(_) => (String::from("Resource not found"), 404),
+            DependabotRepositoryAccessForOrgError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Set the default repository access level for Dependabot](Dependabot::set_repository_access_default_level_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum DependabotSetRepositoryAccessDefaultLevelError {
+    #[error("Forbidden")]
+    Status403(BasicError),
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<DependabotSetRepositoryAccessDefaultLevelError> for AdapterError {
+    fn from(err: DependabotSetRepositoryAccessDefaultLevelError) -> Self {
+        let (description, status_code) = match err {
+            DependabotSetRepositoryAccessDefaultLevelError::Status403(_) => (String::from("Forbidden"), 403),
+            DependabotSetRepositoryAccessDefaultLevelError::Status404(_) => (String::from("Resource not found"), 404),
+            DependabotSetRepositoryAccessDefaultLevelError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [Set selected repositories for an organization secret](Dependabot::set_selected_repos_for_org_secret_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum DependabotSetSelectedReposForOrgSecretError {
@@ -3169,6 +3223,184 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
             match github_response.status_code() {
                 409 => Err(DependabotRemoveSelectedRepoFromOrgSecretError::Status409.into()),
                 code => Err(DependabotRemoveSelectedRepoFromOrgSecretError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    ///
+    /// ---
+    pub async fn repository_access_for_org_async(&self, org: &str) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotRepositoryAccessForOrgError::Status403(github_response.to_json_async().await?).into()),
+                404 => Err(DependabotRepositoryAccessForOrgError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(DependabotRepositoryAccessForOrgError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn repository_access_for_org(&self, org: &str) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "GET",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotRepositoryAccessForOrgError::Status403(github_response.to_json()?).into()),
+                404 => Err(DependabotRepositoryAccessForOrgError::Status404(github_response.to_json()?).into()),
+                code => Err(DependabotRepositoryAccessForOrgError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Set the default repository access level for Dependabot
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Sets the default level of repository access Dependabot will have while performing an update.  Available values are:
+    /// - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories.
+    /// - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories.
+    /// 
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for set_repository_access_default_level](https://docs.github.com/rest/dependabot/repository-access#set-the-default-repository-access-level-for-dependabot)
+    ///
+    /// ---
+    pub async fn set_repository_access_default_level_async(&self, org: &str, body: PutDependabotSetRepositoryAccessDefaultLevel) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access/default-level", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PutDependabotSetRepositoryAccessDefaultLevel>(body)?),
+            method: "PUT",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotSetRepositoryAccessDefaultLevelError::Status403(github_response.to_json_async().await?).into()),
+                404 => Err(DependabotSetRepositoryAccessDefaultLevelError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(DependabotSetRepositoryAccessDefaultLevelError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Set the default repository access level for Dependabot
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Sets the default level of repository access Dependabot will have while performing an update.  Available values are:
+    /// - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories.
+    /// - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories.
+    /// 
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for set_repository_access_default_level](https://docs.github.com/rest/dependabot/repository-access#set-the-default-repository-access-level-for-dependabot)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn set_repository_access_default_level(&self, org: &str, body: PutDependabotSetRepositoryAccessDefaultLevel) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access/default-level", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PutDependabotSetRepositoryAccessDefaultLevel>(body)?),
+            method: "PUT",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotSetRepositoryAccessDefaultLevelError::Status403(github_response.to_json()?).into()),
+                404 => Err(DependabotSetRepositoryAccessDefaultLevelError::Status404(github_response.to_json()?).into()),
+                code => Err(DependabotSetRepositoryAccessDefaultLevelError::Generic { code }.into()),
             }
         }
     }
