@@ -1405,39 +1405,39 @@ impl std::str::FromStr for AllowedActions {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AnyOfbody190Source { 
-    AnyOfbody190SourceVariant0(String),
-    AnyOfbody190SourceVariant1(HashMap<String, Value>),
+pub enum AnyOfbody191Source { 
+    AnyOfbody191SourceVariant0(String),
+    AnyOfbody191SourceVariant1(HashMap<String, Value>),
 }
 
-impl From<String> for AnyOfbody190Source {
+impl From<String> for AnyOfbody191Source {
     fn from(value: String) -> Self {
-        AnyOfbody190Source::AnyOfbody190SourceVariant0(value)
+        AnyOfbody191Source::AnyOfbody191SourceVariant0(value)
     }
 }
 
-impl From<HashMap<String, Value>> for AnyOfbody190Source {
+impl From<HashMap<String, Value>> for AnyOfbody191Source {
     fn from(value: HashMap<String, Value>) -> Self {
-        AnyOfbody190Source::AnyOfbody190SourceVariant1(value)
+        AnyOfbody191Source::AnyOfbody191SourceVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AnyOfbody237SelectedRepositoryIdsItems { 
-    AnyOfbody237SelectedRepositoryIdsItemsVariant0(i32),
-    AnyOfbody237SelectedRepositoryIdsItemsVariant1(String),
+pub enum AnyOfbody238SelectedRepositoryIdsItems { 
+    AnyOfbody238SelectedRepositoryIdsItemsVariant0(i32),
+    AnyOfbody238SelectedRepositoryIdsItemsVariant1(String),
 }
 
-impl From<i32> for AnyOfbody237SelectedRepositoryIdsItems {
+impl From<i32> for AnyOfbody238SelectedRepositoryIdsItems {
     fn from(value: i32) -> Self {
-        AnyOfbody237SelectedRepositoryIdsItems::AnyOfbody237SelectedRepositoryIdsItemsVariant0(value)
+        AnyOfbody238SelectedRepositoryIdsItems::AnyOfbody238SelectedRepositoryIdsItemsVariant0(value)
     }
 }
 
-impl From<String> for AnyOfbody237SelectedRepositoryIdsItems {
+impl From<String> for AnyOfbody238SelectedRepositoryIdsItems {
     fn from(value: String) -> Self {
-        AnyOfbody237SelectedRepositoryIdsItems::AnyOfbody237SelectedRepositoryIdsItemsVariant1(value)
+        AnyOfbody238SelectedRepositoryIdsItems::AnyOfbody238SelectedRepositoryIdsItemsVariant1(value)
     }
 }
 
@@ -2898,6 +2898,22 @@ pub struct PostCodeSecurityAttachEnterpriseConfiguration {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostActionsGenerateRunnerJitconfigForRepo {
+    /// The name of the new runner.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// The ID of the runner group to register the runner to.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub runner_group_id: Option<i64>,
+    /// The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub labels: Option<Vec<String>>,
+    /// The working directory to be used for job execution, relative to the runner install directory.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub work_folder: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PutActionsSetCustomLabelsForSelfHostedRunnerForRepo {
     /// The names of the custom labels to set for the runner. You can pass an empty array to remove all custom labels.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -2988,6 +3004,13 @@ pub struct PatchActionsUpdateRepoVariable {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutCodeSecuritySetConfigurationAsDefaultForEnterprise {
+    /// Specify which types of repository this security configuration should be applied to by default.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub default_for_new_repos: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostActionsCreateWorkflowDispatch {
     /// The git reference for the workflow. The reference can be a branch or tag name.
     #[serde(rename = "ref")]
@@ -2996,13 +3019,6 @@ pub struct PostActionsCreateWorkflowDispatch {
     /// Input keys and values configured in the workflow file. The maximum number of properties is 10. Any default properties configured in the workflow file will be used when `inputs` are omitted.
     #[serde(skip_serializing_if="Option::is_none")]
     pub inputs: Option<HashMap<String, HashMap<String, Value>>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutCodeSecuritySetConfigurationAsDefaultForEnterprise {
-    /// Specify which types of repository this security configuration should be applied to by default.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub default_for_new_repos: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3156,13 +3172,6 @@ pub struct PutReposSetAppAccessRestrictions {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostReposAddAppAccessRestrictions {
-    /// The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub apps: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostGistsCreate {
     /// Description of the gist
     #[serde(skip_serializing_if="Option::is_none")]
@@ -3172,6 +3181,13 @@ pub struct PostGistsCreate {
     pub files: Option<HashMap<String, GistsFiles>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub public: Option<OneOfbody12Public>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostReposAddAppAccessRestrictions {
+    /// The GitHub Apps that have push access to this branch. Use the slugified version of the app name. **Note**: The list of users, apps, and teams in total is limited to 100 items.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub apps: Option<Vec<String>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3278,6 +3294,16 @@ impl From<HashMap<String, String>> for PostChecksCreate {
     }
 }
 
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchGistsUpdate {
+    /// The description of the gist.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub description: Option<String>,
+    /// The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`.  To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub files: Option<HashMap<String, GistsgistIdFiles>>,
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PatchChecksUpdate { 
@@ -3288,16 +3314,6 @@ impl From<HashMap<String, String>> for PatchChecksUpdate {
     fn from(value: HashMap<String, String>) -> Self {
         PatchChecksUpdate::PatchChecksUpdateVariant0(value)
     }
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchGistsUpdate {
-    /// The description of the gist.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub description: Option<String>,
-    /// The gist files to be updated, renamed, or deleted. Each `key` must match the current filename (including extension) of the targeted gist file. For example: `hello.py`.  To delete a file, set the whole file to null. For example: `hello.py : null`. The file will also be deleted if the specified object does not contain at least one of `content` or `filename`.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub files: Option<HashMap<String, GistsgistIdFiles>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3432,17 +3448,17 @@ pub struct PatchReposUpdateCommitComment {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostReactionsCreateForCommitComment {
-    /// The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the commit comment.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub content: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostGistsCreateComment {
     /// The comment text.
     #[serde(skip_serializing_if="Option::is_none")]
     pub body: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostReactionsCreateForCommitComment {
+    /// The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the commit comment.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub content: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3537,7 +3553,7 @@ pub struct PostReposCreateDeployment {
     #[serde(skip_serializing_if="Option::is_none")]
     pub required_contexts: Option<Vec<String>>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub payload: Option<OneOfbody145Payload>,
+    pub payload: Option<OneOfbody146Payload>,
     /// Name for the target deployment environment (e.g., `production`, `staging`, `qa`).
     #[serde(skip_serializing_if="Option::is_none")]
     pub environment: Option<String>,
@@ -3601,17 +3617,17 @@ pub struct PutReposCreateOrUpdateEnvironment {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostReposCreateDeploymentProtectionRule {
-    /// The ID of the custom app that will be enabled on the environment.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub integration_id: Option<i64>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PatchGistsUpdateComment {
     /// The comment text.
     #[serde(skip_serializing_if="Option::is_none")]
     pub body: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostReposCreateDeploymentProtectionRule {
+    /// The ID of the custom app that will be enabled on the environment.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub integration_id: Option<i64>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3728,16 +3744,6 @@ pub struct PostGitCreateTag {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostGitCreateTree {
-    /// Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub tree: Option<Vec<ReposownerrepogittreesTree>>,
-    /// The SHA1 of an existing Git tree object which will be used as the base for the new tree. If provided, a new Git tree object will be created from entries in the Git tree object pointed to by `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest commit on the branch you're working on. If not provided, GitHub will create a new Git tree object from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a part of the parent commit's tree and were not defined in the `tree` parameter will be listed as deleted by the new commit.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub base_tree: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostMarkdownRender {
     /// The Markdown text to render in HTML.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -3748,6 +3754,16 @@ pub struct PostMarkdownRender {
     /// The repository context to use when creating references in `gfm` mode.  For example, setting `context` to `octo-org/octo-repo` will change the text `#42` into an HTML link to issue 42 in the `octo-org/octo-repo` repository.
     #[serde(skip_serializing_if="Option::is_none")]
     pub context: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostGitCreateTree {
+    /// Objects (of `path`, `mode`, `type`, and `sha`) specifying a tree structure.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub tree: Option<Vec<ReposownerrepogittreesTree>>,
+    /// The SHA1 of an existing Git tree object which will be used as the base for the new tree. If provided, a new Git tree object will be created from entries in the Git tree object pointed to by `base_tree` and entries defined in the `tree` parameter. Entries defined in the `tree` parameter will overwrite items from `base_tree` with the same `path`. If you're creating new changes on a branch, then normally you'd set `base_tree` to the SHA1 of the Git tree object of the current latest commit on the branch you're working on. If not provided, GitHub will create a new Git tree object from only the entries defined in the `tree` parameter. If you create a new commit pointing to such a tree, then all files which were a part of the parent commit's tree and were not defined in the `tree` parameter will be listed as deleted by the new commit.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub base_tree: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3858,7 +3874,7 @@ pub struct PatchReposUpdateInvitation {
 pub struct PostIssuesCreate {
     /// The title of the issue.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub title: Option<OneOfbody168Title>,
+    pub title: Option<OneOfbody169Title>,
     /// The contents of the issue.
     #[serde(skip_serializing_if="Option::is_none")]
     pub body: Option<String>,
@@ -3866,10 +3882,10 @@ pub struct PostIssuesCreate {
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignee: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub milestone: Option<OneOfbody168Milestone>,
+    pub milestone: Option<OneOfbody169Milestone>,
     /// Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._
     #[serde(skip_serializing_if="Option::is_none")]
-    pub labels: Option<Vec<OneOfbody168LabelsItems>>,
+    pub labels: Option<Vec<OneOfbody169LabelsItems>>,
     /// Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignees: Option<Vec<String>>,
@@ -3877,13 +3893,6 @@ pub struct PostIssuesCreate {
     #[serde(rename = "type")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub _type: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchIssuesUpdateComment {
-    /// The contents of the comment.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub body: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -3897,6 +3906,13 @@ pub struct PutActivityMarkNotificationsAsRead {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchIssuesUpdateComment {
+    /// The contents of the comment.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub body: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostReactionsCreateForIssueComment {
     /// The [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions) to add to the issue comment.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -3907,7 +3923,7 @@ pub struct PostReactionsCreateForIssueComment {
 pub struct PatchIssuesUpdate {
     /// The title of the issue.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub title: Option<OneOfbody171Title>,
+    pub title: Option<OneOfbody172Title>,
     /// The contents of the issue.
     #[serde(skip_serializing_if="Option::is_none")]
     pub body: Option<String>,
@@ -3921,10 +3937,10 @@ pub struct PatchIssuesUpdate {
     #[serde(skip_serializing_if="Option::is_none")]
     pub state_reason: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub milestone: Option<OneOfbody171Milestone>,
+    pub milestone: Option<OneOfbody172Milestone>,
     /// Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub labels: Option<Vec<OneOfbody171LabelsItems>>,
+    pub labels: Option<Vec<OneOfbody172LabelsItems>>,
     /// Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped.
     #[serde(skip_serializing_if="Option::is_none")]
     pub assignees: Option<Vec<String>>,
@@ -4036,17 +4052,17 @@ pub struct PostReactionsCreateForIssue {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct DeleteIssuesRemoveSubIssue {
-    /// The id of the sub-issue to remove
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issue_id: Option<i64>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PutActivitySetThreadSubscription {
     /// Whether to block all notifications from a thread.
     #[serde(skip_serializing_if="Option::is_none")]
     pub ignored: Option<bool>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DeleteIssuesRemoveSubIssue {
+    /// The id of the sub-issue to remove
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sub_issue_id: Option<i64>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -4163,18 +4179,31 @@ pub struct PatchIssuesUpdateMilestone {
     pub due_on: Option<chrono::DateTime<chrono::Utc>>,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PatchDependabotUpdateRepositoryAccessForOrg { 
+    PatchDependabotUpdateRepositoryAccessForOrgVariant0(Value),
+}
+
+impl From<Value> for PatchDependabotUpdateRepositoryAccessForOrg {
+    fn from(value: Value) -> Self {
+        PatchDependabotUpdateRepositoryAccessForOrg::PatchDependabotUpdateRepositoryAccessForOrgVariant0(value)
+    }
+}
+
+impl Display for PatchDependabotUpdateRepositoryAccessForOrg {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self { 
+            PatchDependabotUpdateRepositoryAccessForOrg::PatchDependabotUpdateRepositoryAccessForOrgVariant0(value) => write!(f, "{}", value),
+        }
+    }
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PutActivityMarkRepoNotificationsAsRead {
     /// Describes the last point that notifications were checked. Anything updated since this time will not be marked as read. If you omit this parameter, all notifications are marked as read. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. Default: The current timestamp.
     #[serde(skip_serializing_if="Option::is_none")]
     pub last_read_at: Option<chrono::DateTime<chrono::Utc>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutDependabotSetRepositoryAccessDefaultLevel {
-    /// The default repository access level for Dependabot updates.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub default_level: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -4317,6 +4346,20 @@ pub struct PatchPullsUpdate {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DeleteAppsDeleteAuthorization {
+    /// The OAuth access token used to authenticate to the GitHub API.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub access_token: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutDependabotSetRepositoryAccessDefaultLevel {
+    /// The default repository access level for Dependabot updates.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub default_level: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostCodespacesCreateWithPrForAuthenticatedUser {
     /// The requested location for a new codespace. Best efforts are made to respect this upon creation. Assigned by IP if not provided.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -4348,106 +4391,6 @@ pub struct PostCodespacesCreateWithPrForAuthenticatedUser {
     /// Duration in minutes after codespace has gone idle in which it will be deleted. Must be integer minutes between 0 and 43200 (30 days).
     #[serde(skip_serializing_if="Option::is_none")]
     pub retention_period_minutes: Option<i64>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct DeleteAppsDeleteAuthorization {
-    /// The OAuth access token used to authenticate to the GitHub API.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub access_token: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchOrgsUpdate {
-    /// Billing email address. This address is not publicized.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub billing_email: Option<String>,
-    /// The company name.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub company: Option<String>,
-    /// The publicly visible email address.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub email: Option<String>,
-    /// The Twitter username of the company.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub twitter_username: Option<String>,
-    /// The location.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub location: Option<String>,
-    /// The shorthand name of the company.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-    /// The description of the company. The maximum size is 160 characters.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub description: Option<String>,
-    /// Whether an organization can use organization projects.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub has_organization_projects: Option<bool>,
-    /// Whether repositories that belong to the organization can use repository projects.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub has_repository_projects: Option<bool>,
-    /// Default permission level members have for organization repositories.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub default_repository_permission: Option<String>,
-    /// Whether of non-admin organization members can create repositories. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_repositories: Option<bool>,
-    /// Whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_internal_repositories: Option<bool>,
-    /// Whether organization members can create private repositories, which are visible to organization members with permission. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_private_repositories: Option<bool>,
-    /// Whether organization members can create public repositories, which are visible to anyone. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_public_repositories: Option<bool>,
-    /// Specifies which types of repositories non-admin organization members can create. `private` is only available to repositories that are part of an organization on GitHub Enterprise Cloud.  **Note:** This parameter is closing down and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_allowed_repository_creation_type: Option<String>,
-    /// Whether organization members can create GitHub Pages sites. Existing published sites will not be impacted.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_pages: Option<bool>,
-    /// Whether organization members can create public GitHub Pages sites. Existing published sites will not be impacted.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_public_pages: Option<bool>,
-    /// Whether organization members can create private GitHub Pages sites. Existing published sites will not be impacted.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_create_private_pages: Option<bool>,
-    /// Whether organization members can fork private organization repositories.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub members_can_fork_private_repositories: Option<bool>,
-    /// Whether contributors to organization repositories are required to sign off on commits they make through GitHub's web interface.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub web_commit_signoff_required: Option<bool>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub blog: Option<String>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether GitHub Advanced Security is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub advanced_security_enabled_for_new_repositories: Option<bool>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub dependabot_alerts_enabled_for_new_repositories: Option<bool>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub dependabot_security_updates_enabled_for_new_repositories: Option<bool>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub dependency_graph_enabled_for_new_repositories: Option<bool>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_enabled_for_new_repositories: Option<bool>,
-    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_push_protection_enabled_for_new_repositories: Option<bool>,
-    /// Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_push_protection_custom_link_enabled: Option<bool>,
-    /// If `secret_scanning_push_protection_custom_link_enabled` is true, the URL that will be displayed to contributors who are blocked from pushing a secret.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_push_protection_custom_link: Option<String>,
-    /// Controls whether or not deploy keys may be added and used for repositories in the organization.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub deploy_keys_enabled_for_repositories: Option<bool>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -4580,31 +4523,103 @@ pub struct PostPullsSubmitReview {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchOrgsUpdate {
+    /// Billing email address. This address is not publicized.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub billing_email: Option<String>,
+    /// The company name.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub company: Option<String>,
+    /// The publicly visible email address.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub email: Option<String>,
+    /// The Twitter username of the company.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub twitter_username: Option<String>,
+    /// The location.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub location: Option<String>,
+    /// The shorthand name of the company.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// The description of the company. The maximum size is 160 characters.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub description: Option<String>,
+    /// Whether an organization can use organization projects.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub has_organization_projects: Option<bool>,
+    /// Whether repositories that belong to the organization can use repository projects.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub has_repository_projects: Option<bool>,
+    /// Default permission level members have for organization repositories.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub default_repository_permission: Option<String>,
+    /// Whether of non-admin organization members can create repositories. **Note:** A parameter can override this parameter. See `members_allowed_repository_creation_type` in this table for details.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_repositories: Option<bool>,
+    /// Whether organization members can create internal repositories, which are visible to all enterprise members. You can only allow members to create internal repositories if your organization is associated with an enterprise account using GitHub Enterprise Cloud or GitHub Enterprise Server 2.20+. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_internal_repositories: Option<bool>,
+    /// Whether organization members can create private repositories, which are visible to organization members with permission. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_private_repositories: Option<bool>,
+    /// Whether organization members can create public repositories, which are visible to anyone. For more information, see \"[Restricting repository creation in your organization](https://docs.github.com/github/setting-up-and-managing-organizations-and-teams/restricting-repository-creation-in-your-organization)\" in the GitHub Help documentation.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_public_repositories: Option<bool>,
+    /// Specifies which types of repositories non-admin organization members can create. `private` is only available to repositories that are part of an organization on GitHub Enterprise Cloud.  **Note:** This parameter is closing down and will be removed in the future. Its return value ignores internal repositories. Using this parameter overrides values set in `members_can_create_repositories`. See the parameter deprecation notice in the operation description for details.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_allowed_repository_creation_type: Option<String>,
+    /// Whether organization members can create GitHub Pages sites. Existing published sites will not be impacted.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_pages: Option<bool>,
+    /// Whether organization members can create public GitHub Pages sites. Existing published sites will not be impacted.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_public_pages: Option<bool>,
+    /// Whether organization members can create private GitHub Pages sites. Existing published sites will not be impacted.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_create_private_pages: Option<bool>,
+    /// Whether organization members can fork private organization repositories.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub members_can_fork_private_repositories: Option<bool>,
+    /// Whether contributors to organization repositories are required to sign off on commits they make through GitHub's web interface.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub web_commit_signoff_required: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blog: Option<String>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether GitHub Advanced Security is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub advanced_security_enabled_for_new_repositories: Option<bool>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether Dependabot alerts are automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dependabot_alerts_enabled_for_new_repositories: Option<bool>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether Dependabot security updates are automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dependabot_security_updates_enabled_for_new_repositories: Option<bool>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether dependency graph is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dependency_graph_enabled_for_new_repositories: Option<bool>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether secret scanning is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_enabled_for_new_repositories: Option<bool>,
+    /// **Endpoint closing down notice.** Please use [code security configurations](https://docs.github.com/rest/code-security/configurations) instead.  Whether secret scanning push protection is automatically enabled for new repositories and repositories transferred to this organization.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  You can check which security and analysis features are currently enabled by using a `GET /orgs/{org}` request.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_push_protection_enabled_for_new_repositories: Option<bool>,
+    /// Whether a custom link is shown to contributors who are blocked from pushing a secret by push protection.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_push_protection_custom_link_enabled: Option<bool>,
+    /// If `secret_scanning_push_protection_custom_link_enabled` is true, the URL that will be displayed to contributors who are blocked from pushing a secret.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_scanning_push_protection_custom_link: Option<String>,
+    /// Controls whether or not deploy keys may be added and used for repositories in the organization.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub deploy_keys_enabled_for_repositories: Option<bool>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PutPullsUpdateBranch {
     /// The expected SHA of the pull request's HEAD ref. This is the most recent commit on the pull request's branch. If the expected SHA does not match the pull request's HEAD, you will receive a `422 Unprocessable Entity` status. You can use the \"[List commits](https://docs.github.com/rest/commits/commits#list-commits)\" endpoint to find the most recent commit SHA. Default: SHA of the pull request's current HEAD ref.
     #[serde(skip_serializing_if="Option::is_none")]
     pub expected_head_sha: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostActionsCreateHostedRunnerForOrg {
-    /// Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub image: Option<OrgsorgactionshostedrunnersImage>,
-    /// The machine size of the runner. To list available sizes, use `GET actions/hosted-runners/machine-sizes`
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub size: Option<String>,
-    /// The existing runner group to add this runner to.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub runner_group_id: Option<i64>,
-    /// The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub maximum_runners: Option<i64>,
-    /// Whether this runner should be created with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits`
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enable_static_ip: Option<bool>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -4760,6 +4775,27 @@ pub struct PostSecretScanningCreatePushProtectionBypass {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostActionsCreateHostedRunnerForOrg {
+    /// Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub image: Option<OrgsorgactionshostedrunnersImage>,
+    /// The machine size of the runner. To list available sizes, use `GET actions/hosted-runners/machine-sizes`
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub size: Option<String>,
+    /// The existing runner group to add this runner to.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub runner_group_id: Option<i64>,
+    /// The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub maximum_runners: Option<i64>,
+    /// Whether this runner should be created with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits`
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enable_static_ip: Option<bool>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostReposCreateCommitStatus {
     /// The state of the status.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -4773,22 +4809,6 @@ pub struct PostReposCreateCommitStatus {
     /// A string label to differentiate this status from the status of other systems. This field is case-insensitive.
     #[serde(skip_serializing_if="Option::is_none")]
     pub context: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchActionsUpdateHostedRunnerForOrg {
-    /// Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-    /// The existing runner group to add this runner to.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub runner_group_id: Option<i64>,
-    /// The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub maximum_runners: Option<i64>,
-    /// Whether this runner should be updated with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits`
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enable_static_ip: Option<bool>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -4900,18 +4920,26 @@ pub struct PostTeamsCreateDiscussionCommentLegacy {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchActionsUpdateHostedRunnerForOrg {
+    /// Name of the runner. Must be between 1 and 64 characters and may only contain upper and lowercase letters a-z, numbers 0-9, '.', '-', and '_'.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub name: Option<String>,
+    /// The existing runner group to add this runner to.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub runner_group_id: Option<i64>,
+    /// The maximum amount of runners to scale up to. Runners will not auto-scale above this number. Use this setting to limit your cost.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub maximum_runners: Option<i64>,
+    /// Whether this runner should be updated with a static public IP. Note limit on account. To list limits on account, use `GET actions/hosted-runners/limits`
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enable_static_ip: Option<bool>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PatchTeamsUpdateDiscussionCommentLegacy {
     /// The discussion comment's body text.
     #[serde(skip_serializing_if="Option::is_none")]
     pub body: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutActionsSetGithubActionsPermissionsOrganization {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub enabled_repositories: Option<EnabledRepositories>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub allowed_actions: Option<AllowedActions>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -4999,7 +5027,7 @@ pub struct PutCodespacesCreateOrUpdateSecretForAuthenticatedUser {
     pub key_id: Option<String>,
     /// An array of repository ids that can access the user secret. You can manage the list of selected repositories using the [List selected repositories for a user secret](https://docs.github.com/rest/codespaces/secrets#list-selected-repositories-for-a-user-secret), [Set selected repositories for a user secret](https://docs.github.com/rest/codespaces/secrets#set-selected-repositories-for-a-user-secret), and [Remove a selected repository from a user secret](https://docs.github.com/rest/codespaces/secrets#remove-a-selected-repository-from-a-user-secret) endpoints.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub selected_repository_ids: Option<Vec<AnyOfbody237SelectedRepositoryIdsItems>>,
+    pub selected_repository_ids: Option<Vec<AnyOfbody238SelectedRepositoryIdsItems>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5007,6 +5035,14 @@ pub struct PutCodespacesSetRepositoriesForSecretForAuthenticatedUser {
     /// An array of repository ids for which a codespace can access the secret. You can manage the list of selected repositories using the [List selected repositories for a user secret](https://docs.github.com/rest/codespaces/secrets#list-selected-repositories-for-a-user-secret), [Add a selected repository to a user secret](https://docs.github.com/rest/codespaces/secrets#add-a-selected-repository-to-a-user-secret), and [Remove a selected repository from a user secret](https://docs.github.com/rest/codespaces/secrets#remove-a-selected-repository-from-a-user-secret) endpoints.
     #[serde(skip_serializing_if="Option::is_none")]
     pub selected_repository_ids: Option<Vec<i32>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutActionsSetGithubActionsPermissionsOrganization {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enabled_repositories: Option<EnabledRepositories>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub allowed_actions: Option<AllowedActions>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5020,13 +5056,6 @@ pub struct PatchCodespacesUpdateForAuthenticatedUser {
     /// Recently opened folders inside the codespace. It is currently used by the clients to determine the folder path to load the codespace in.
     #[serde(skip_serializing_if="Option::is_none")]
     pub recent_folders: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutActionsSetSelectedRepositoriesEnabledGithubActionsOrganization {
-    /// List of repository IDs to enable for GitHub Actions.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub selected_repository_ids: Option<Vec<i32>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5166,6 +5195,13 @@ pub struct PostProjectsCreateForAuthenticatedUser {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutActionsSetSelectedRepositoriesEnabledGithubActionsOrganization {
+    /// List of repository IDs to enable for GitHub Actions.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub selected_repository_ids: Option<Vec<i32>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostReposCreateForAuthenticatedUser {
     /// The name of the repository.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -5239,6 +5275,30 @@ pub struct PostReposCreateForAuthenticatedUser {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostUsersAddSocialAccountForAuthenticatedUser {
+    /// Full URLs for the social media profiles to add.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub account_urls: Option<Vec<String>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DeleteUsersDeleteSocialAccountForAuthenticatedUser {
+    /// Full URLs for the social media profiles to delete.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub account_urls: Option<Vec<String>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostUsersCreateSshSigningKeyForAuthenticatedUser {
+    /// A descriptive name for the new key.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub title: Option<String>,
+    /// The public SSH key to add to your GitHub account. For more information, see \"[Checking for existing SSH keys](https://docs.github.com/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys).\"
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub key: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostActionsCreateSelfHostedRunnerGroupForOrg {
     /// Name of the runner group.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -5264,30 +5324,6 @@ pub struct PostActionsCreateSelfHostedRunnerGroupForOrg {
     /// The identifier of a hosted compute network configuration.
     #[serde(skip_serializing_if="Option::is_none")]
     pub network_configuration_id: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostUsersAddSocialAccountForAuthenticatedUser {
-    /// Full URLs for the social media profiles to add.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub account_urls: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct DeleteUsersDeleteSocialAccountForAuthenticatedUser {
-    /// Full URLs for the social media profiles to delete.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub account_urls: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostUsersCreateSshSigningKeyForAuthenticatedUser {
-    /// A descriptive name for the new key.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub title: Option<String>,
-    /// The public SSH key to add to your GitHub account. For more information, see \"[Checking for existing SSH keys](https://docs.github.com/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys).\"
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub key: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5327,6 +5363,13 @@ pub struct PutActionsSetSelfHostedRunnersInGroupForOrg {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostAppsCheckToken {
+    /// The access_token of the OAuth or GitHub application.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub access_token: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostActionsGenerateRunnerJitconfigForOrg {
     /// The name of the new runner.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -5340,13 +5383,6 @@ pub struct PostActionsGenerateRunnerJitconfigForOrg {
     /// The working directory to be used for job execution, relative to the runner install directory.
     #[serde(skip_serializing_if="Option::is_none")]
     pub work_folder: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostAppsCheckToken {
-    /// The access_token of the OAuth or GitHub application.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub access_token: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5478,6 +5514,13 @@ pub struct PatchCampaignsUpdateCampaign {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DeleteAppsDeleteToken {
+    /// The OAuth access token used to authenticate to the GitHub API.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub access_token: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostCodeSecurityCreateConfiguration {
     /// The name of the code security configuration. Must be unique within the organization.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -5539,13 +5582,6 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// The enforcement status for a security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub enforcement: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct DeleteAppsDeleteToken {
-    /// The OAuth access token used to authenticate to the GitHub API.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub access_token: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5684,17 +5720,17 @@ pub struct PutCodespacesSetSelectedReposForOrgSecret {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostCopilotAddCopilotSeatsForTeams {
-    /// List of team names within the organization to which to grant access to GitHub Copilot.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub selected_teams: Option<Vec<String>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PatchAppsResetToken {
     /// The access_token of the OAuth or GitHub application.
     #[serde(skip_serializing_if="Option::is_none")]
     pub access_token: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostCopilotAddCopilotSeatsForTeams {
+    /// List of team names within the organization to which to grant access to GitHub Copilot.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub selected_teams: Option<Vec<String>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5799,13 +5835,6 @@ pub struct PostOrgsCreateInvitation {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutOrgsSetMembershipForUser {
-    /// The role to give the user in the organization. Can be one of:    * `admin` - The user will become an owner of the organization.    * `member` - The user will become a non-owner member of the organization.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub role: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostAppsScopeToken {
     /// The access token used to authenticate to the GitHub API.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -5824,6 +5853,13 @@ pub struct PostAppsScopeToken {
     pub repository_ids: Option<Vec<i32>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub permissions: Option<AppPermissions>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PutOrgsSetMembershipForUser {
+    /// The role to give the user in the organization. Can be one of:    * `admin` - The user will become an owner of the organization.    * `member` - The user will become a non-owner member of the organization.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub role: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -5960,17 +5996,17 @@ pub struct PostProjectsCreateForOrg {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchOrgsCreateOrUpdateCustomProperties {
-    /// The array of custom properties to create or update.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub properties: Option<Vec<CustomProperty>>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostCredentialsRevoke {
     /// A list of credentials to be revoked, up to 1000 per request.
     #[serde(skip_serializing_if="Option::is_none")]
     pub credentials: Option<Vec<String>>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchOrgsCreateOrUpdateCustomProperties {
+    /// The array of custom properties to create or update.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub properties: Option<Vec<CustomProperty>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -6192,16 +6228,6 @@ pub struct PostTeamsCreateDiscussionInOrg {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchTeamsUpdateDiscussionInOrg {
-    /// The discussion post's title.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub title: Option<String>,
-    /// The discussion post's body text.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub body: Option<String>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// The name of the code security configuration. Must be unique within the enterprise.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -6258,6 +6284,16 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// The enforcement status for a security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub enforcement: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PatchTeamsUpdateDiscussionInOrg {
+    /// The discussion post's title.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub title: Option<String>,
+    /// The discussion post's body text.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub body: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -6327,16 +6363,6 @@ pub struct PatchProjectsUpdateCard {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsMoveCard {
-    /// The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place after the specified card.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub position: Option<String>,
-    /// The unique identifier of the column the card should be moved to
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub column_id: Option<i64>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// The name of the code security configuration. Must be unique across the enterprise.
     #[serde(skip_serializing_if="Option::is_none")]
@@ -6393,6 +6419,16 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// The enforcement status for a security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub enforcement: Option<String>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostProjectsMoveCard {
+    /// The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place after the specified card.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub position: Option<String>,
+    /// The unique identifier of the column the card should be moved to
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub column_id: Option<i64>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -6545,22 +6581,6 @@ pub struct PutActionsSetGithubActionsPermissionsRepository {
     pub enabled: Option<ActionsEnabled>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub allowed_actions: Option<AllowedActions>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostActionsGenerateRunnerJitconfigForRepo {
-    /// The name of the new runner.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub name: Option<String>,
-    /// The ID of the runner group to register the runner to.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub runner_group_id: Option<i64>,
-    /// The names of the custom labels to add to the runner. **Minimum items**: 1. **Maximum items**: 100.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub labels: Option<Vec<String>>,
-    /// The working directory to be used for job execution, relative to the runner install directory.
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub work_folder: Option<String>,
 }
 
 /// Branch Protection
@@ -18240,134 +18260,134 @@ impl From<String> for OneOfbody12Public {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody145Payload { 
-    OneOfbody145PayloadVariant0(HashMap<String, HashMap<String, Value>>),
-    OneOfbody145PayloadVariant1(String),
+pub enum OneOfbody146Payload { 
+    OneOfbody146PayloadVariant0(HashMap<String, HashMap<String, Value>>),
+    OneOfbody146PayloadVariant1(String),
 }
 
-impl From<HashMap<String, HashMap<String, Value>>> for OneOfbody145Payload {
+impl From<HashMap<String, HashMap<String, Value>>> for OneOfbody146Payload {
     fn from(value: HashMap<String, HashMap<String, Value>>) -> Self {
-        OneOfbody145Payload::OneOfbody145PayloadVariant0(value)
+        OneOfbody146Payload::OneOfbody146PayloadVariant0(value)
     }
 }
 
-impl From<String> for OneOfbody145Payload {
+impl From<String> for OneOfbody146Payload {
     fn from(value: String) -> Self {
-        OneOfbody145Payload::OneOfbody145PayloadVariant1(value)
+        OneOfbody146Payload::OneOfbody146PayloadVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody168LabelsItems { 
-    OneOfbody168LabelsItemsVariant0(String),
-    OneOfbody168LabelsItemsVariant1(HashMap<String, Value>),
+pub enum OneOfbody169LabelsItems { 
+    OneOfbody169LabelsItemsVariant0(String),
+    OneOfbody169LabelsItemsVariant1(HashMap<String, Value>),
 }
 
-impl From<String> for OneOfbody168LabelsItems {
+impl From<String> for OneOfbody169LabelsItems {
     fn from(value: String) -> Self {
-        OneOfbody168LabelsItems::OneOfbody168LabelsItemsVariant0(value)
+        OneOfbody169LabelsItems::OneOfbody169LabelsItemsVariant0(value)
     }
 }
 
-impl From<HashMap<String, Value>> for OneOfbody168LabelsItems {
+impl From<HashMap<String, Value>> for OneOfbody169LabelsItems {
     fn from(value: HashMap<String, Value>) -> Self {
-        OneOfbody168LabelsItems::OneOfbody168LabelsItemsVariant1(value)
+        OneOfbody169LabelsItems::OneOfbody169LabelsItemsVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody168Milestone { 
-    OneOfbody168MilestoneVariant0(String),
-    OneOfbody168MilestoneVariant1(i32),
+pub enum OneOfbody169Milestone { 
+    OneOfbody169MilestoneVariant0(String),
+    OneOfbody169MilestoneVariant1(i32),
 }
 
-impl From<String> for OneOfbody168Milestone {
+impl From<String> for OneOfbody169Milestone {
     fn from(value: String) -> Self {
-        OneOfbody168Milestone::OneOfbody168MilestoneVariant0(value)
+        OneOfbody169Milestone::OneOfbody169MilestoneVariant0(value)
     }
 }
 
-impl From<i32> for OneOfbody168Milestone {
+impl From<i32> for OneOfbody169Milestone {
     fn from(value: i32) -> Self {
-        OneOfbody168Milestone::OneOfbody168MilestoneVariant1(value)
+        OneOfbody169Milestone::OneOfbody169MilestoneVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody168Title { 
-    OneOfbody168TitleVariant0(String),
-    OneOfbody168TitleVariant1(i32),
+pub enum OneOfbody169Title { 
+    OneOfbody169TitleVariant0(String),
+    OneOfbody169TitleVariant1(i32),
 }
 
-impl From<String> for OneOfbody168Title {
+impl From<String> for OneOfbody169Title {
     fn from(value: String) -> Self {
-        OneOfbody168Title::OneOfbody168TitleVariant0(value)
+        OneOfbody169Title::OneOfbody169TitleVariant0(value)
     }
 }
 
-impl From<i32> for OneOfbody168Title {
+impl From<i32> for OneOfbody169Title {
     fn from(value: i32) -> Self {
-        OneOfbody168Title::OneOfbody168TitleVariant1(value)
+        OneOfbody169Title::OneOfbody169TitleVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody171LabelsItems { 
-    OneOfbody171LabelsItemsVariant0(String),
-    OneOfbody171LabelsItemsVariant1(HashMap<String, Value>),
+pub enum OneOfbody172LabelsItems { 
+    OneOfbody172LabelsItemsVariant0(String),
+    OneOfbody172LabelsItemsVariant1(HashMap<String, Value>),
 }
 
-impl From<String> for OneOfbody171LabelsItems {
+impl From<String> for OneOfbody172LabelsItems {
     fn from(value: String) -> Self {
-        OneOfbody171LabelsItems::OneOfbody171LabelsItemsVariant0(value)
+        OneOfbody172LabelsItems::OneOfbody172LabelsItemsVariant0(value)
     }
 }
 
-impl From<HashMap<String, Value>> for OneOfbody171LabelsItems {
+impl From<HashMap<String, Value>> for OneOfbody172LabelsItems {
     fn from(value: HashMap<String, Value>) -> Self {
-        OneOfbody171LabelsItems::OneOfbody171LabelsItemsVariant1(value)
+        OneOfbody172LabelsItems::OneOfbody172LabelsItemsVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody171Milestone { 
-    OneOfbody171MilestoneVariant0(String),
-    OneOfbody171MilestoneVariant1(i32),
+pub enum OneOfbody172Milestone { 
+    OneOfbody172MilestoneVariant0(String),
+    OneOfbody172MilestoneVariant1(i32),
 }
 
-impl From<String> for OneOfbody171Milestone {
+impl From<String> for OneOfbody172Milestone {
     fn from(value: String) -> Self {
-        OneOfbody171Milestone::OneOfbody171MilestoneVariant0(value)
+        OneOfbody172Milestone::OneOfbody172MilestoneVariant0(value)
     }
 }
 
-impl From<i32> for OneOfbody171Milestone {
+impl From<i32> for OneOfbody172Milestone {
     fn from(value: i32) -> Self {
-        OneOfbody171Milestone::OneOfbody171MilestoneVariant1(value)
+        OneOfbody172Milestone::OneOfbody172MilestoneVariant1(value)
     }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OneOfbody171Title { 
-    OneOfbody171TitleVariant0(String),
-    OneOfbody171TitleVariant1(i32),
+pub enum OneOfbody172Title { 
+    OneOfbody172TitleVariant0(String),
+    OneOfbody172TitleVariant1(i32),
 }
 
-impl From<String> for OneOfbody171Title {
+impl From<String> for OneOfbody172Title {
     fn from(value: String) -> Self {
-        OneOfbody171Title::OneOfbody171TitleVariant0(value)
+        OneOfbody172Title::OneOfbody172TitleVariant0(value)
     }
 }
 
-impl From<i32> for OneOfbody171Title {
+impl From<i32> for OneOfbody172Title {
     fn from(value: i32) -> Self {
-        OneOfbody171Title::OneOfbody171TitleVariant1(value)
+        OneOfbody172Title::OneOfbody172TitleVariant1(value)
     }
 }
 

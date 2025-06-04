@@ -561,6 +561,33 @@ impl From<DependabotUpdateAlertError> for AdapterError {
     }
 }
 
+/// Errors for the [Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::update_repository_access_for_org_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum DependabotUpdateRepositoryAccessForOrgError {
+    #[error("Forbidden")]
+    Status403(BasicError),
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<DependabotUpdateRepositoryAccessForOrgError> for AdapterError {
+    fn from(err: DependabotUpdateRepositoryAccessForOrgError) -> Self {
+        let (description, status_code) = match err {
+            DependabotUpdateRepositoryAccessForOrgError::Status403(_) => (String::from("Forbidden"), 403),
+            DependabotUpdateRepositoryAccessForOrgError::Status404(_) => (String::from("Resource not found"), 404),
+            DependabotUpdateRepositoryAccessForOrgError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 
 /// Query parameters for the [List Dependabot alerts for an enterprise](Dependabot::list_alerts_for_enterprise_async()) endpoint.
 #[derive(Default, Serialize)]
@@ -3577,6 +3604,91 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
                 409 => Err(DependabotUpdateAlertError::Status409(github_response.to_json()?).into()),
                 422 => Err(DependabotUpdateAlertError::Status422(github_response.to_json()?).into()),
                 code => Err(DependabotUpdateAlertError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    ///
+    /// ---
+    pub async fn update_repository_access_for_org_async(&self, org: &str, body: PatchDependabotUpdateRepositoryAccessForOrg) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PatchDependabotUpdateRepositoryAccessForOrg>(body)?),
+            method: "PATCH",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotUpdateRepositoryAccessForOrgError::Status403(github_response.to_json_async().await?).into()),
+                404 => Err(DependabotUpdateRepositoryAccessForOrgError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(DependabotUpdateRepositoryAccessForOrgError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    ///
+    /// > [!NOTE]
+    /// >    This operation supports both server-to-server and user-to-server access.
+    /// Unauthorized users will not see the existence of this endpoint.
+    ///
+    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn update_repository_access_for_org(&self, org: &str, body: PatchDependabotUpdateRepositoryAccessForOrg) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PatchDependabotUpdateRepositoryAccessForOrg>(body)?),
+            method: "PATCH",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                403 => Err(DependabotUpdateRepositoryAccessForOrgError::Status403(github_response.to_json()?).into()),
+                404 => Err(DependabotUpdateRepositoryAccessForOrgError::Status404(github_response.to_json()?).into()),
+                code => Err(DependabotUpdateRepositoryAccessForOrgError::Generic { code }.into()),
             }
         }
     }
