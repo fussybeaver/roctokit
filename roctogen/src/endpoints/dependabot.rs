@@ -1751,6 +1751,46 @@ impl<'enc> From<&'enc PerPage> for DependabotListSelectedReposForOrgSecretParams
         }
     }
 }
+/// Query parameters for the [Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::repository_access_for_org_async()) endpoint.
+#[derive(Default, Serialize)]
+pub struct DependabotRepositoryAccessForOrgParams {
+    /// The page number of results to fetch.
+    page: Option<u16>, 
+    /// Number of results per page.
+    per_page: Option<u16>
+}
+
+impl DependabotRepositoryAccessForOrgParams {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The page number of results to fetch.
+    pub fn page(self, page: u16) -> Self {
+        Self {
+            page: Some(page),
+            per_page: self.per_page, 
+        }
+    }
+
+    /// Number of results per page.
+    pub fn per_page(self, per_page: u16) -> Self {
+        Self {
+            page: self.page, 
+            per_page: Some(per_page),
+        }
+    }
+}
+
+impl<'enc> From<&'enc PerPage> for DependabotRepositoryAccessForOrgParams {
+    fn from(per_page: &'enc PerPage) -> Self {
+        Self {
+            per_page: Some(per_page.per_page),
+            page: Some(per_page.page),
+            ..Default::default()
+        }
+    }
+}
 
 impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>::Err> {
     /// ---
@@ -3265,10 +3305,14 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
     ///
     /// ---
-    pub async fn repository_access_for_org_async(&self, org: &str) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
+    pub async fn repository_access_for_org_async(&self, org: &str, query_params: Option<impl Into<DependabotRepositoryAccessForOrgParams>>) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
 
-        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+        let mut request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
 
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            request_uri.push_str(&serde_urlencoded::to_string(params.into())?);
+        }
 
         let req = GitHubRequest {
             uri: request_uri,
@@ -3308,10 +3352,15 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn repository_access_for_org(&self, org: &str) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
+    pub fn repository_access_for_org(&self, org: &str, query_params: Option<impl Into<DependabotRepositoryAccessForOrgParams>>) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
 
-        let request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
+        let mut request_uri = format!("{}/organizations/{}/dependabot/repository-access", super::GITHUB_BASE_API_URL, org);
 
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            let qp: DependabotRepositoryAccessForOrgParams = params.into();
+            request_uri.push_str(&serde_urlencoded::to_string(qp)?);
+        }
 
         let req = GitHubRequest {
             uri: request_uri,
@@ -3615,6 +3664,14 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
+    /// 
+    /// **Example request body:**
+    /// ```json,nocompile
+    /// {
+    ///   "repository_ids_to_add": [123, 456],
+    ///   "repository_ids_to_remove": [789]
+    /// }
+    /// ```
     ///
     /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
     ///
@@ -3657,6 +3714,14 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
+    /// 
+    /// **Example request body:**
+    /// ```json,nocompile
+    /// {
+    ///   "repository_ids_to_add": [123, 456],
+    ///   "repository_ids_to_remove": [789]
+    /// }
+    /// ```
     ///
     /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
     ///

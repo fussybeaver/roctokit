@@ -5381,11 +5381,11 @@ pub struct ReposGetOrgRuleSuitesParams<'req> {
     git_ref: Option<&'req str>, 
     /// The name of the repository to filter on.
     repository_name: Option<&'req str>, 
-    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).
     time_period: Option<&'req str>, 
     /// The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
     actor_name: Option<&'req str>, 
-    /// The rule results to filter on. When specified, only suites with this result will be returned.
+    /// The rule suite results to filter on. When specified, only suites with this result will be returned.
     rule_suite_result: Option<&'req str>, 
     /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     per_page: Option<u16>, 
@@ -5424,7 +5424,7 @@ impl<'req> ReposGetOrgRuleSuitesParams<'req> {
         }
     }
 
-    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).
     pub fn time_period(self, time_period: &'req str) -> Self {
         Self {
             git_ref: self.git_ref, 
@@ -5450,7 +5450,7 @@ impl<'req> ReposGetOrgRuleSuitesParams<'req> {
         }
     }
 
-    /// The rule results to filter on. When specified, only suites with this result will be returned.
+    /// The rule suite results to filter on. When specified, only suites with this result will be returned.
     pub fn rule_suite_result(self, rule_suite_result: &'req str) -> Self {
         Self {
             git_ref: self.git_ref, 
@@ -5597,11 +5597,11 @@ impl<'req> ReposGetReadmeInDirectoryParams<'req> {
 pub struct ReposGetRepoRuleSuitesParams<'req> {
     /// The name of the ref. Cannot contain wildcard characters. Optionally prefix with `refs/heads/` to limit to branches or `refs/tags/` to limit to tags. Omit the prefix to search across all refs. When specified, only rule evaluations triggered for this ref will be returned.
     git_ref: Option<&'req str>, 
-    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).
     time_period: Option<&'req str>, 
     /// The handle for the GitHub user account to filter on. When specified, only rule evaluations triggered by this actor will be returned.
     actor_name: Option<&'req str>, 
-    /// The rule results to filter on. When specified, only suites with this result will be returned.
+    /// The rule suite results to filter on. When specified, only suites with this result will be returned.
     rule_suite_result: Option<&'req str>, 
     /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
     per_page: Option<u16>, 
@@ -5626,7 +5626,7 @@ impl<'req> ReposGetRepoRuleSuitesParams<'req> {
         }
     }
 
-    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).
+    /// The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).
     pub fn time_period(self, time_period: &'req str) -> Self {
         Self {
             git_ref: self.git_ref, 
@@ -5650,7 +5650,7 @@ impl<'req> ReposGetRepoRuleSuitesParams<'req> {
         }
     }
 
-    /// The rule results to filter on. When specified, only suites with this result will be returned.
+    /// The rule suite results to filter on. When specified, only suites with this result will be returned.
     pub fn rule_suite_result(self, rule_suite_result: &'req str) -> Self {
         Self {
             git_ref: self.git_ref, 

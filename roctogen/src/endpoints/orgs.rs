@@ -1068,6 +1068,27 @@ impl From<OrgsListAttestationsError> for AdapterError {
     }
 }
 
+/// Errors for the [List attestations by bulk subject digests](Orgs::list_attestations_bulk_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsListAttestationsBulkError {
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsListAttestationsBulkError> for AdapterError {
+    fn from(err: OrgsListAttestationsBulkError) -> Self {
+        let (description, status_code) = match err {
+            OrgsListAttestationsBulkError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [List users blocked by an organization](Orgs::list_blocked_users_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum OrgsListBlockedUsersError {
@@ -3023,6 +3044,50 @@ impl<'req> OrgsListAttestationsParams<'req> {
             before: self.before, 
             after: self.after, 
             predicate_type: Some(predicate_type),
+        }
+    }
+}
+
+/// Query parameters for the [List attestations by bulk subject digests](Orgs::list_attestations_bulk_async()) endpoint.
+#[derive(Default, Serialize)]
+pub struct OrgsListAttestationsBulkParams<'req> {
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    per_page: Option<u16>, 
+    /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    before: Option<&'req str>, 
+    /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    after: Option<&'req str>
+}
+
+impl<'req> OrgsListAttestationsBulkParams<'req> {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn per_page(self, per_page: u16) -> Self {
+        Self {
+            per_page: Some(per_page),
+            before: self.before, 
+            after: self.after, 
+        }
+    }
+
+    /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn before(self, before: &'req str) -> Self {
+        Self {
+            per_page: self.per_page, 
+            before: Some(before),
+            after: self.after, 
+        }
+    }
+
+    /// A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"
+    pub fn after(self, after: &'req str) -> Self {
+        Self {
+            per_page: self.per_page, 
+            before: self.before, 
+            after: Some(after),
         }
     }
 }
@@ -7836,6 +7901,100 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
         } else {
             match github_response.status_code() {
                 code => Err(OrgsListAttestationsError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # List attestations by bulk subject digests
+    ///
+    /// List a collection of artifact attestations associated with any entry in a list of subject digests owned by an organization.
+    /// 
+    /// The collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.
+    /// 
+    /// **Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+    ///
+    /// [GitHub API docs for list_attestations_bulk](https://docs.github.com/rest/orgs/orgs#list-attestations-by-bulk-subject-digests)
+    ///
+    /// ---
+    pub async fn list_attestations_bulk_async(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostOrgsListAttestationsBulkResponse200, AdapterError> {
+
+        let mut request_uri = format!("{}/orgs/{}/attestations/bulk-list", super::GITHUB_BASE_API_URL, org);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            request_uri.push_str(&serde_urlencoded::to_string(params.into())?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsListAttestationsBulk>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json_async().await?)
+        } else {
+            match github_response.status_code() {
+                code => Err(OrgsListAttestationsBulkError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # List attestations by bulk subject digests
+    ///
+    /// List a collection of artifact attestations associated with any entry in a list of subject digests owned by an organization.
+    /// 
+    /// The collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.
+    /// 
+    /// **Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).
+    ///
+    /// [GitHub API docs for list_attestations_bulk](https://docs.github.com/rest/orgs/orgs#list-attestations-by-bulk-subject-digests)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn list_attestations_bulk(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostOrgsListAttestationsBulkResponse200, AdapterError> {
+
+        let mut request_uri = format!("{}/orgs/{}/attestations/bulk-list", super::GITHUB_BASE_API_URL, org);
+
+        if let Some(params) = query_params {
+            request_uri.push_str("?");
+            let qp: OrgsListAttestationsBulkParams = params.into();
+            request_uri.push_str(&serde_urlencoded::to_string(qp)?);
+        }
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsListAttestationsBulk>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(github_response.to_json()?)
+        } else {
+            match github_response.status_code() {
+                code => Err(OrgsListAttestationsBulkError::Generic { code }.into()),
             }
         }
     }
