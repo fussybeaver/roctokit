@@ -85,6 +85,8 @@ impl<'api, C: Client> Markdown<'api, C> where AdapterError: From<<C as Client>::
     ///
     /// # Render a Markdown document
     ///
+    /// Depending on what is rendered in the Markdown, you may need to provide additional token scopes for labels, such as `issues:read` or `pull_requests:read`.
+    ///
     /// [GitHub API docs for render](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document)
     ///
     /// ---
@@ -121,6 +123,8 @@ impl<'api, C: Client> Markdown<'api, C> where AdapterError: From<<C as Client>::
     /// ---
     ///
     /// # Render a Markdown document
+    ///
+    /// Depending on what is rendered in the Markdown, you may need to provide additional token scopes for labels, such as `issues:read` or `pull_requests:read`.
     ///
     /// [GitHub API docs for render](https://docs.github.com/rest/markdown/markdown#render-a-markdown-document)
     ///

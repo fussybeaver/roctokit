@@ -28967,6 +28967,9 @@ pub struct ReviewComment {
     /// The original first line of the range for a multi-line comment.
     #[serde(skip_serializing_if="Option::is_none")]
     pub original_start_line: Option<i64>,
+    /// The level at which the comment is targeted, can be a diff line or a file.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub subject_type: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -39267,7 +39270,7 @@ pub struct WebhookmembereditedChangesPermission {
     pub to: Option<String>,
 }
 
-/// The modified webhook. This will contain different keys based on the type of webhook it is: repository, organization, business, app, or GitHub Marketplace.
+/// The deleted webhook. This will contain different keys based on the type of webhook it is: repository, organization, business, app, or GitHub Marketplace.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WebhookmetadeletedHook {
     #[serde(skip_serializing_if="Option::is_none")]
