@@ -7084,7 +7084,7 @@ pub struct CheckRunPullRequest {
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CheckRunWithSimpleCheckSuite {
     #[serde(skip_serializing_if="Option::is_none")]
-    pub app: Option<NullableIntegration>,
+    pub app: Option<Integration>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub check_suite: Option<SimpleCheckSuite>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -8489,6 +8489,9 @@ pub struct CodeSecurityConfiguration {
     /// The enablement status of Dependabot security updates
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<String>,
+    /// Feature options for code scanning
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_options: Option<HashMap<String, Value>>,
     /// The enablement status of code scanning default setup
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup: Option<String>,
@@ -23473,6 +23476,8 @@ pub struct RatelimitoverviewResources {
     pub scim: Option<RateLimit>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependency_snapshots: Option<RateLimit>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub dependency_sbom: Option<RateLimit>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_autofix: Option<RateLimit>,
 }
