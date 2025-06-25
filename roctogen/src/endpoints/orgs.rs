@@ -453,6 +453,87 @@ impl From<OrgsDeleteError> for AdapterError {
     }
 }
 
+/// Errors for the [Delete attestations in bulk](Orgs::delete_attestations_bulk_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsDeleteAttestationsBulkError {
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsDeleteAttestationsBulkError> for AdapterError {
+    fn from(err: OrgsDeleteAttestationsBulkError) -> Self {
+        let (description, status_code) = match err {
+            OrgsDeleteAttestationsBulkError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsDeleteAttestationsBulkError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Delete attestations by ID](Orgs::delete_attestations_by_id_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsDeleteAttestationsByIdError {
+    #[error("Response")]
+    Status204,
+    #[error("Forbidden")]
+    Status403(BasicError),
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsDeleteAttestationsByIdError> for AdapterError {
+    fn from(err: OrgsDeleteAttestationsByIdError) -> Self {
+        let (description, status_code) = match err {
+            OrgsDeleteAttestationsByIdError::Status204 => (String::from("Response"), 204),
+            OrgsDeleteAttestationsByIdError::Status403(_) => (String::from("Forbidden"), 403),
+            OrgsDeleteAttestationsByIdError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsDeleteAttestationsByIdError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
+/// Errors for the [Delete attestations by subject digest](Orgs::delete_attestations_by_subject_digest_async()) endpoint.
+#[derive(Debug, thiserror::Error)]
+pub enum OrgsDeleteAttestationsBySubjectDigestError {
+    #[error("Response")]
+    Status204,
+    #[error("Resource not found")]
+    Status404(BasicError),
+    #[error("Status code: {}", code)]
+    Generic { code: u16 },
+}
+
+impl From<OrgsDeleteAttestationsBySubjectDigestError> for AdapterError {
+    fn from(err: OrgsDeleteAttestationsBySubjectDigestError) -> Self {
+        let (description, status_code) = match err {
+            OrgsDeleteAttestationsBySubjectDigestError::Status204 => (String::from("Response"), 204),
+            OrgsDeleteAttestationsBySubjectDigestError::Status404(_) => (String::from("Resource not found"), 404),
+            OrgsDeleteAttestationsBySubjectDigestError::Generic { code } => (String::from("Generic"), code)
+        };
+
+        Self::Endpoint {
+            description,
+            status_code,
+            source: Some(Box::new(err))
+        }
+    }
+}
+
 /// Errors for the [Delete issue type for an organization](Orgs::delete_issue_type_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum OrgsDeleteIssueTypeError {
@@ -5648,6 +5729,249 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
                 404 => Err(OrgsDeleteError::Status404(github_response.to_json()?).into()),
                 403 => Err(OrgsDeleteError::Status403(github_response.to_json()?).into()),
                 code => Err(OrgsDeleteError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations in bulk
+    ///
+    /// Delete artifact attestations in bulk by either subject digests or unique ID.
+    ///
+    /// [GitHub API docs for delete_attestations_bulk](https://docs.github.com/rest/orgs/attestations#delete-attestations-in-bulk)
+    ///
+    /// ---
+    pub async fn delete_attestations_bulk_async(&self, org: &str, body: PostOrgsDeleteAttestationsBulk) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/delete-request", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsDeleteAttestationsBulk>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsDeleteAttestationsBulkError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(OrgsDeleteAttestationsBulkError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations in bulk
+    ///
+    /// Delete artifact attestations in bulk by either subject digests or unique ID.
+    ///
+    /// [GitHub API docs for delete_attestations_bulk](https://docs.github.com/rest/orgs/attestations#delete-attestations-in-bulk)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn delete_attestations_bulk(&self, org: &str, body: PostOrgsDeleteAttestationsBulk) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/delete-request", super::GITHUB_BASE_API_URL, org);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: Some(C::from_json::<PostOrgsDeleteAttestationsBulk>(body)?),
+            method: "POST",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                404 => Err(OrgsDeleteAttestationsBulkError::Status404(github_response.to_json()?).into()),
+                code => Err(OrgsDeleteAttestationsBulkError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations by ID
+    ///
+    /// Delete an artifact attestation by unique ID that is associated with a repository owned by an org.
+    ///
+    /// [GitHub API docs for delete_attestations_by_id](https://docs.github.com/rest/orgs/attestations#delete-attestations-by-id)
+    ///
+    /// ---
+    pub async fn delete_attestations_by_id_async(&self, org: &str, attestation_id: i32) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/{}", super::GITHUB_BASE_API_URL, org, attestation_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                204 => Err(OrgsDeleteAttestationsByIdError::Status204.into()),
+                403 => Err(OrgsDeleteAttestationsByIdError::Status403(github_response.to_json_async().await?).into()),
+                404 => Err(OrgsDeleteAttestationsByIdError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(OrgsDeleteAttestationsByIdError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations by ID
+    ///
+    /// Delete an artifact attestation by unique ID that is associated with a repository owned by an org.
+    ///
+    /// [GitHub API docs for delete_attestations_by_id](https://docs.github.com/rest/orgs/attestations#delete-attestations-by-id)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn delete_attestations_by_id(&self, org: &str, attestation_id: i32) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/{}", super::GITHUB_BASE_API_URL, org, attestation_id);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                204 => Err(OrgsDeleteAttestationsByIdError::Status204.into()),
+                403 => Err(OrgsDeleteAttestationsByIdError::Status403(github_response.to_json()?).into()),
+                404 => Err(OrgsDeleteAttestationsByIdError::Status404(github_response.to_json()?).into()),
+                code => Err(OrgsDeleteAttestationsByIdError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations by subject digest
+    ///
+    /// Delete an artifact attestation by subject digest.
+    ///
+    /// [GitHub API docs for delete_attestations_by_subject_digest](https://docs.github.com/rest/orgs/attestations#delete-attestations-by-subject-digest)
+    ///
+    /// ---
+    pub async fn delete_attestations_by_subject_digest_async(&self, org: &str, subject_digest: &str) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/digest/{}", super::GITHUB_BASE_API_URL, org, subject_digest);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None::<C::Body>,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch_async(request).await?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                204 => Err(OrgsDeleteAttestationsBySubjectDigestError::Status204.into()),
+                404 => Err(OrgsDeleteAttestationsBySubjectDigestError::Status404(github_response.to_json_async().await?).into()),
+                code => Err(OrgsDeleteAttestationsBySubjectDigestError::Generic { code }.into()),
+            }
+        }
+    }
+
+    /// ---
+    ///
+    /// # Delete attestations by subject digest
+    ///
+    /// Delete an artifact attestation by subject digest.
+    ///
+    /// [GitHub API docs for delete_attestations_by_subject_digest](https://docs.github.com/rest/orgs/attestations#delete-attestations-by-subject-digest)
+    ///
+    /// ---
+    #[cfg(not(target_arch = "wasm32"))]
+    pub fn delete_attestations_by_subject_digest(&self, org: &str, subject_digest: &str) -> Result<(), AdapterError> {
+
+        let request_uri = format!("{}/orgs/{}/attestations/digest/{}", super::GITHUB_BASE_API_URL, org, subject_digest);
+
+
+        let req = GitHubRequest {
+            uri: request_uri,
+            body: None,
+            method: "DELETE",
+            headers: vec![]
+        };
+
+        let request = self.client.build(req)?;
+
+        // --
+
+        let github_response = self.client.fetch(request)?;
+
+        // --
+
+        if github_response.is_success() {
+            Ok(())
+        } else {
+            match github_response.status_code() {
+                204 => Err(OrgsDeleteAttestationsBySubjectDigestError::Status204.into()),
+                404 => Err(OrgsDeleteAttestationsBySubjectDigestError::Status404(github_response.to_json()?).into()),
+                code => Err(OrgsDeleteAttestationsBySubjectDigestError::Generic { code }.into()),
             }
         }
     }
