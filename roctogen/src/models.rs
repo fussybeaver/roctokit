@@ -5987,6 +5987,9 @@ pub struct PostPrivateRegistriesCreateOrgPrivateRegistry {
     /// The registry type.
     #[serde(skip_serializing_if="Option::is_none")]
     pub registry_type: Option<String>,
+    /// The URL of the private registry.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub url: Option<String>,
     /// The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication.
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
@@ -6016,6 +6019,9 @@ pub struct PatchPrivateRegistriesUpdateOrgPrivateRegistry {
     /// The registry type.
     #[serde(skip_serializing_if="Option::is_none")]
     pub registry_type: Option<String>,
+    /// The URL of the private registry.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub url: Option<String>,
     /// The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication.
     #[serde(skip_serializing_if="Option::is_none")]
     pub username: Option<String>,
@@ -15619,6 +15625,8 @@ pub struct KeySimple {
     pub id: Option<i64>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub key: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub created_at: Option<chrono::DateTime<chrono::Utc>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
