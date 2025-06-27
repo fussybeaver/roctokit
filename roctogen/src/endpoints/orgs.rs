@@ -8242,7 +8242,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     /// [GitHub API docs for list_attestations_bulk](https://docs.github.com/rest/orgs/orgs#list-attestations-by-bulk-subject-digests)
     ///
     /// ---
-    pub async fn list_attestations_bulk_async(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostOrgsListAttestationsBulkResponse200, AdapterError> {
+    pub async fn list_attestations_bulk_async(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostUsersListAttestationsBulkResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/orgs/{}/attestations/bulk-list", super::GITHUB_BASE_API_URL, org);
 
@@ -8289,7 +8289,7 @@ impl<'api, C: Client> Orgs<'api, C> where AdapterError: From<<C as Client>::Err>
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
-    pub fn list_attestations_bulk(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostOrgsListAttestationsBulkResponse200, AdapterError> {
+    pub fn list_attestations_bulk(&self, org: &str, query_params: Option<impl Into<OrgsListAttestationsBulkParams<'api>>>, body: PostOrgsListAttestationsBulk) -> Result<PostUsersListAttestationsBulkResponse200, AdapterError> {
 
         let mut request_uri = format!("{}/orgs/{}/attestations/bulk-list", super::GITHUB_BASE_API_URL, org);
 
