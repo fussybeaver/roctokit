@@ -5303,6 +5303,16 @@ pub struct PostUsersCreateSshSigningKeyForAuthenticatedUser {
     pub key: Option<String>,
 }
 
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct PostUsersListAttestationsBulk {
+    /// List of subject digests to fetch attestations for.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub subject_digests: Option<Vec<String>>,
+    /// Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub predicate_type: Option<String>,
+}
+
 /// The request body must include either `subject_digests` or `attestation_ids`, but not both.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -13246,7 +13256,7 @@ pub struct GetActionsListOrgVariablesResponse200 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostOrgsListAttestationsBulkResponse200 {
+pub struct PostUsersListAttestationsBulkResponse200 {
     /// Mapping of subject digest to bundles.
     #[serde(skip_serializing_if="Option::is_none")]
     pub attestations_subject_digests: Option<HashMap<String, Vec<HashMap<String, Value>>>>,
