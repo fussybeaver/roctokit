@@ -450,7 +450,7 @@ impl From<DependabotRemoveSelectedRepoFromOrgSecretError> for AdapterError {
     }
 }
 
-/// Errors for the [Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::repository_access_for_org_async()) endpoint.
+/// Errors for the [Lists the repositories Dependabot can access in an organization](Dependabot::repository_access_for_org_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum DependabotRepositoryAccessForOrgError {
     #[error("Forbidden")]
@@ -561,7 +561,7 @@ impl From<DependabotUpdateAlertError> for AdapterError {
     }
 }
 
-/// Errors for the [Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::update_repository_access_for_org_async()) endpoint.
+/// Errors for the [Updates Dependabot&#x27;s repository access list for an organization](Dependabot::update_repository_access_for_org_async()) endpoint.
 #[derive(Debug, thiserror::Error)]
 pub enum DependabotUpdateRepositoryAccessForOrgError {
     #[error("Forbidden")]
@@ -1751,7 +1751,7 @@ impl<'enc> From<&'enc PerPage> for DependabotListSelectedReposForOrgSecretParams
         }
     }
 }
-/// Query parameters for the [Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.](Dependabot::repository_access_for_org_async()) endpoint.
+/// Query parameters for the [Lists the repositories Dependabot can access in an organization](Dependabot::repository_access_for_org_async()) endpoint.
 #[derive(Default, Serialize)]
 pub struct DependabotRepositoryAccessForOrgParams {
     /// The page number of results to fetch.
@@ -3296,13 +3296,14 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
 
     /// ---
     ///
-    /// # Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    /// # Lists the repositories Dependabot can access in an organization
     ///
+    /// Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
     ///
-    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-the-repositories-dependabot-can-access-in-an-organization)
     ///
     /// ---
     pub async fn repository_access_for_org_async(&self, org: &str, query_params: Option<impl Into<DependabotRepositoryAccessForOrgParams>>) -> Result<DependabotRepositoryAccessDetails, AdapterError> {
@@ -3342,13 +3343,14 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
 
     /// ---
     ///
-    /// # Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    /// # Lists the repositories Dependabot can access in an organization
     ///
+    /// Lists repositories that organization admins have allowed Dependabot to access when updating dependencies.
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
     ///
-    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    /// [GitHub API docs for repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#lists-the-repositories-dependabot-can-access-in-an-organization)
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
@@ -3392,13 +3394,13 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     ///
     /// # Set the default repository access level for Dependabot
     ///
-    /// > [!NOTE]
-    /// >    This operation supports both server-to-server and user-to-server access.
     /// Sets the default level of repository access Dependabot will have while performing an update.  Available values are:
     /// - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories.
     /// - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories.
     /// 
     /// Unauthorized users will not see the existence of this endpoint.
+    /// 
+    /// This operation supports both server-to-server and user-to-server access.
     ///
     /// [GitHub API docs for set_repository_access_default_level](https://docs.github.com/rest/dependabot/repository-access#set-the-default-repository-access-level-for-dependabot)
     ///
@@ -3438,13 +3440,13 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     ///
     /// # Set the default repository access level for Dependabot
     ///
-    /// > [!NOTE]
-    /// >    This operation supports both server-to-server and user-to-server access.
     /// Sets the default level of repository access Dependabot will have while performing an update.  Available values are:
     /// - 'public' - Dependabot will only have access to public repositories, unless access is explicitly granted to non-public repositories.
     /// - 'internal' - Dependabot will only have access to public and internal repositories, unless access is explicitly granted to private repositories.
     /// 
     /// Unauthorized users will not see the existence of this endpoint.
+    /// 
+    /// This operation supports both server-to-server and user-to-server access.
     ///
     /// [GitHub API docs for set_repository_access_default_level](https://docs.github.com/rest/dependabot/repository-access#set-the-default-repository-access-level-for-dependabot)
     ///
@@ -3659,8 +3661,10 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
 
     /// ---
     ///
-    /// # Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    /// # Updates Dependabot&#x27;s repository access list for an organization
     ///
+    /// Updates repositories according to the list of repositories that organization admins have given Dependabot access to when they've updated dependencies.
+    /// 
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
@@ -3673,7 +3677,7 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     /// }
     /// ```
     ///
-    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-dependabots-repository-access-list-for-an-organization)
     ///
     /// ---
     pub async fn update_repository_access_for_org_async(&self, org: &str, body: PatchDependabotUpdateRepositoryAccessForOrg) -> Result<(), AdapterError> {
@@ -3709,8 +3713,10 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
 
     /// ---
     ///
-    /// # Updates repositories to the list of repositories that organization admins have allowed Dependabot to access when updating dependencies.
+    /// # Updates Dependabot&#x27;s repository access list for an organization
     ///
+    /// Updates repositories according to the list of repositories that organization admins have given Dependabot access to when they've updated dependencies.
+    /// 
     /// > [!NOTE]
     /// >    This operation supports both server-to-server and user-to-server access.
     /// Unauthorized users will not see the existence of this endpoint.
@@ -3723,7 +3729,7 @@ impl<'api, C: Client> Dependabot<'api, C> where AdapterError: From<<C as Client>
     /// }
     /// ```
     ///
-    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-repositories-to-the-list-of-repositories-that-organization-admins-have-allowed-dependabot-to-access-when-updating-dependencies)
+    /// [GitHub API docs for update_repository_access_for_org](https://docs.github.com/rest/dependabot/repository-access#updates-dependabots-repository-access-list-for-an-organization)
     ///
     /// ---
     #[cfg(not(target_arch = "wasm32"))]
