@@ -14083,6 +14083,8 @@ pub struct Installation {
     pub html_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub app_id: Option<i64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub client_id: Option<String>,
     /// The ID of the user or organization this token is being scoped to.
     #[serde(skip_serializing_if="Option::is_none")]
     pub target_id: Option<i64>,
