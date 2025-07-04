@@ -638,6 +638,8 @@ pub enum CodeScanningUpdateDefaultSetupError {
     Status404(BasicError),
     #[error("Response if there is already a validation run in progress with a different default setup configuration")]
     Status409(BasicError),
+    #[error("Response if the configuration change cannot be made because the repository is not in the required state")]
+    Status422(BasicError),
     #[error("Service unavailable")]
     Status503(GetBillingGetGithubBillingUsageReportUserResponse503),
     #[error("Status code: {}", code)]
@@ -651,6 +653,7 @@ impl From<CodeScanningUpdateDefaultSetupError> for AdapterError {
             CodeScanningUpdateDefaultSetupError::Status403(_) => (String::from("Response if the repository is archived or if GitHub Advanced Security is not enabled for this repository"), 403),
             CodeScanningUpdateDefaultSetupError::Status404(_) => (String::from("Resource not found"), 404),
             CodeScanningUpdateDefaultSetupError::Status409(_) => (String::from("Response if there is already a validation run in progress with a different default setup configuration"), 409),
+            CodeScanningUpdateDefaultSetupError::Status422(_) => (String::from("Response if the configuration change cannot be made because the repository is not in the required state"), 422),
             CodeScanningUpdateDefaultSetupError::Status503(_) => (String::from("Service unavailable"), 503),
             CodeScanningUpdateDefaultSetupError::Generic { code } => (String::from("Generic"), code)
         };
@@ -3394,6 +3397,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
                 403 => Err(CodeScanningUpdateDefaultSetupError::Status403(github_response.to_json_async().await?).into()),
                 404 => Err(CodeScanningUpdateDefaultSetupError::Status404(github_response.to_json_async().await?).into()),
                 409 => Err(CodeScanningUpdateDefaultSetupError::Status409(github_response.to_json_async().await?).into()),
+                422 => Err(CodeScanningUpdateDefaultSetupError::Status422(github_response.to_json_async().await?).into()),
                 503 => Err(CodeScanningUpdateDefaultSetupError::Status503(github_response.to_json_async().await?).into()),
                 code => Err(CodeScanningUpdateDefaultSetupError::Generic { code }.into()),
             }
@@ -3440,6 +3444,7 @@ impl<'api, C: Client> CodeScanning<'api, C> where AdapterError: From<<C as Clien
                 403 => Err(CodeScanningUpdateDefaultSetupError::Status403(github_response.to_json()?).into()),
                 404 => Err(CodeScanningUpdateDefaultSetupError::Status404(github_response.to_json()?).into()),
                 409 => Err(CodeScanningUpdateDefaultSetupError::Status409(github_response.to_json()?).into()),
+                422 => Err(CodeScanningUpdateDefaultSetupError::Status422(github_response.to_json()?).into()),
                 503 => Err(CodeScanningUpdateDefaultSetupError::Status503(github_response.to_json()?).into()),
                 code => Err(CodeScanningUpdateDefaultSetupError::Generic { code }.into()),
             }

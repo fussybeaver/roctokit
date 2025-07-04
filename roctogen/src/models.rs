@@ -5637,7 +5637,7 @@ pub struct PostCodeSecurityCreateConfiguration {
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DeleteCodeSecurityDetachConfiguration {
-    /// An array of repository IDs to detach from configurations.
+    /// An array of repository IDs to detach from configurations. Up to 1000 IDs can be provided.
     #[serde(skip_serializing_if="Option::is_none")]
     pub selected_repository_ids: Option<Vec<i32>>,
 }
