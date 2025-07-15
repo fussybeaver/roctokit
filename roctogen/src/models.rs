@@ -5579,9 +5579,12 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.  > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. 
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
+    /// The enablement status of GitHub Code Security features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<String>,
     /// The enablement status of Dependency Graph
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependency_graph: Option<String>,
@@ -5604,6 +5607,9 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// The enablement status of code scanning delegated alert dismissal
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_delegated_alert_dismissal: Option<String>,
+    /// The enablement status of GitHub Secret Protection features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_protection: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -5650,9 +5656,12 @@ pub struct PatchCodeSecurityUpdateConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.  > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. 
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
+    /// The enablement status of GitHub Code Security features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<String>,
     /// The enablement status of Dependency Graph
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependency_graph: Option<String>,
@@ -5675,6 +5684,9 @@ pub struct PatchCodeSecurityUpdateConfiguration {
     /// The enablement status of code scanning delegated alert dismissal
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_delegated_alert_dismissal: Option<String>,
+    /// The enablement status of GitHub Secret Protection features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_protection: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -6257,9 +6269,12 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.  > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. 
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
+    /// The enablement status of GitHub Code Security features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<String>,
     /// The enablement status of Dependency Graph
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependency_graph: Option<String>,
@@ -6282,6 +6297,9 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// The enablement status of code scanning delegated alert dismissal
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_delegated_alert_dismissal: Option<String>,
+    /// The enablement status of GitHub Secret Protection features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_protection: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -6410,9 +6428,12 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// A description of the code security configuration
     #[serde(skip_serializing_if="Option::is_none")]
     pub description: Option<String>,
-    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.
+    /// The enablement status of GitHub Advanced Security features. `enabled` will enable both Code Security and Secret Protection features.  > [!WARNING] > `code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features. 
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<String>,
+    /// The enablement status of GitHub Code Security features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_security: Option<String>,
     /// The enablement status of Dependency Graph
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependency_graph: Option<String>,
@@ -6435,6 +6456,9 @@ pub struct PatchCodeSecurityUpdateEnterpriseConfiguration {
     /// The enablement status of code scanning delegated alert dismissal
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_delegated_alert_dismissal: Option<String>,
+    /// The enablement status of GitHub Secret Protection features.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub secret_protection: Option<String>,
     /// The enablement status of secret scanning
     #[serde(skip_serializing_if="Option::is_none")]
     pub secret_scanning: Option<String>,
@@ -19332,6 +19356,12 @@ pub struct OrgMembership {
     /// The user's membership type in the organization.
     #[serde(skip_serializing_if="Option::is_none")]
     pub role: Option<String>,
+    /// Whether the user has direct membership in the organization.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub direct_membership: Option<bool>,
+    /// The slugs of the enterprise teams providing the user with indirect membership in the organization. A limit of 100 enterprise team slugs is returned.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enterprise_teams_providing_indirect_membership: Option<Vec<String>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -23628,6 +23658,9 @@ pub struct Release {
     pub html_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
+    /// Whether or not the release is immutable.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub immutable: Option<bool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -28513,7 +28546,7 @@ pub struct ReposownerrepoSecurityAndAnalysis {
     pub secret_scanning_non_provider_patterns: Option<ReposownerrepoSecurityAndAnalysisSecretScanningNonProviderPatterns>,
 }
 
-/// Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"
+/// Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"  For standalone Code Scanning or Secret Protection products, this parameter cannot be used.
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ReposownerrepoSecurityAndAnalysisAdvancedSecurity {
     /// Can be `enabled` or `disabled`.
@@ -30159,21 +30192,28 @@ pub struct SecurityAndAnalysis {
     #[serde(skip_serializing_if="Option::is_none")]
     pub advanced_security: Option<SecurityandanalysisAdvancedSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub code_security: Option<SecurityandanalysisAdvancedSecurity>,
+    pub code_security: Option<SecurityandanalysisCodeSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<SecurityandanalysisDependabotSecurityUpdates>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning: Option<SecurityandanalysisAdvancedSecurity>,
+    pub secret_scanning: Option<SecurityandanalysisCodeSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_push_protection: Option<SecurityandanalysisAdvancedSecurity>,
+    pub secret_scanning_push_protection: Option<SecurityandanalysisCodeSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_non_provider_patterns: Option<SecurityandanalysisAdvancedSecurity>,
+    pub secret_scanning_non_provider_patterns: Option<SecurityandanalysisCodeSecurity>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub secret_scanning_ai_detection: Option<SecurityandanalysisAdvancedSecurity>,
+    pub secret_scanning_ai_detection: Option<SecurityandanalysisCodeSecurity>,
+}
+
+/// Enable or disable GitHub Advanced Security for the repository.  For standalone Code Scanning or Secret Protection products, this parameter cannot be used. 
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SecurityandanalysisAdvancedSecurity {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub status: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct SecurityandanalysisAdvancedSecurity {
+pub struct SecurityandanalysisCodeSecurity {
     #[serde(skip_serializing_if="Option::is_none")]
     pub status: Option<String>,
 }
@@ -41355,6 +41395,12 @@ pub struct WebhooksMembership {
     pub organization_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub role: Option<String>,
+    /// Whether the user has direct membership in the organization.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub direct_membership: Option<bool>,
+    /// The slugs of the enterprise teams providing the user with indirect membership in the organization. A limit of 100 enterprise team slugs is returned.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub enterprise_teams_providing_indirect_membership: Option<Vec<String>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -41793,6 +41839,9 @@ pub struct WebhooksRelease {
     pub html_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
+    /// Whether or not the release is immutable.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub immutable: Option<bool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -41842,6 +41891,9 @@ pub struct WebhooksRelease1 {
     pub html_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub id: Option<i64>,
+    /// Whether or not the release is immutable.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub immutable: Option<bool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
