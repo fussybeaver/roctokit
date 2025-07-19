@@ -5599,6 +5599,8 @@ pub struct PostCodeSecurityCreateConfiguration {
     /// The enablement status of Dependabot security updates
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_options: Option<CodeScanningOptions>,
     /// The enablement status of code scanning default setup
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup: Option<String>,
@@ -6184,7 +6186,7 @@ pub struct PostReposCreateOrgRuleset {
     pub conditions: Option<OrgRulesetConditions>,
     /// An array of rules within the ruleset.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub rules: Option<Vec<RepositoryRule>>,
+    pub rules: Option<Vec<OrgRules>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -6204,7 +6206,7 @@ pub struct PutReposUpdateOrgRuleset {
     pub conditions: Option<OrgRulesetConditions>,
     /// An array of rules within the ruleset.
     #[serde(skip_serializing_if="Option::is_none")]
-    pub rules: Option<Vec<RepositoryRule>>,
+    pub rules: Option<Vec<OrgRules>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -6289,6 +6291,8 @@ pub struct PostCodeSecurityCreateConfigurationForEnterprise {
     /// The enablement status of Dependabot security updates
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<String>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub code_scanning_options: Option<CodeScanningOptions>,
     /// The enablement status of code scanning default setup
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup: Option<String>,
@@ -8202,6 +8206,14 @@ pub struct CodeScanningDefaultSetupUpdateResponse {
     pub run_url: Option<String>,
 }
 
+/// Security Configuration feature options for code scanning
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CodeScanningOptions {
+    /// Whether to allow repos which use advanced setup
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub allow_advanced: Option<bool>,
+}
+
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CodeScanningOrganizationAlertItems {
     #[serde(skip_serializing_if="Option::is_none")]
@@ -8542,9 +8554,8 @@ pub struct CodeSecurityConfiguration {
     /// The enablement status of Dependabot security updates
     #[serde(skip_serializing_if="Option::is_none")]
     pub dependabot_security_updates: Option<String>,
-    /// Feature options for code scanning
     #[serde(skip_serializing_if="Option::is_none")]
-    pub code_scanning_options: Option<HashMap<String, Value>>,
+    pub code_scanning_options: Option<CodesecurityconfigurationCodeScanningOptions>,
     /// The enablement status of code scanning default setup
     #[serde(skip_serializing_if="Option::is_none")]
     pub code_scanning_default_setup: Option<String>,
@@ -8704,6 +8715,14 @@ pub struct CodesecurityconfigurationCodeScanningDefaultSetupOptions {
     /// The label of the runner to use for code scanning when runner_type is 'labeled'.
     #[serde(skip_serializing_if="Option::is_none")]
     pub runner_label: Option<String>,
+}
+
+/// Feature options for code scanning
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CodesecurityconfigurationCodeScanningOptions {
+    /// Whether to allow repos which use advanced setup
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub allow_advanced: Option<bool>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
@@ -19429,6 +19448,152 @@ pub struct OrgRepoCustomPropertyValues {
     /// List of custom property names and associated values
     #[serde(skip_serializing_if="Option::is_none")]
     pub properties: Option<Vec<CustomPropertyValue>>,
+}
+
+/// A repository rule.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum OrgRules { 
+    OrgRulesVariant0(RepositoryRuleCreation),
+    OrgRulesVariant1(RepositoryRuleUpdate),
+    OrgRulesVariant2(RepositoryRuleDeletion),
+    OrgRulesVariant3(RepositoryRuleRequiredLinearHistory),
+    OrgRulesVariant4(RepositoryRuleRequiredDeployments),
+    OrgRulesVariant5(RepositoryRuleRequiredSignatures),
+    OrgRulesVariant6(RepositoryRulePullRequest),
+    OrgRulesVariant7(RepositoryRuleRequiredStatusChecks),
+    OrgRulesVariant8(RepositoryRuleNonFastForward),
+    OrgRulesVariant9(RepositoryRuleCommitMessagePattern),
+    OrgRulesVariant10(RepositoryRuleCommitAuthorEmailPattern),
+    OrgRulesVariant11(RepositoryRuleCommitterEmailPattern),
+    OrgRulesVariant12(RepositoryRuleBranchNamePattern),
+    OrgRulesVariant13(RepositoryRuleTagNamePattern),
+    OrgRulesVariant14(RepositoryRuleFilePathRestriction),
+    OrgRulesVariant15(RepositoryRuleMaxFilePathLength),
+    OrgRulesVariant16(RepositoryRuleFileExtensionRestriction),
+    OrgRulesVariant17(RepositoryRuleMaxFileSize),
+    OrgRulesVariant18(RepositoryRuleWorkflows),
+    OrgRulesVariant19(RepositoryRuleCodeScanning),
+}
+
+impl From<RepositoryRuleCreation> for OrgRules {
+    fn from(value: RepositoryRuleCreation) -> Self {
+        OrgRules::OrgRulesVariant0(value)
+    }
+}
+
+impl From<RepositoryRuleUpdate> for OrgRules {
+    fn from(value: RepositoryRuleUpdate) -> Self {
+        OrgRules::OrgRulesVariant1(value)
+    }
+}
+
+impl From<RepositoryRuleDeletion> for OrgRules {
+    fn from(value: RepositoryRuleDeletion) -> Self {
+        OrgRules::OrgRulesVariant2(value)
+    }
+}
+
+impl From<RepositoryRuleRequiredLinearHistory> for OrgRules {
+    fn from(value: RepositoryRuleRequiredLinearHistory) -> Self {
+        OrgRules::OrgRulesVariant3(value)
+    }
+}
+
+impl From<RepositoryRuleRequiredDeployments> for OrgRules {
+    fn from(value: RepositoryRuleRequiredDeployments) -> Self {
+        OrgRules::OrgRulesVariant4(value)
+    }
+}
+
+impl From<RepositoryRuleRequiredSignatures> for OrgRules {
+    fn from(value: RepositoryRuleRequiredSignatures) -> Self {
+        OrgRules::OrgRulesVariant5(value)
+    }
+}
+
+impl From<RepositoryRulePullRequest> for OrgRules {
+    fn from(value: RepositoryRulePullRequest) -> Self {
+        OrgRules::OrgRulesVariant6(value)
+    }
+}
+
+impl From<RepositoryRuleRequiredStatusChecks> for OrgRules {
+    fn from(value: RepositoryRuleRequiredStatusChecks) -> Self {
+        OrgRules::OrgRulesVariant7(value)
+    }
+}
+
+impl From<RepositoryRuleNonFastForward> for OrgRules {
+    fn from(value: RepositoryRuleNonFastForward) -> Self {
+        OrgRules::OrgRulesVariant8(value)
+    }
+}
+
+impl From<RepositoryRuleCommitMessagePattern> for OrgRules {
+    fn from(value: RepositoryRuleCommitMessagePattern) -> Self {
+        OrgRules::OrgRulesVariant9(value)
+    }
+}
+
+impl From<RepositoryRuleCommitAuthorEmailPattern> for OrgRules {
+    fn from(value: RepositoryRuleCommitAuthorEmailPattern) -> Self {
+        OrgRules::OrgRulesVariant10(value)
+    }
+}
+
+impl From<RepositoryRuleCommitterEmailPattern> for OrgRules {
+    fn from(value: RepositoryRuleCommitterEmailPattern) -> Self {
+        OrgRules::OrgRulesVariant11(value)
+    }
+}
+
+impl From<RepositoryRuleBranchNamePattern> for OrgRules {
+    fn from(value: RepositoryRuleBranchNamePattern) -> Self {
+        OrgRules::OrgRulesVariant12(value)
+    }
+}
+
+impl From<RepositoryRuleTagNamePattern> for OrgRules {
+    fn from(value: RepositoryRuleTagNamePattern) -> Self {
+        OrgRules::OrgRulesVariant13(value)
+    }
+}
+
+impl From<RepositoryRuleFilePathRestriction> for OrgRules {
+    fn from(value: RepositoryRuleFilePathRestriction) -> Self {
+        OrgRules::OrgRulesVariant14(value)
+    }
+}
+
+impl From<RepositoryRuleMaxFilePathLength> for OrgRules {
+    fn from(value: RepositoryRuleMaxFilePathLength) -> Self {
+        OrgRules::OrgRulesVariant15(value)
+    }
+}
+
+impl From<RepositoryRuleFileExtensionRestriction> for OrgRules {
+    fn from(value: RepositoryRuleFileExtensionRestriction) -> Self {
+        OrgRules::OrgRulesVariant16(value)
+    }
+}
+
+impl From<RepositoryRuleMaxFileSize> for OrgRules {
+    fn from(value: RepositoryRuleMaxFileSize) -> Self {
+        OrgRules::OrgRulesVariant17(value)
+    }
+}
+
+impl From<RepositoryRuleWorkflows> for OrgRules {
+    fn from(value: RepositoryRuleWorkflows) -> Self {
+        OrgRules::OrgRulesVariant18(value)
+    }
+}
+
+impl From<RepositoryRuleCodeScanning> for OrgRules {
+    fn from(value: RepositoryRuleCodeScanning) -> Self {
+        OrgRules::OrgRulesVariant19(value)
+    }
 }
 
 /// Conditions for an organization ruleset. The branch and tag rulesets conditions object should contain both `repository_name` and `ref_name` properties, or both `repository_id` and `ref_name` properties, or both `repository_property` and `ref_name` properties. The push rulesets conditions object does not require the `ref_name` property. For repository policy rulesets, the conditions object should only contain the `repository_name`, the `repository_id`, or the `repository_property`.
