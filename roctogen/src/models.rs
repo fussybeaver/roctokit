@@ -10700,7 +10700,7 @@ pub struct DeployKey {
     #[serde(skip_serializing_if="Option::is_none")]
     pub added_by: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub last_used: Option<String>,
+    pub last_used: Option<chrono::DateTime<chrono::Utc>>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub enabled: Option<bool>,
 }
@@ -15671,6 +15671,8 @@ pub struct Key {
     pub verified: Option<bool>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub read_only: Option<bool>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub last_used: Option<chrono::DateTime<chrono::Utc>>,
 }
 
 /// Key Simple
@@ -15682,6 +15684,8 @@ pub struct KeySimple {
     pub key: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub created_at: Option<chrono::DateTime<chrono::Utc>>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub last_used: Option<chrono::DateTime<chrono::Utc>>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
