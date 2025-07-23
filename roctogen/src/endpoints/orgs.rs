@@ -2164,7 +2164,7 @@ impl From<OrgsUnblockUserError> for AdapterError {
 #[derive(Debug, thiserror::Error)]
 pub enum OrgsUpdateError {
     #[error("Validation failed")]
-    Status422(PostProjectsCreateCardResponse422),
+    Status422(PostProjectsClassicCreateCardResponse422),
     #[error("Conflict")]
     Status409(BasicError),
     #[error("Status code: {}", code)]

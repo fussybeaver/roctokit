@@ -4273,7 +4273,7 @@ pub struct PostReposCreatePagesDeployment {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsCreateForRepo {
+pub struct PostProjectsClassicCreateForRepo {
     /// The name of the project.
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -5197,7 +5197,7 @@ pub struct PostMigrationsStartForAuthenticatedUser {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsCreateForAuthenticatedUser {
+pub struct PostProjectsClassicCreateForAuthenticatedUser {
     /// Name of the project
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -6064,7 +6064,7 @@ pub struct PatchPrivateRegistriesUpdateOrgPrivateRegistry {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsCreateForOrg {
+pub struct PostProjectsClassicCreateForOrg {
     /// The name of the project.
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -6497,7 +6497,7 @@ pub struct PostOrgsEnableOrDisableSecurityProductOnAllOrgRepos {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchProjectsUpdateCard {
+pub struct PatchProjectsClassicUpdateCard {
     /// The project card's note
     #[serde(skip_serializing_if="Option::is_none")]
     pub note: Option<String>,
@@ -6507,7 +6507,7 @@ pub struct PatchProjectsUpdateCard {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsMoveCard {
+pub struct PostProjectsClassicMoveCard {
     /// The position of the card in a column. Can be one of: `top`, `bottom`, or `after:<card_id>` to place after the specified card.
     #[serde(skip_serializing_if="Option::is_none")]
     pub position: Option<String>,
@@ -6517,7 +6517,7 @@ pub struct PostProjectsMoveCard {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchProjectsUpdateColumn {
+pub struct PatchProjectsClassicUpdateColumn {
     /// Name of the project column
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -6525,25 +6525,25 @@ pub struct PatchProjectsUpdateColumn {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PostProjectsCreateCard { 
-    PostProjectsCreateCardVariant0(HashMap<String, String>),
+pub enum PostProjectsClassicCreateCard { 
+    PostProjectsClassicCreateCardVariant0(HashMap<String, String>),
 }
 
-impl From<HashMap<String, String>> for PostProjectsCreateCard {
+impl From<HashMap<String, String>> for PostProjectsClassicCreateCard {
     fn from(value: HashMap<String, String>) -> Self {
-        PostProjectsCreateCard::PostProjectsCreateCardVariant0(value)
+        PostProjectsClassicCreateCard::PostProjectsClassicCreateCardVariant0(value)
     }
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsMoveColumn {
+pub struct PostProjectsClassicMoveColumn {
     /// The position of the column in a project. Can be one of: `first`, `last`, or `after:<column_id>` to place after the specified column.
     #[serde(skip_serializing_if="Option::is_none")]
     pub position: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchProjectsUpdate {
+pub struct PatchProjectsClassicUpdate {
     /// Name of the project
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -6562,14 +6562,14 @@ pub struct PatchProjectsUpdate {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PutProjectsAddCollaborator {
+pub struct PutProjectsClassicAddCollaborator {
     /// The permission to grant the collaborator.
     #[serde(skip_serializing_if="Option::is_none")]
     pub permission: Option<String>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsCreateColumn {
+pub struct PostProjectsClassicCreateColumn {
     /// Name of the project column
     #[serde(skip_serializing_if="Option::is_none")]
     pub name: Option<String>,
@@ -13971,7 +13971,7 @@ pub struct GetGistsGetCommentResponse403 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PatchProjectsUpdateResponse403 {
+pub struct PatchProjectsClassicUpdateResponse403 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -13981,7 +13981,7 @@ pub struct PatchProjectsUpdateResponse403 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsMoveCardResponse403 {
+pub struct PostProjectsClassicMoveCardResponse403 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub message: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -14033,20 +14033,20 @@ impl From<RepositoryRuleViolationError> for PutReposCreateOrUpdateFileContentsRe
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PostProjectsCreateCardResponse422 { 
-    PostProjectsCreateCardResponse422Variant0(ValidationError),
-    PostProjectsCreateCardResponse422Variant1(ValidationErrorSimple),
+pub enum PostProjectsClassicCreateCardResponse422 { 
+    PostProjectsClassicCreateCardResponse422Variant0(ValidationError),
+    PostProjectsClassicCreateCardResponse422Variant1(ValidationErrorSimple),
 }
 
-impl From<ValidationError> for PostProjectsCreateCardResponse422 {
+impl From<ValidationError> for PostProjectsClassicCreateCardResponse422 {
     fn from(value: ValidationError) -> Self {
-        PostProjectsCreateCardResponse422::PostProjectsCreateCardResponse422Variant0(value)
+        PostProjectsClassicCreateCardResponse422::PostProjectsClassicCreateCardResponse422Variant0(value)
     }
 }
 
-impl From<ValidationErrorSimple> for PostProjectsCreateCardResponse422 {
+impl From<ValidationErrorSimple> for PostProjectsClassicCreateCardResponse422 {
     fn from(value: ValidationErrorSimple) -> Self {
-        PostProjectsCreateCardResponse422::PostProjectsCreateCardResponse422Variant1(value)
+        PostProjectsClassicCreateCardResponse422::PostProjectsClassicCreateCardResponse422Variant1(value)
     }
 }
 
@@ -14088,7 +14088,7 @@ pub struct GetBillingGetGithubBillingUsageReportUserResponse503 {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct PostProjectsCreateCardResponse503 {
+pub struct PostProjectsClassicCreateCardResponse503 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub code: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]

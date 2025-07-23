@@ -1757,7 +1757,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_configurations_for_org](https://docs.github.com/rest/code-security/configurations#get-code-security-configurations-for-an-organization)
     ///
@@ -1805,7 +1805,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_configurations_for_org](https://docs.github.com/rest/code-security/configurations#get-code-security-configurations-for-an-organization)
     ///
@@ -1855,7 +1855,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_default_configurations](https://docs.github.com/rest/code-security/configurations#get-default-code-security-configurations)
     ///
@@ -1900,7 +1900,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_default_configurations](https://docs.github.com/rest/code-security/configurations#get-default-code-security-configurations)
     ///
@@ -2031,7 +2031,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_repositories_for_configuration](https://docs.github.com/rest/code-security/configurations#get-repositories-associated-with-a-code-security-configuration)
     ///
@@ -2079,7 +2079,7 @@ impl<'api, C: Client> CodeSecurity<'api, C> where AdapterError: From<<C as Clien
     /// 
     /// The authenticated user must be an administrator or security manager for the organization to use this endpoint.
     /// 
-    /// OAuth app tokens and personal access tokens (classic) need the `write:org` scope to use this endpoint.
+    /// OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.
     ///
     /// [GitHub API docs for get_repositories_for_configuration](https://docs.github.com/rest/code-security/configurations#get-repositories-associated-with-a-code-security-configuration)
     ///
