@@ -14403,7 +14403,7 @@ pub struct Issue {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14478,7 +14478,7 @@ pub struct Issue1 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14553,7 +14553,7 @@ pub struct Issue10 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14628,7 +14628,7 @@ pub struct Issue2 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14703,7 +14703,7 @@ pub struct Issue3 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14778,7 +14778,7 @@ pub struct Issue4 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14853,7 +14853,7 @@ pub struct Issue5 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -14928,7 +14928,7 @@ pub struct Issue6 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -15003,7 +15003,7 @@ pub struct Issue7 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -15078,7 +15078,7 @@ pub struct Issue8 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -15153,7 +15153,7 @@ pub struct Issue9 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -15471,7 +15471,7 @@ pub struct IssueSearchResultItem {
     #[serde(skip_serializing_if="Option::is_none")]
     pub labels: Option<Vec<IssuesearchresultitemLabels>>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -28335,7 +28335,7 @@ pub struct RepositoryrulepullrequestParameters {
     /// Array of allowed merge methods. Allowed values include `merge`, `squash`, and `rebase`. At least one option must be enabled.
     #[serde(skip_serializing_if="Option::is_none")]
     pub allowed_merge_methods: Option<Vec<String>>,
-    /// Automatically request review from Copilot for new pull requests, if the author has access to Copilot code review.
+    /// Request Copilot code review for new pull requests automatically if the author has access to Copilot code review.
     #[serde(skip_serializing_if="Option::is_none")]
     pub automatic_copilot_code_review_enabled: Option<bool>,
     /// New, reviewable commits pushed will dismiss previous pull request review approvals.
@@ -31488,16 +31488,6 @@ pub struct StatuscheckpolicyChecks {
 
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SubIssuesSummary {
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub total: Option<i64>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub completed: Option<i64>,
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub percent_completed: Option<i64>,
-}
-
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
-pub struct SubissuesSummary {
     #[serde(skip_serializing_if="Option::is_none")]
     pub total: Option<i64>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -35011,6 +35001,110 @@ pub struct WebhookIssueCommentEdited {
     /// The [issue](https://docs.github.com/rest/issues/issues#get-an-issue) the comment belongs to.
     #[serde(skip_serializing_if="Option::is_none")]
     pub issue: Option<AllOfwebhookIssueCommentEditedIssue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssueDependenciesBlockedByAdded {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    /// The ID of the blocked issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue: Option<Issue>,
+    /// The ID of the blocking issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_repo: Option<Repository>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssueDependenciesBlockedByRemoved {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    /// The ID of the blocked issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue: Option<Issue>,
+    /// The ID of the blocking issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_repo: Option<Repository>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssueDependenciesBlockingAdded {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    /// The ID of the blocked issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_repo: Option<Repository>,
+    /// The ID of the blocking issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub organization: Option<OrganizationSimpleWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub repository: Option<RepositoryWebhooks>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub sender: Option<SimpleUser>,
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+pub struct WebhookIssueDependenciesBlockingRemoved {
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub action: Option<String>,
+    /// The ID of the blocked issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocked_issue_repo: Option<Repository>,
+    /// The ID of the blocking issue.
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue_id: Option<f64>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub blocking_issue: Option<Issue>,
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub installation: Option<SimpleInstallation>,
     #[serde(skip_serializing_if="Option::is_none")]
     pub organization: Option<OrganizationSimpleWebhooks>,
     #[serde(skip_serializing_if="Option::is_none")]
@@ -41336,7 +41430,7 @@ pub struct WebhooksIssue {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
@@ -41411,7 +41505,7 @@ pub struct WebhooksIssue2 {
     #[serde(skip_serializing_if="Option::is_none")]
     pub repository_url: Option<String>,
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sub_issues_summary: Option<SubissuesSummary>,
+    pub sub_issues_summary: Option<SubIssuesSummary>,
     /// State of the issue; either 'open' or 'closed'
     #[serde(skip_serializing_if="Option::is_none")]
     pub state: Option<String>,
